@@ -5,7 +5,6 @@ import com.farminghelper.speaax.FarmingHelperPlugin;
 import com.farminghelper.speaax.ItemRequirement;
 import com.farminghelper.speaax.Location;
 import net.runelite.api.Client;
-import net.runelite.api.Item;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
 

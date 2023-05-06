@@ -1,4 +1,3 @@
-//package net.runelite.client.plugins.farminghelper;
 package com.farminghelper.speaax;
 
 import net.runelite.api.Client;

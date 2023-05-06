@@ -1,9 +1,6 @@
-//package net.runelite.client.plugins.farminghelper;
 package com.farminghelper.speaax;
 
-// Mandatory imports
 import java.awt.*;
-import java.util.List;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
@@ -32,11 +29,11 @@ public interface FarmingHelperConfig extends Config
 		String name();
 	}
 	@ConfigItem(
-			position = 1,
+			position = 9,
 			keyName = "enumConfigHouseTele",
 			name = "House teleport",
 			description = "Desired way to teleport to house",
-			section = teleportOptionList
+			section = generalList
 	)
 	default OptionEnumHouseTele enumConfigHouseTele() { return OptionEnumHouseTele.Law_dust_runes; }
 	@ConfigItem(
@@ -56,7 +53,7 @@ public interface FarmingHelperConfig extends Config
 	)
 	default Color highlightRightClickColor() {return new Color(0, 191, 30, 128);}
 	@ConfigItem(
-			position = 2,
+			position = 3,
 			keyName = "highlightUseItemColor",
 			name = "'Use' item Color",
 			description = "The color to use for highlighting objects",
@@ -83,7 +80,7 @@ public interface FarmingHelperConfig extends Config
 		Bottomless
 	}
 	@ConfigItem(
-			position = 23,
+			position = 5,
 			keyName = "enumConfigCompost",
 			name = "Compost",
 			description = "Desired Compost",
@@ -96,7 +93,7 @@ public interface FarmingHelperConfig extends Config
 			keyName = "booleanConfigRake",
 			name = "Rake",
 			description = "Include rake?",
-			position = 24,
+			position = 6,
 			section = generalList
 	)
 	default boolean generalRake() { return false; }
@@ -104,7 +101,7 @@ public interface FarmingHelperConfig extends Config
 			keyName = "booleanConfigLimpwurt",
 			name = "Limpwurt",
 			description = "Want to include limpwurts in your farm run?",
-			position = 28,
+			position = 7,
 			section = generalList
 	)
 	default boolean generalLimpwurt() { return false; }
@@ -112,7 +109,7 @@ public interface FarmingHelperConfig extends Config
 			keyName = "booleanConfigAllotment",
 			name = "Allotment",
 			description = "Want to include Allotment in your farm run?",
-			position = 29,
+			position = 8,
 			section = generalList
 	)
 	default boolean generalAllotment() { return false; }

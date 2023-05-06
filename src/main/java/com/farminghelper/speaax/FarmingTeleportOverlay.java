@@ -4,7 +4,6 @@ import java.awt.*;
 import javax.inject.Inject;
 
 import net.runelite.api.*;
-import net.runelite.api.Point;
 import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetID;
@@ -15,6 +14,11 @@ import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.api.Client;
 import net.runelite.api.GameObject;
 import net.runelite.api.coords.WorldPoint;
+import net.runelite.client.ui.overlay.components.PanelComponent;
+import net.runelite.api.ItemID;
+import net.runelite.client.util.ColorUtil;
+import net.runelite.api.Tile;
+
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.Dimension;
@@ -23,10 +27,7 @@ import java.util.*;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.runelite.client.ui.overlay.components.PanelComponent;
-import net.runelite.api.ItemID;
-import net.runelite.client.util.ColorUtil;
-import net.runelite.api.Tile;
+
 
 public class FarmingTeleportOverlay extends Overlay {
     private final Client client;

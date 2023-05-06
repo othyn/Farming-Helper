@@ -16,7 +16,6 @@ import net.runelite.client.game.ItemManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.AbstractMap;
 import java.awt.Color;
 import com.farminghelper.speaax.ItemsAndLocations.HerbRunItemAndLocation;

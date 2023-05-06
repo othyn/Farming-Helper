@@ -1,6 +1,5 @@
 package com.farminghelper.speaax;
 
-import net.runelite.api.Item;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.overlay.OverlayManager;
 
@@ -8,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.util.Map;
 
 import com.farminghelper.speaax.ItemsAndLocations.HerbRunItemAndLocation;
