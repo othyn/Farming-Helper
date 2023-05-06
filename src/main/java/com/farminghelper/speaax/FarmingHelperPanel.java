@@ -1,21 +1,25 @@
-//package net.runelite.client.plugins.farminghelper;
 package com.farminghelper.speaax;
 
+import net.runelite.api.Item;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.overlay.OverlayManager;
 
-import javax.swing.JButton;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import com.farminghelper.speaax.FarmingHelperOverlay;
+import java.util.Map;
+
+import com.farminghelper.speaax.ItemsAndLocations.HerbRunItemAndLocation;
+import com.farminghelper.speaax.ItemsAndLocations.TreeRunItemAndLocation;
+import com.farminghelper.speaax.ItemsAndLocations.FruitTreeRunItemAndLocation;
 
 public class FarmingHelperPanel extends PluginPanel
 {
+    private final HerbRunItemAndLocation herbRunItemAndLocation;
+    private final TreeRunItemAndLocation treeRunItemAndLocation;
+    private  final FruitTreeRunItemAndLocation fruitTreeRunItemAndLocation;
 	private final FarmingHelperPlugin plugin;
     private final OverlayManager overlayManager;
     private final FarmingTeleportOverlay farmingTeleportOverlay;
@@ -23,9 +27,14 @@ public class FarmingHelperPanel extends PluginPanel
 	private JButton treeButton;
 	private JButton fruitTreeButton;
 
-    public FarmingHelperPanel(FarmingHelperPlugin plugin, OverlayManager overlayManager, FarmingTeleportOverlay farmingTeleportOverlay)
+    private JPanel itemsGridPanel;
+
+    public FarmingHelperPanel(FarmingHelperPlugin plugin, OverlayManager overlayManager, FarmingTeleportOverlay farmingTeleportOverlay, HerbRunItemAndLocation herbRunItemAndLocation, TreeRunItemAndLocation treeRunItemAndLocation, FruitTreeRunItemAndLocation fruitTreeRunItemAndLocation)
     {
+        this.herbRunItemAndLocation = herbRunItemAndLocation;
+        this.treeRunItemAndLocation = treeRunItemAndLocation;
         this.farmingTeleportOverlay = farmingTeleportOverlay;
+        this.fruitTreeRunItemAndLocation = fruitTreeRunItemAndLocation;
         this.plugin = plugin;
         this.overlayManager = overlayManager;
         setLayout(new GridBagLayout());
@@ -39,22 +48,23 @@ public class FarmingHelperPanel extends PluginPanel
 
         herbButton = new JButton("Herb run");
 		herbButton.setFocusable(false);
-        herbButton.addActionListener(new ActionListener()
-        {
+        herbButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                plugin.getHerbItems().thenAccept(herbItems -> {
+            public void actionPerformed(ActionEvent e) {
+                plugin.runOnClientThread(() -> {
+                    Map<Integer, Integer> herbItems = herbRunItemAndLocation.getHerbItems();
+                    /*
                     SwingUtilities.invokeLater(() -> {
                         System.out.println(herbItems);
                     });
-                    plugin.updateOverlay(herbItems);
+
+                     */
+                    plugin.updateHerbOverlay(herbItems);
                     plugin.setOverlayActive(!plugin.isOverlayActive());
                     onHerbButtonClicked();
                 });
             }
         });
-
 
         add(herbButton, c);
 
@@ -66,11 +76,16 @@ public class FarmingHelperPanel extends PluginPanel
         treeButton.addActionListener(new ActionListener()
         {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                onTreeButtonClicked();
+            public void actionPerformed(ActionEvent e) {
+                plugin.runOnClientThread(() -> {
+                    Map<Integer, Integer> treeItems = treeRunItemAndLocation.getTreeItems();
+                    plugin.updateTreeOverlay(treeItems);
+                    plugin.setOverlayActive(!plugin.isOverlayActive());
+                    onTreeButtonClicked();
+                });
             }
         });
+
 		add(treeButton, c);
 
 		c.gridx = 0;
@@ -82,9 +97,13 @@ public class FarmingHelperPanel extends PluginPanel
         fruitTreeButton.addActionListener(new ActionListener()
         {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                onFruitTreeButtonClicked();
+            public void actionPerformed(ActionEvent e) {
+                plugin.runOnClientThread(() -> {
+                    Map<Integer, Integer> fruitTreeItems = fruitTreeRunItemAndLocation.getFruitTreeItems();
+                    plugin.updateFruitTreeOverlay(fruitTreeItems);
+                    plugin.setOverlayActive(!plugin.isOverlayActive());
+                    onFruitTreeButtonClicked();
+                });
             }
         });
 
@@ -100,10 +119,9 @@ public class FarmingHelperPanel extends PluginPanel
                 if (!plugin.isOverlayActive()) {
                     farmingTeleportOverlay.RemoveOverlay();
                     System.out.println("Remove overlay from button");
-                    plugin.setItemsCollected(false); // Make sure you call the method on the plugin object
                 } else {
-                    //farmingTeleportOverlay.RemoveOverlay();
                     System.out.println("Add overlay from button");
+                    plugin.getFarmingTeleportOverlay().herbRun = true;
                     overlayManager.add(overlay);
                     overlayManager.add(farmingTeleportOverlay);
                 }
@@ -117,9 +135,18 @@ public class FarmingHelperPanel extends PluginPanel
         SwingUtilities.invokeLater(new Runnable()
         {
             @Override
-            public void run()
-            {
-                System.out.println("tree button clicked.");
+            public void run() {
+                FarmingHelperOverlay overlay = plugin.getFarmingHelperOverlay();
+
+                if (!plugin.isOverlayActive()) {
+                    farmingTeleportOverlay.RemoveOverlay();
+                    System.out.println("Remove overlay from button");
+                } else {
+                    System.out.println("Add overlay from button");
+                    plugin.getFarmingTeleportOverlay().treeRun = true;
+                    overlayManager.add(overlay);
+                    overlayManager.add(farmingTeleportOverlay);
+                }
             }
         });
     }
@@ -129,9 +156,18 @@ public class FarmingHelperPanel extends PluginPanel
         SwingUtilities.invokeLater(new Runnable()
         {
             @Override
-            public void run()
-            {
-                System.out.println("fruit tree button clicked.");
+            public void run() {
+                FarmingHelperOverlay overlay = plugin.getFarmingHelperOverlay();
+
+                if (!plugin.isOverlayActive()) {
+                    farmingTeleportOverlay.RemoveOverlay();
+                    System.out.println("Remove overlay from button");
+                } else {
+                    System.out.println("Add overlay from button");
+                    plugin.getFarmingTeleportOverlay().fruitTreeRun = true;
+                    overlayManager.add(overlay);
+                    overlayManager.add(farmingTeleportOverlay);
+                }
             }
         });
     }

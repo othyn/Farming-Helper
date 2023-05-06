@@ -2,6 +2,7 @@
 package com.farminghelper.speaax;
 
 // Mandatory imports
+import java.awt.*;
 import java.util.List;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
@@ -27,6 +28,9 @@ public interface FarmingHelperConfig extends Config
 		Construction_cape_t,
 		Max_cape
 	}
+	public interface OptionEnumTeleport {
+		String name();
+	}
 	@ConfigItem(
 			position = 1,
 			keyName = "enumConfigHouseTele",
@@ -35,12 +39,47 @@ public interface FarmingHelperConfig extends Config
 			section = teleportOptionList
 	)
 	default OptionEnumHouseTele enumConfigHouseTele() { return OptionEnumHouseTele.Law_dust_runes; }
+	@ConfigItem(
+			position = 1,
+			keyName = "highlightLeftClickColor",
+			name = "Left Click Color",
+			description = "The color to use for highlighting objects",
+			section = generalList
+	)
+	default Color highlightLeftClickColor() {return new Color(0, 191, 255, 128);}
+	@ConfigItem(
+			position = 2,
+			keyName = "highlightRightClickColor",
+			name = "Right Click Color",
+			description = "The color to use for highlighting objects",
+			section = generalList
+	)
+	default Color highlightRightClickColor() {return new Color(0, 191, 30, 128);}
+	@ConfigItem(
+			position = 2,
+			keyName = "highlightUseItemColor",
+			name = "'Use' item Color",
+			description = "The color to use for highlighting objects",
+			section = generalList
+	)
+	default Color highlightUseItemColor() {return new Color(255, 192, 203, 128);}
+	@ConfigItem(
+			position = 4,
+			keyName = "highlightAlpha",
+			name = "Transparency",
+			description = "The transparency value for the highlight color (0-255)",
+			section = generalList
+	)
+	default int highlightAlpha() {return 128;}
 
 	enum OptionEnumCompost
 	{
+		/*
 		Compost,
 		Supercompost,
 		Ultracompost,
+
+		 */
 		Bottomless
 	}
 	@ConfigItem(
@@ -296,15 +335,17 @@ public interface FarmingHelperConfig extends Config
 
 
 	@ConfigSection(
-			name = "Teleport options",
+			name = "Herb teleport options",
 			description = "Choose what teleport to use for each Herb patch",
 			position = 4
 	)
 	String teleportOptionList = "teleportOptionList";
 
-	enum OptionEnumArdougneTeleport
+	enum OptionEnumArdougneTeleport implements OptionEnumTeleport
 	{
-		Ardy_cloak
+		Ardy_cloak_2,
+		Ardy_cloak_3,
+		Ardy_cloak_4
 	}
 	@ConfigItem(
 			position = 2,
@@ -313,8 +354,8 @@ public interface FarmingHelperConfig extends Config
 			description = "Desired way to teleport to Ardougne",
 			section = teleportOptionList
 	)
-	default OptionEnumArdougneTeleport enumOptionEnumArdougneTeleport() { return OptionEnumArdougneTeleport.Ardy_cloak; }
-	enum OptionEnumCatherbyTeleport
+	default OptionEnumArdougneTeleport enumOptionEnumArdougneTeleport() { return OptionEnumArdougneTeleport.Ardy_cloak_3; }
+	enum OptionEnumCatherbyTeleport implements OptionEnumTeleport
 	{
 		Portal_Nexus
 	}
@@ -327,9 +368,11 @@ public interface FarmingHelperConfig extends Config
 	)
 	default OptionEnumCatherbyTeleport enumOptionEnumCatherbyTeleport() { return OptionEnumCatherbyTeleport.Portal_Nexus; }
 
-	enum OptionEnumFaladorTeleport
+	enum OptionEnumFaladorTeleport implements OptionEnumTeleport
 	{
-		Explorers_ring
+		Explorers_ring_2,
+		Explorers_ring_3,
+		Explorers_ring_4
 	}
 	@ConfigItem(
 			position = 4,
@@ -338,9 +381,9 @@ public interface FarmingHelperConfig extends Config
 			description = "Desired way to teleport to Falador",
 			section = teleportOptionList
 	)
-	default OptionEnumFaladorTeleport enumOptionEnumFaladorTeleport() { return OptionEnumFaladorTeleport.Explorers_ring; }
+	default OptionEnumFaladorTeleport enumOptionEnumFaladorTeleport() { return OptionEnumFaladorTeleport.Explorers_ring_2; }
 
-	enum OptionEnumFarmingGuildTeleport
+	enum OptionEnumFarmingGuildTeleport implements OptionEnumTeleport
 	{
 		Jewellery_box,
 		Skills_Necklace
@@ -354,7 +397,7 @@ public interface FarmingHelperConfig extends Config
 	)
 	default OptionEnumFarmingGuildTeleport enumOptionEnumFarmingGuildTeleport() { return OptionEnumFarmingGuildTeleport.Skills_Necklace; }
 
-	enum OptionEnumHarmonyTeleport
+	enum OptionEnumHarmonyTeleport implements OptionEnumTeleport
 	{
 		Portal_Nexus,
 	}
@@ -367,7 +410,7 @@ public interface FarmingHelperConfig extends Config
 	)
 	default OptionEnumHarmonyTeleport enumOptionEnumHarmonyTeleport() { return OptionEnumHarmonyTeleport.Portal_Nexus; }
 
-	enum OptionEnumKourendTeleport
+	enum OptionEnumKourendTeleport implements OptionEnumTeleport
 	{
 		Xerics_Talisman,
 		Mounted_Xerics
@@ -381,7 +424,7 @@ public interface FarmingHelperConfig extends Config
 	)
 	default OptionEnumKourendTeleport enumOptionEnumKourendTeleport() { return OptionEnumKourendTeleport.Xerics_Talisman; }
 
-	enum OptionEnumMorytaniaTeleport
+	enum OptionEnumMorytaniaTeleport implements OptionEnumTeleport
 	{
 		Ectophial
 	}
@@ -394,7 +437,7 @@ public interface FarmingHelperConfig extends Config
 	)
 	default OptionEnumMorytaniaTeleport enumOptionEnumMorytaniaTeleport() { return OptionEnumMorytaniaTeleport.Ectophial; }
 
-	enum OptionEnumTrollStrongholdTeleport
+	enum OptionEnumTrollStrongholdTeleport implements OptionEnumTeleport
 	{
 		Portal_Nexus,
 		Stony_Basalt
@@ -408,7 +451,7 @@ public interface FarmingHelperConfig extends Config
 	)
 	default OptionEnumTrollStrongholdTeleport enumOptionEnumTrollStrongholdTeleport() { return OptionEnumTrollStrongholdTeleport.Portal_Nexus; }
 
-	enum OptionEnumWeissTeleport
+	enum OptionEnumWeissTeleport implements OptionEnumTeleport
 	{
 		Portal_Nexus,
 		Icy_basalt
@@ -422,5 +465,172 @@ public interface FarmingHelperConfig extends Config
 	)
 	default OptionEnumWeissTeleport enumOptionEnumWeissTeleport() { return OptionEnumWeissTeleport.Portal_Nexus; }
 
+	@ConfigSection(
+			name = "Tree teleport options",
+			description = "Choose what teleport to use for each Herb patch",
+			position = 5
+	)
+	String treeTeleportOptionList = "treeTeleportOptionList";
+	enum TreeOptionEnumFaladorTeleport implements OptionEnumTeleport
+	{
+		Falador_teleport
+	}
+	@ConfigItem(
+			position = 1,
+			keyName = "enumTreeFaladorTeleport",
+			name = "Falador",
+			description = "Desired way to teleport to Falador",
+			section = treeTeleportOptionList
+	)
+	default TreeOptionEnumFaladorTeleport enumTreeFaladorTeleport() { return TreeOptionEnumFaladorTeleport.Falador_teleport; }
 
+	enum TreeOptionEnumFarmingGuildTeleport implements OptionEnumTeleport
+	{
+		Jewellery_box
+	}
+	@ConfigItem(
+			position = 1,
+			keyName = "enumTreeFarmingGuildTeleport",
+			name = "Farming Guild",
+			description = "Desired way to teleport to Farming Guild",
+			section = treeTeleportOptionList
+	)
+	default TreeOptionEnumFarmingGuildTeleport enumTreeFarmingGuildTeleport() { return TreeOptionEnumFarmingGuildTeleport.Jewellery_box; }
+
+	enum TreeOptionEnumGnomeStrongholdTeleport implements OptionEnumTeleport
+	{
+		Royal_seed_pod
+	}
+	@ConfigItem(
+			position = 2,
+			keyName = "enumTreeGnomeStrongoldTeleport",
+			name = "Gnome Stronghold",
+			description = "Desired way to teleport to Gnome Stronghold",
+			section = treeTeleportOptionList
+	)
+	default TreeOptionEnumGnomeStrongholdTeleport enumTreeGnomeStrongoldTeleport() { return TreeOptionEnumGnomeStrongholdTeleport.Royal_seed_pod; }
+
+	enum TreeOptionEnumLumbridgeTeleport implements OptionEnumTeleport
+	{
+		Lumbridge_teleport
+	}
+	@ConfigItem(
+			position = 3,
+			keyName = "enumTreeLumbridgeTeleport",
+			name = "Lumbridge",
+			description = "Desired way to teleport to Lumbridge",
+			section = treeTeleportOptionList
+	)
+	default TreeOptionEnumLumbridgeTeleport enumTreeLumbridgeTeleport() { return TreeOptionEnumLumbridgeTeleport.Lumbridge_teleport; }
+
+	enum TreeOptionEnumTaverleyTeleport implements OptionEnumTeleport
+	{
+		Falador_teleport
+	}
+	@ConfigItem(
+			position = 4,
+			keyName = "enumTreeTaverleyTeleport",
+			name = "Taverley",
+			description = "Desired way to teleport to Taverley",
+			section = treeTeleportOptionList
+	)
+	default TreeOptionEnumTaverleyTeleport enumTreeTaverleyTeleport() { return TreeOptionEnumTaverleyTeleport.Falador_teleport; }
+
+	enum TreeOptionEnumVarrockTeleport implements OptionEnumTeleport
+	{
+		Varrock_teleport
+	}
+	@ConfigItem(
+			position = 5,
+			keyName = "enumTreeVarrockTeleport",
+			name = "Varrock",
+			description = "Desired way to teleport to Varrock",
+			section = treeTeleportOptionList
+	)
+	default TreeOptionEnumVarrockTeleport enumTreeVarrockTeleport() { return TreeOptionEnumVarrockTeleport.Varrock_teleport; }
+
+	@ConfigSection(
+			name = "Fruit tree teleport options",
+			description = "Choose what teleport to use for each fruit tree",
+			position = 6
+	)
+	String fruitTreeTeleportOptionList = "fruitTreeTeleportOptionList";
+
+	enum FruitTreeOptionEnumBrimhavenTeleport implements OptionEnumTeleport
+	{
+		Ardougne_teleport
+	}
+	@ConfigItem(
+			position = 1,
+			keyName = "enumFruitTreeBrimhavenTeleport",
+			name = "Brimhaven",
+			description = "Desired way to teleport to Brimhaven",
+			section = fruitTreeTeleportOptionList
+	)
+	default FruitTreeOptionEnumBrimhavenTeleport enumFruitTreeBrimhavenTeleport() { return FruitTreeOptionEnumBrimhavenTeleport.Ardougne_teleport; }
+
+	enum FruitTreeOptionEnumCatherbyTeleport implements OptionEnumTeleport
+	{
+		Portal_nexus
+	}
+	@ConfigItem(
+			position = 1,
+			keyName = "enumFruitTreeCatherbyTeleport",
+			name = "Catherby",
+			description = "Desired way to teleport to Catherby",
+			section = fruitTreeTeleportOptionList
+	)
+	default FruitTreeOptionEnumCatherbyTeleport enumFruitTreeCatherbyTeleport() { return FruitTreeOptionEnumCatherbyTeleport.Portal_nexus; }
+
+	enum FruitTreeOptionEnumFarmingGuildTeleport implements OptionEnumTeleport
+	{
+		Jewellery_box
+	}
+	@ConfigItem(
+			position = 1,
+			keyName = "enumFruitTreeFarmingGuildTeleport",
+			name = "Farming Guild",
+			description = "Desired way to teleport to Farming Guild",
+			section = fruitTreeTeleportOptionList
+	)
+	default FruitTreeOptionEnumFarmingGuildTeleport enumFruitTreeFarmingGuildTeleport() { return FruitTreeOptionEnumFarmingGuildTeleport.Jewellery_box; }
+
+	enum FruitTreeOptionEnumGnomeStrongholdTeleport implements OptionEnumTeleport
+	{
+		Royal_seed_pod
+	}
+	@ConfigItem(
+			position = 1,
+			keyName = "enumFruitTreeGnomeStrongholdTeleport",
+			name = "Gnome Stronghold",
+			description = "Desired way to teleport to Gnome Stronghold",
+			section = fruitTreeTeleportOptionList
+	)
+	default FruitTreeOptionEnumGnomeStrongholdTeleport enumFruitTreeGnomeStrongholdTeleport() { return FruitTreeOptionEnumGnomeStrongholdTeleport.Royal_seed_pod; }
+
+	enum FruitTreeOptionEnumLletyaTeleport implements OptionEnumTeleport
+	{
+		Teleport_crystal
+	}
+	@ConfigItem(
+			position = 1,
+			keyName = "enumFruitTreeLletyaTeleport",
+			name = "Lletya",
+			description = "Desired way to teleport to Lletya",
+			section = fruitTreeTeleportOptionList
+	)
+	default FruitTreeOptionEnumLletyaTeleport enumFruitTreeLletyaTeleport() { return FruitTreeOptionEnumLletyaTeleport.Teleport_crystal; }
+
+	enum FruitTreeOptionEnumTreeGnomeVillageTeleport implements OptionEnumTeleport
+	{
+		Royal_seed_pod
+	}
+	@ConfigItem(
+			position = 1,
+			keyName = "enumFruitTreeTreeGnomeVillageTeleport",
+			name = "Tree Gnome Village",
+			description = "Desired way to teleport to Tree Gnome Village",
+			section = fruitTreeTeleportOptionList
+	)
+	default FruitTreeOptionEnumTreeGnomeVillageTeleport enumFruitTreeTreeGnomeVillageTeleport() { return FruitTreeOptionEnumTreeGnomeVillageTeleport.Royal_seed_pod; }
 }

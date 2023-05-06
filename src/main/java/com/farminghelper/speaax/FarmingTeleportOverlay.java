@@ -1,45 +1,32 @@
-//package net.runelite.client.plugins.farminghelper;
 package com.farminghelper.speaax;
 
 import java.awt.*;
 import javax.inject.Inject;
+
 import net.runelite.api.*;
+import net.runelite.api.Point;
 import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.widgets.Widget;
+import net.runelite.api.widgets.WidgetID;
 import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
-import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.api.Client;
 import net.runelite.api.GameObject;
 import net.runelite.api.coords.WorldPoint;
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.Shape;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
-import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import com.farminghelper.speaax.FarmingHelperPlugin;
-//import net.runelite.client.plugins.farminghelper.FarmingHelperPlugin;
-
-import net.runelite.client.ui.overlay.components.LineComponent;
 import net.runelite.client.ui.overlay.components.PanelComponent;
-import net.runelite.api.events.ChatMessage;
-import net.runelite.client.eventbus.Subscribe;
-import net.runelite.api.ChatMessageType;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-
-//import net.runelite.client.plugins.farminghelper.FarmingHelperOverlay;
-import com.farminghelper.speaax.FarmingHelperOverlay;
-
+import net.runelite.api.ItemID;
+import net.runelite.client.util.ColorUtil;
+import net.runelite.api.Tile;
 
 public class FarmingTeleportOverlay extends Overlay {
     private final Client client;
@@ -53,19 +40,76 @@ public class FarmingTeleportOverlay extends Overlay {
     private FarmingTeleportOverlay farmingTeleportOverlay;
     @Inject
     private FarmingHelperOverlayInfoBox farmingHelperOverlayInfoBox;
+    @Inject
+    private AreaCheck areaCheck;
 
     private final PanelComponent panelComponent = new PanelComponent();
     public boolean patchCleared = false;
-    public Color brightBlue = new Color(0, 191, 255, 128);
-    public Color brightGreen = new Color(0, 191, 30, 128);
+
+    private Color leftClickColorWithAlpha;
+    private Color rightClickColorWithAlpha;
+    private Color highlightUseItemWithAlpha;
+
+    public void updateColors() {
+        leftClickColorWithAlpha = new Color(
+                config.highlightLeftClickColor().getRed(),
+                config.highlightLeftClickColor().getGreen(),
+                config.highlightLeftClickColor().getBlue(),
+                config.highlightAlpha()
+        );
+        rightClickColorWithAlpha = new Color(
+                config.highlightRightClickColor().getRed(),
+                config.highlightRightClickColor().getGreen(),
+                config.highlightRightClickColor().getBlue(),
+                config.highlightAlpha()
+        );
+        highlightUseItemWithAlpha = new Color(
+                config.highlightUseItemColor().getRed(),
+                config.highlightUseItemColor().getGreen(),
+                config.highlightUseItemColor().getBlue(),
+                config.highlightAlpha()
+        );
+    }
+
+
     public Map<String, Boolean> herbConfigMap = new HashMap<>();
-    public boolean isHerbComposted(String message) {
-        String regexCompost = "You treat the herb patch with (compost|supercompost|ultracompost)\\.";
-        Pattern patternCompost = Pattern.compile(regexCompost);
+
+
+    private int previousRegionId;
+    public int inventoryTabValue = 0;
+    /*
+    @Subscribe
+    public void onGameTick(GameTick event) {
+        if (client.getGameState() == GameState.LOGGED_IN) {
+            int currentRegionId = client.getLocalPlayer().getWorldLocation().getRegionID();
+            if (previousRegionId == 0) {
+                previousRegionId = currentRegionId;
+            } else if (currentRegionId != previousRegionId) {
+                // The player has teleported
+                System.out.println("Previous Region ID: " + previousRegionId);
+                System.out.println("Current Region ID: " + currentRegionId);
+                // Update your plugin state or variables as needed
+                previousRegionId = currentRegionId;
+            }
+            inventoryTabValue = client.getVar(VarClientInt.INVENTORY_TAB);
+            System.out.println(inventoryTabValue);
+        }
+    }
+
+     */
+
+    public boolean isItComposted(String message) {
+        String regexCompost1 = "You treat the (herb patch|flower patch|tree patch|fruit tree patch) with (compost|supercompost|ultracompost)\\.";
+        String regexCompost2 = "This (herb patch|flower patch|tree patch|fruit tree patch) has already been treated with (compost|supercompost|ultracompost)\\.";
+        String combinedRegex = regexCompost1 + "|" + regexCompost2;
+
+        Pattern patternCompost = Pattern.compile(combinedRegex);
         Matcher matcherCompost = patternCompost.matcher(plugin.getLastMessage());
 
         return matcherCompost.matches();
     }
+
+/*
     public boolean isHerbPlanted(String message) {
         String regex = "You plant (a guam|a marrentill|a tarromin|a harralander|a ranarr|a toadflax|an irit|an avantoe|a kwuarm|a snapdragon|a cadantine|a lantadyme|a dwarf weed|a torstol) seed in the herb patch\\.";
         Pattern pattern = Pattern.compile(regex);
@@ -74,8 +118,11 @@ public class FarmingTeleportOverlay extends Overlay {
         return matcher.matches();
     }
 
+ */
+
     @Inject
-    public FarmingTeleportOverlay(FarmingHelperPlugin plugin, Client client) {
+    public FarmingTeleportOverlay(FarmingHelperPlugin plugin, Client client, AreaCheck areaCheck) {
+        this.areaCheck = areaCheck;
         setPosition(OverlayPosition.DYNAMIC);
         setLayer(OverlayLayer.ABOVE_WIDGETS);
         this.plugin = plugin;
@@ -92,8 +139,8 @@ public class FarmingTeleportOverlay extends Overlay {
                     if (widget != null) {
                         Rectangle bounds = widget.getBounds();
                         // Set a brighter blue color and make it transparent
-                        Color brightBlue = new Color(0, 191, 255, 128); // Transparent bright blue
-                        graphics.setColor(brightBlue);
+                        //Color brightBlue = new Color(0, 191, 255, 128); // Transparent bright blue
+                        graphics.setColor(leftClickColorWithAlpha);
 
                         // Set the composite for transparency
                         AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
@@ -138,8 +185,6 @@ public class FarmingTeleportOverlay extends Overlay {
         return -1; // Return -1 if the specified text is not found
     }
 
-
-
     public void highlightDynamicComponent(Graphics2D graphics, Widget widget, int dynamicChildIndex, Color color) {
         if (widget != null) {
             Widget[] dynamicChildren = widget.getDynamicChildren();
@@ -168,6 +213,7 @@ public class FarmingTeleportOverlay extends Overlay {
             }
         }
     }
+
     public void itemHighlight(Graphics2D graphics, int itemID, Color color) {
         ItemContainer inventory = client.getItemContainer(InventoryID.INVENTORY);
 
@@ -182,15 +228,13 @@ public class FarmingTeleportOverlay extends Overlay {
                     Widget itemWidget = inventoryWidget.getChild(i);
                     Rectangle bounds = itemWidget.getBounds();
                     graphics.setColor(color);
-                    //graphics.draw(bounds);
+                    graphics.draw(bounds);
                     graphics.fill(bounds);
                 }
             }
         }
     }
-    //WorldPoint worldPoint = new WorldPoint(3194, 3466, client.getPlane());
-    //Color color = new Color(0, 191, 255, 128); // Transparent bright blue
-    //drawTile(graphics, client, worldPoint, color);
+
     private List<GameObject> findGameObjectsByID(int objectID) {
         List<GameObject> gameObjects = new ArrayList<>();
         for (int x = 0; x < Constants.SCENE_SIZE; x++) {
@@ -209,6 +253,7 @@ public class FarmingTeleportOverlay extends Overlay {
         }
         return gameObjects;
     }
+
     private void drawGameObjectClickbox(Graphics2D graphics, GameObject gameObject, Color color) {
         Shape objectClickbox = gameObject.getClickbox();
         if (objectClickbox != null) {
@@ -218,13 +263,13 @@ public class FarmingTeleportOverlay extends Overlay {
             graphics.fill(objectClickbox);
         }
     }
+
     public Overlay gameObjectOverlay(int objectId, Color color) {
         return new Overlay() {
             @Override
             public Dimension render(Graphics2D graphics) {
                 Client client = plugin.getClient();
                 if (client != null) {
-                    //Color highlightColor = new Color(0, 191, 255, 128); // Transparent bright blue
                     List<GameObject> gameObjects = findGameObjectsByID(objectId);
                     for (GameObject gameObject : gameObjects) {
                         drawGameObjectClickbox(graphics, gameObject, color);
@@ -258,6 +303,7 @@ public class FarmingTeleportOverlay extends Overlay {
 
         return foundDecorativeObjects;
     }
+
     public Overlay decorativeObjectOverlay(int objectId, Color color) {
         return new Overlay() {
             @Override
@@ -285,7 +331,24 @@ public class FarmingTeleportOverlay extends Overlay {
         }
     }
 
+    public void highlightRightClickOption(Graphics2D graphics, String option) {
+        // Get the menu entries
+        MenuEntry[] menuEntries = client.getMenuEntries();
 
+        for (int i = 0; i < menuEntries.length; i++) {
+            MenuEntry entry = menuEntries[i];
+            String optionText = entry.getOption();
+
+            // Check if the option text matches the desired option
+            if (optionText.equalsIgnoreCase(option)) {
+                // Modify the menu entry to include a highlight
+                String highlightedText = ColorUtil.prependColorTag(">>> " + optionText, leftClickColorWithAlpha);
+                entry.setOption(highlightedText);
+                client.setMenuEntries(menuEntries);
+                break;
+            }
+        }
+    }
 
 
     private boolean isInterfaceOpen(int groupId, int childId) {
@@ -302,21 +365,59 @@ public class FarmingTeleportOverlay extends Overlay {
             System.out.println("Widget not found for groupId: " + groupId + " and childId: " + childId);
         }
     }
+
     public void highlightHerbPatches(Graphics2D graphics, Color color) {
         List<Integer> herbPatchIds = farmingHelperOverlay.getHerbPatchIds();
         for (Integer patchId : herbPatchIds) {
             gameObjectOverlay(patchId, color).render(graphics);
         }
     }
+
     public void highlightFlowerPatches(Graphics2D graphics, Color color) {
         List<Integer> flowerPatchIds = farmingHelperOverlay.getFlowerPatchIds();
         for (Integer patchId : flowerPatchIds) {
             gameObjectOverlay(patchId, color).render(graphics);
         }
     }
+
+    public void highlightTreePatches(Graphics2D graphics, Color color) {
+        List<Integer> treePatchIds = farmingHelperOverlay.getTreePatchIds();
+        for (Integer patchId : treePatchIds) {
+            gameObjectOverlay(patchId, color).render(graphics);
+        }
+    }
+
+    public void highlightFruitTreePatches(Graphics2D graphics, Color color) {
+        List<Integer> fruitTreePatchIds = farmingHelperOverlay.getFruitTreePatchIds();
+        for (Integer patchId : fruitTreePatchIds) {
+            gameObjectOverlay(patchId, color).render(graphics);
+        }
+    }
+
     public void highlightHerbSeeds(Graphics2D graphics, Color color) {
         List<Integer> herbSeedIds = farmingHelperOverlay.getHerbSeedIds();
-        for(Integer seedId : herbSeedIds) {
+        for (Integer seedId : herbSeedIds) {
+            itemHighlight(graphics, seedId, color);
+        }
+    }
+
+    public void highlightTreeSapling(Graphics2D graphics, Color color) {
+        List<Integer> treeSaplingIds = farmingHelperOverlay.getTreeSaplingIds();
+        for (Integer seedId : treeSaplingIds) {
+            itemHighlight(graphics, seedId, color);
+        }
+    }
+
+    public void highlightFruitTreeSapling(Graphics2D graphics, Color color) {
+        List<Integer> fruitTreeSaplingIds = farmingHelperOverlay.getFruitTreeSaplingIds();
+        for (Integer seedId : fruitTreeSaplingIds) {
+            itemHighlight(graphics, seedId, color);
+        }
+    }
+
+    public void highlightTeleportCrystal(Graphics2D graphics, Color color) {
+        List<Integer> teleportCrystalIds = farmingHelperOverlay.getTeleportCrystalIdsIds();
+        for (Integer seedId : teleportCrystalIds) {
             itemHighlight(graphics, seedId, color);
         }
     }
@@ -324,83 +425,239 @@ public class FarmingTeleportOverlay extends Overlay {
 
     private int currentHerbCase = 1;
     public Boolean herbPatchDone = false;
-    public void herbSteps(Graphics2D graphics){
-        switch (currentHerbCase) {
-            case 1:
-                plugin.addTextToInfoBox("Harvest Herbs.(or plant one if patch is empty/herb died)");
-                highlightHerbPatches(graphics, brightBlue);
-                if (plugin.checkMessage("The herb patch is now empty.", plugin.getLastMessage())) {
-                    System.out.println("Found string");
-                    currentHerbCase = 2;
-                }
-                if (isHerbPlanted(plugin.getLastMessage())) {
-                    System.out.println("Planted");
-                    currentHerbCase = 3;
-                }
-                break;
-            case 2:
-                plugin.addTextToInfoBox("Use Herb seed on patch.");
-                highlightHerbPatches(graphics, brightGreen);
-                highlightHerbSeeds(graphics, brightGreen);
-                if (isHerbPlanted(plugin.getLastMessage())) {
-                    System.out.println("Planted");
-                    currentHerbCase = 3;
-                }
-                break;
-            case 3:
-                plugin.addTextToInfoBox("Use Compost on patch.");
-                highlightHerbPatches(graphics, brightBlue);
-                itemHighlight(graphics, ItemID.BOTTOMLESS_COMPOST_BUCKET_22997, brightBlue);
-                if (isHerbComposted(plugin.getLastMessage())) {
-                    System.out.println("Composted");
-                    currentHerbCase = 1;
-                    herbPatchDone = true;
-                }
-                break;
+
+    public void herbSteps(Graphics2D graphics, Location.Teleport teleport) {
+
+        int currentRegionId = client.getLocalPlayer().getWorldLocation().getRegionID();
+        HerbPatchChecker.PlantState plantState;
+
+        //Farming guild herb patch uses Varbits.FARMING_4775
+        if (currentRegionId == 4922) {
+            plantState = HerbPatchChecker.checkHerbPatch(client, Varbits.FARMING_4775);
+        }
+        //Harmony herb patch uses Varbits.FARMING_4772
+        else if (currentRegionId == 15148) {
+            plantState = HerbPatchChecker.checkHerbPatch(client, Varbits.FARMING_4772);
+        }
+        //Troll Stronghold and Weiss herb patch uses Varbits.FARMING_4771
+        else if (currentRegionId == 11321 || currentRegionId == 11325) {
+            plantState = HerbPatchChecker.checkHerbPatch(client, Varbits.FARMING_4771);
+        }
+        //Rest uses Varbits.FARMING_4774
+        else {
+            plantState = HerbPatchChecker.checkHerbPatch(client, Varbits.FARMING_4774);
+        }
+        if (!areaCheck.isPlayerWithinArea(teleport.getPoint(), 15))
+        {
+            //should be replaced with a pathing system, pointing arrow or something else eventually
+            highlightHerbPatches(graphics, leftClickColorWithAlpha);
+        }
+        else {
+            switch (plantState) {
+                case HARVESTABLE:
+                    plugin.addTextToInfoBox("Harvest Herbs (or plant one if patch is empty/herb died)");
+                    highlightHerbPatches(graphics, leftClickColorWithAlpha);
+                    break;
+                case PLANT:
+                    plugin.addTextToInfoBox("Use Herb seed on patch.");
+                    highlightHerbPatches(graphics, highlightUseItemWithAlpha);
+                    highlightHerbSeeds(graphics, highlightUseItemWithAlpha);
+                    break;
+                case DEAD:
+                    plugin.addTextToInfoBox("Clear the dead herb patch.");
+                    highlightHerbPatches(graphics, leftClickColorWithAlpha);
+                    break;
+                case DISEASED:
+                    plugin.addTextToInfoBox("Use Plant cure on herb patch. Buy at GE or in farming guild/catherby, and store at Tool Leprechaun for easy access.");
+                    highlightHerbPatches(graphics, leftClickColorWithAlpha);
+                    itemHighlight(graphics, ItemID.PLANT_CURE, highlightUseItemWithAlpha);
+                    break;
+                case WEEDS:
+                    plugin.addTextToInfoBox("Rake the herb patch.");
+                    highlightHerbPatches(graphics, leftClickColorWithAlpha);
+                    break;
+                case GROWING:
+                    plugin.addTextToInfoBox("Use Compost on patch.");
+                    highlightHerbPatches(graphics, highlightUseItemWithAlpha);
+                    itemHighlight(graphics, ItemID.BOTTOMLESS_COMPOST_BUCKET_22997, highlightUseItemWithAlpha);
+                    if (isItComposted(plugin.getLastMessage())) {
+                        System.out.println("Composted");
+                        currentHerbCase = 1;
+                        herbPatchDone = true;
+                    }
+                    break;
+                case UNKNOWN:
+                    plugin.addTextToInfoBox("UNKNOWN state: Try to do something with the herb patch to change its state.");
+                    break;
+            }
         }
     }
-    private int currentFlowerCase = 1;
+
+    //private int currentFlowerCase = 1;
     public static boolean flowerPatchDone = false;
-    public void flowerSteps(Graphics2D graphics){
+
+    public void flowerSteps(Graphics2D graphics) {
         if (farmLimps) {
-            switch (currentFlowerCase) {
-                case 1:
-                    plugin.addTextToInfoBox("Harvest Limwurt root.(or plant one if the patch is empty/Limwurt died)");
-                    highlightFlowerPatches(graphics, brightBlue);
-                    if (client.getLocalPlayer().getAnimation() == AnimationID.FARMING_HARVEST_FLOWER) {
-                        System.out.println("Found string");
-                        currentFlowerCase = 2;
-                    }
-                    //if statement is a current safety messurment to make sure user wont get stuck at case 1 if
-                    //they havent planted a limwurt yet and the patch is empty
-                    if (plugin.checkMessage("You plant a limpwurt seed in the flower patch.", plugin.getLastMessage())) {
-                        System.out.println("Limpwurt planted");
-                        currentFlowerCase = 3;
-                    }
+            int currentRegionId = client.getLocalPlayer().getWorldLocation().getRegionID();
+            FlowerPatchChecker.PlantState plantState;
+            if (currentRegionId == 4922) {
+                plantState = FlowerPatchChecker.checkFlowerPatch(client, Varbits.FARMING_7906);
+            } else {
+                plantState = FlowerPatchChecker.checkFlowerPatch(client, Varbits.FARMING_4773);
+            }
+            switch (plantState) {
+                case HARVESTABLE:
+                    plugin.addTextToInfoBox("Harvest Limwurt root.");
+                    highlightFlowerPatches(graphics, leftClickColorWithAlpha);
                     break;
-                case 2:
+                case WEEDS:
+                    plugin.addTextToInfoBox("Rake the flower patch.");
+                    highlightFlowerPatches(graphics, leftClickColorWithAlpha);
+                    break;
+                case DEAD:
+                    plugin.addTextToInfoBox("Clear the dead flower patch.");
+                    highlightFlowerPatches(graphics, leftClickColorWithAlpha);
+                    break;
+                case PLANT:
                     plugin.addTextToInfoBox("Use Limwurt seed on the patch.");
-                    highlightFlowerPatches(graphics, brightGreen);
-                    itemHighlight(graphics, ItemID.LIMPWURT_SEED, brightGreen);
-                    if (plugin.checkMessage("You plant a limpwurt seed in the flower patch.", plugin.getLastMessage())) {
-                        System.out.println("Limpwurt planted");
-                        currentFlowerCase = 3;
+                    highlightFlowerPatches(graphics, highlightUseItemWithAlpha);
+                    itemHighlight(graphics, ItemID.LIMPWURT_SEED, highlightUseItemWithAlpha);
+                    break;
+                case GROWING:
+                    plugin.addTextToInfoBox("Use Compost on patch.");
+                    highlightFlowerPatches(graphics, highlightUseItemWithAlpha);
+                    itemHighlight(graphics, ItemID.BOTTOMLESS_COMPOST_BUCKET_22997, highlightUseItemWithAlpha);
+                    if (isItComposted(plugin.getLastMessage())) {
+                        System.out.println("Composted");
+                        currentHerbCase = 1;
+                        flowerPatchDone = true;
                     }
                     break;
-                case 3:
-                    plugin.addTextToInfoBox("Use compost on Limpwurt patch.");
-                    highlightFlowerPatches(graphics, brightBlue);
-                    itemHighlight(graphics, ItemID.BOTTOMLESS_COMPOST_BUCKET_22997, brightBlue);
-                    if (plugin.checkMessage("You treat the flower patch with ultracompost.", plugin.getLastMessage())) {
-                        System.out.println("Limpwurt composted");
-                        flowerPatchDone = true;
-                        currentFlowerCase = 1;
+            }
+        } else {
+            flowerPatchDone = true;
+        }
+    }
+
+    public Boolean treePatchDone = false;
+    public Boolean patchComposted = false;
+
+    public void treeSteps(Graphics2D graphics, Location.Teleport teleport) {
+        int currentRegionId = client.getLocalPlayer().getWorldLocation().getRegionID();
+        TreePatchChecker.PlantState plantState;
+        //4771 falador, gnome stronghold, lumbridge, Taverly, Varrock
+        //7905 farming guild
+        if (currentRegionId == 4922) {
+            plantState = TreePatchChecker.checkTreePatch(client, Varbits.FARMING_7905);
+        } else {
+            plantState = TreePatchChecker.checkTreePatch(client, Varbits.FARMING_4771);
+        }
+        if (!areaCheck.isPlayerWithinArea(teleport.getPoint(), 15))
+        {
+            //should be replaced with a pathing system, pointing arrow or something else eventually
+            highlightTreePatches(graphics, leftClickColorWithAlpha);
+        }
+        else {
+            switch (plantState) {
+                case HEALTHY:
+                    plugin.addTextToInfoBox("Check tree health.");
+                    highlightTreePatches(graphics, leftClickColorWithAlpha);
+                    break;
+                case WEEDS:
+                    plugin.addTextToInfoBox("Rake the tree patch.");
+                    highlightTreePatches(graphics, leftClickColorWithAlpha);
+                    break;
+                case DEAD:
+                    plugin.addTextToInfoBox("Clear the dead tree patch.");
+                    highlightTreePatches(graphics, leftClickColorWithAlpha);
+                    break;
+                case PLANT:
+                    plugin.addTextToInfoBox("Use Sapling on the patch.");
+                    highlightTreePatches(graphics, highlightUseItemWithAlpha);
+                    highlightTreeSapling(graphics, highlightUseItemWithAlpha);
+                    break;
+                case DISEASED:
+                    plugin.addTextToInfoBox("Prune the tree patch patch.");
+                    highlightTreePatches(graphics, highlightUseItemWithAlpha);
+                    break;
+                case REMOVE:
+                    plugin.addTextToInfoBox("Pay to remove tree, or cut it down and clear the patch. Dev note: add highlights for npc");
+                    break;
+                case UNKNOWN:
+                    plugin.addTextToInfoBox("UNKNOWN state: Try to do something with the tree patch to change its state.");
+                    break;
+                case GROWING:
+                    plugin.addTextToInfoBox("Use Compost on patch.");
+                    highlightTreePatches(graphics, highlightUseItemWithAlpha);
+                    itemHighlight(graphics, ItemID.BOTTOMLESS_COMPOST_BUCKET_22997, highlightUseItemWithAlpha);
+                    if (isItComposted(plugin.getLastMessage())) {
+                        System.out.println("Composted");
+                        currentHerbCase = 1;
+                        treePatchDone = true;
                     }
                     break;
             }
         }
-        else {
-            flowerPatchDone = true;
+    }
+
+    public Boolean fruitTreePatchDone = false;
+
+    public void fruitTreeSteps(Graphics2D graphics, Location.Teleport teleport) {
+        int currentRegionId = client.getLocalPlayer().getWorldLocation().getRegionID();
+        FruitTreePatchChecker.PlantState plantState;
+        //Varbits.FARMING_4771 brimhaven, catherby, Lletya, tree gnome village
+        //Varbits.FARMING_7909 farming guild
+        //Varbits.FARMING_4772 gnome stronghold
+        if (currentRegionId == 4922) {
+            plantState = FruitTreePatchChecker.checkFruitTreePatch(client, Varbits.FARMING_7909);
+        } else if (currentRegionId == 9782 || currentRegionId == 9781) {
+            plantState = FruitTreePatchChecker.checkFruitTreePatch(client, Varbits.FARMING_4772);
+        } else {
+            plantState = FruitTreePatchChecker.checkFruitTreePatch(client, Varbits.FARMING_4771);
+        }
+        if (!areaCheck.isPlayerWithinArea(teleport.getPoint(), 15)) {
+            //should be replaced with a pathing system, point arrow or something else eventually
+            highlightFruitTreePatches(graphics, leftClickColorWithAlpha);
+        } else {
+            switch (plantState) {
+                case HEALTHY:
+                    plugin.addTextToInfoBox("Check Fruit tree health.");
+                    highlightFruitTreePatches(graphics, leftClickColorWithAlpha);
+                    break;
+                case WEEDS:
+                    plugin.addTextToInfoBox("Rake the fruit tree patch.");
+                    highlightFruitTreePatches(graphics, leftClickColorWithAlpha);
+                    break;
+                case DEAD:
+                    plugin.addTextToInfoBox("Clear the dead fruit tree patch.");
+                    highlightFruitTreePatches(graphics, leftClickColorWithAlpha);
+                    break;
+                case PLANT:
+                    plugin.addTextToInfoBox("Use Sapling on the patch.");
+                    highlightFruitTreePatches(graphics, highlightUseItemWithAlpha);
+                    highlightFruitTreeSapling(graphics, highlightUseItemWithAlpha);
+                    break;
+                case DISEASED:
+                    plugin.addTextToInfoBox("Prune the fruit tree patch.");
+                    highlightFruitTreePatches(graphics, leftClickColorWithAlpha);
+                    break;
+                case REMOVE:
+                    plugin.addTextToInfoBox("Pay to remove fruit tree, or cut it down and clear the patch. Dev note: add highlights to pay npc");
+                    break;
+                case UNKNOWN:
+                    plugin.addTextToInfoBox("UNKNOWN state: Try to do something with the tree patch to change its state.");
+                    break;
+                case GROWING:
+                    plugin.addTextToInfoBox("Use Compost on patch.");
+                    highlightFruitTreePatches(graphics, highlightUseItemWithAlpha);
+                    itemHighlight(graphics, ItemID.BOTTOMLESS_COMPOST_BUCKET_22997, highlightUseItemWithAlpha);
+                    if (isItComposted(plugin.getLastMessage())) {
+                        System.out.println("Composted");
+                        currentHerbCase = 1;
+                        fruitTreePatchDone = true;
+                    }
+                    break;
+            }
         }
     }
 
@@ -430,10 +687,30 @@ public class FarmingTeleportOverlay extends Overlay {
         return foundObjectIds;
     }
 
+    public void equipmentHighlight(Graphics2D graphics, int itemID, Color color) {
+        Widget equipmentWidget = client.getWidget(WidgetID.EQUIPMENT_GROUP_ID, 62); // Use WidgetID instead of WidgetInfo
+
+        if (equipmentWidget != null) {
+            Widget[] children = equipmentWidget.getDynamicChildren();
+            if (children != null) {
+                for (Widget child : children) {
+                    if (child.getItemId() == itemID) {
+                        Rectangle bounds = child.getBounds();
+                        graphics.setColor(color);
+                        graphics.draw(bounds);
+                        graphics.fill(bounds);
+                    }
+                }
+            }
+        }
+    }
+
+
     private int currentTeleportToHouseCase = 1;
+
     public void gettingToHouse(Graphics2D graphics) {
         FarmingHelperConfig.OptionEnumHouseTele teleportOption = config.enumConfigHouseTele();
-        switch(teleportOption) {
+        switch (teleportOption) {
             case Law_air_earth_runes:
             case Law_dust_runes:
                 switch (currentTeleportToHouseCase) {
@@ -456,393 +733,271 @@ public class FarmingTeleportOverlay extends Overlay {
                 }
                 break;
             case Teleport_To_House:
-                itemHighlight(graphics, ItemID.TELEPORT_TO_HOUSE, brightBlue);
+                itemHighlight(graphics, ItemID.TELEPORT_TO_HOUSE, leftClickColorWithAlpha);
                 break;
             case Construction_cape:
-                itemHighlight(graphics, ItemID.CONSTRUCT_CAPE, brightBlue);
+                itemHighlight(graphics, ItemID.CONSTRUCT_CAPE, rightClickColorWithAlpha);
                 break;
             case Construction_cape_t:
-                itemHighlight(graphics, ItemID.CONSTRUCT_CAPET, brightBlue);
+                itemHighlight(graphics, ItemID.CONSTRUCT_CAPET, rightClickColorWithAlpha);
                 break;
             case Max_cape:
-                itemHighlight(graphics, ItemID.MAX_CAPE, brightBlue);
+                itemHighlight(graphics, ItemID.MAX_CAPE, rightClickColorWithAlpha);
                 break;
         }
     }
+
     public static int currentTeleportCase = 1;
-    public static boolean isAtArdougne = false;
-    public void gettingToArdougne(Graphics2D graphics){
-        if(!isAtArdougne) {
-            FarmingHelperConfig.OptionEnumArdougneTeleport teleportOption = config.enumOptionEnumArdougneTeleport();
-            switch (teleportOption) {
-                case Ardy_cloak:
-                    plugin.addTextToInfoBox("Teleport to Ardougne farm patches.");
-                    itemHighlight(graphics, ItemID.ARDOUGNE_CLOAK_2, brightBlue);
-                    itemHighlight(graphics, ItemID.ARDOUGNE_CLOAK_3, brightBlue);
-                    itemHighlight(graphics, ItemID.ARDOUGNE_CLOAK_4, brightBlue);
-                    if (client.getLocalPlayer().getAnimation() == 3872) {
-                        isAtArdougne = true;
-                        startSubCases = true;
-                        if(config.generalLimpwurt()) {
-                            farmLimps = true;
+
+    public boolean isAtDestination = false;
+
+
+    public void gettingToLocation(Graphics2D graphics, Location location) {
+        updateColors();
+        Location.Teleport teleport = location.getSelectedTeleport();
+        Boolean locationEnabledBool = false;
+        if (plugin.getFarmingTeleportOverlay().herbRun) {
+            locationEnabledBool = plugin.getHerbLocationEnabled(location.getName());
+        }
+        if (plugin.getFarmingTeleportOverlay().treeRun) {
+            locationEnabledBool = plugin.getTreeLocationEnabled(location.getName());
+        }
+        if (plugin.getFarmingTeleportOverlay().fruitTreeRun) {
+            locationEnabledBool = plugin.getFruitTreeLocationEnabled(location.getName());
+        }
+        //if (plugin.getHerbLocationEnabled(location.getName())) {
+        if (locationEnabledBool) {
+            if (!isAtDestination) {
+                int currentRegionId = client.getLocalPlayer().getWorldLocation().getRegionID();
+                plugin.addTextToInfoBox(teleport.getDescription());
+                switch (teleport.getCategory()) {
+                    case ITEM:
+                        if (teleport.getInterfaceGroupId() != 0) {
+                            if (!isInterfaceOpen(teleport.getInterfaceGroupId(), teleport.getInterfaceChildId())) {
+                                itemHighlight(graphics, teleport.getId(), rightClickColorWithAlpha);
+                                if (!teleport.getRightClickOption().equals("null")) {
+                                    highlightRightClickOption(graphics, teleport.getRightClickOption());
+                                }
+                            } else {
+                                Widget widget = client.getWidget(teleport.getInterfaceGroupId(), teleport.getInterfaceChildId());
+                                highlightDynamicComponent(graphics, widget, 1, leftClickColorWithAlpha);
+                            }
+                            if (currentRegionId == teleport.getRegionId()) {
+                                System.out.println("Onwards to farming");
+                                currentTeleportCase = 1;
+                                isAtDestination = true;
+                                startSubCases = true;
+                                if (location.getFarmLimps()) {
+                                    farmLimps = true;
+                                }
+                            }
+                        } else {
+                            if (!teleport.getRightClickOption().equals("null")) {
+                                itemHighlight(graphics, teleport.getId(), rightClickColorWithAlpha);
+                                highlightRightClickOption(graphics, teleport.getRightClickOption());
+                            } else {
+                                if(teleport.getId() == ItemID.TELEPORT_CRYSTAL_1) {
+                                    highlightTeleportCrystal(graphics, leftClickColorWithAlpha);
+                                }
+                                else {
+                                    itemHighlight(graphics, teleport.getId(), leftClickColorWithAlpha);
+                                }
+                            }
+                            if (currentRegionId == teleport.getRegionId()) {
+                                System.out.println("Onwards to farming");
+                                currentTeleportCase = 1;
+                                isAtDestination = true;
+                                startSubCases = true;
+                                if (location.getFarmLimps()) {
+                                    farmLimps = true;
+                                }
+                            }
                         }
-                    }
-                    break;
-            }
-        }
-    }
-    public static boolean isAtCatherby = false;
-    public void gettingToCatherby(Graphics2D graphics){
-        if(!isAtCatherby) {
-        FarmingHelperConfig.OptionEnumCatherbyTeleport teleportOption = config.enumOptionEnumCatherbyTeleport();
-            switch (teleportOption) {
-                case Portal_Nexus:
-                    plugin.addTextToInfoBox("Teleport to Catherby using the Portal Nexus.");
-                    switch (currentTeleportCase) {
-                        case 1:
-                            gettingToHouse(graphics);
-                            break;
-                        case 2:
-                            //gameObjectOverlay(33409, brightBlue).render(graphics);
-                            //gameObjectOverlay(ObjectID.PORTAL_NEXUS_SPACE, brightBlue).render(graphics);
-                            List<Integer> portalNexusIds = getGameObjectIdsByName("Portal Nexus");
-                            for (Integer objectId : portalNexusIds) {
-                                gameObjectOverlay(objectId, brightBlue).render(graphics);
-                            }
-                            if (isInterfaceOpen(17, 0)) {
-                                currentTeleportCase = 3;
-                            }
-                            break;
-                        case 3:
-                            Widget widget = client.getWidget(17, 13);
-                            int catherbyIndex = getChildIndexPN("Catherby");
-                            highlightDynamicComponent(graphics, widget, catherbyIndex, brightBlue);
-                            if (plugin.isClicked(17, 13)) {
-                                currentTeleportCase = 1;
-                                isAtCatherby = true;
-                                startSubCases = true;
-                                if(config.generalLimpwurt()) {
-                                    farmLimps = true;
-                                }
-                            }
-                            break;
-                    }
-                    break;
-            }
-        }
-    }
-    public static boolean isAtFalador = false;
-    public void gettingToFalador(Graphics2D graphics){
-        if(!isAtFalador) {
-        FarmingHelperConfig.OptionEnumFaladorTeleport teleportOption = config.enumOptionEnumFaladorTeleport();
-        switch (teleportOption) {
-            case Explorers_ring:
-                plugin.addTextToInfoBox("Teleport to Falador farm patches.");
-                itemHighlight(graphics, ItemID.EXPLORERS_RING_2, brightBlue);
-                itemHighlight(graphics, ItemID.EXPLORERS_RING_3, brightBlue);
-                itemHighlight(graphics, ItemID.EXPLORERS_RING_4, brightBlue);
-                if (client.getLocalPlayer().getAnimation() == 3869) {
-                    isAtFalador = true;
-                    startSubCases = true;
-                    if(config.generalLimpwurt()) {
-                        farmLimps = true;
-                    }
-
-                }
-        }
-        }
-    }
-    public static boolean isAtFarmingGuild = false;
-    public void gettingToFarmingGuild(Graphics2D graphics){
-        if(!isAtFarmingGuild) {
-            FarmingHelperConfig.OptionEnumFarmingGuildTeleport teleportOption = config.enumOptionEnumFarmingGuildTeleport();
-            switch (teleportOption) {
-                case Jewellery_box:
-                    plugin.addTextToInfoBox("Teleport to Farming Guild.");
-                    switch (currentTeleportCase) {
-                        case 1:
-                            gettingToHouse(graphics);
-                            break;
-                        case 2:
-                            gameObjectOverlay(29155, brightBlue).render(graphics);
-                            if (isInterfaceOpen(590, 0)) {
-                                currentTeleportCase = 3;
-                                System.out.println("Jewellery interface open");
-                            }
-                            break;
-                        case 3:
-                            Widget widget = client.getWidget(590, 5);
-                            highlightDynamicComponent(graphics, widget, 10, brightBlue);
-                            //interfaceOverlay(590, 5).render(graphics);
-                            if (client.getLocalPlayer().getAnimation() == 714) {
-                                currentTeleportCase = 1;
-                                isAtFarmingGuild = true;
-                                startSubCases = true;
-                                if(config.generalLimpwurt()) {
-                                    farmLimps = true;
-                                }
-                            }
-                            break;
-                    }
-                    break;
-            }
-        }
-    }
-    public static boolean isAtHarmony = false;
-    public void gettingToHarmony(Graphics2D graphics){
-        if(!isAtHarmony) {
-            FarmingHelperConfig.OptionEnumHarmonyTeleport teleportOption = config.enumOptionEnumHarmonyTeleport();
-            switch (teleportOption) {
-                case Portal_Nexus:
-                    plugin.addTextToInfoBox("Teleport to Harmony Island.");
-                    switch (currentTeleportCase) {
-                        case 1:
-                            gettingToHouse(graphics);
-                            break;
-                        case 2:
-                            gameObjectOverlay(33409, brightBlue).render(graphics);
-                            if (isInterfaceOpen(17, 0)) {
-                                currentTeleportCase = 3;
-                            }
-                            break;
-                        case 3:
-                            Widget widget = client.getWidget(17, 13);
-                            int harmonyIslandIndex = getChildIndexPN("Harmony Island");
-                            highlightDynamicComponent(graphics, widget, harmonyIslandIndex, brightBlue);
-                            if (plugin.isClicked(17, 13)) {
-                                currentTeleportCase = 1;
-                                startSubCases = true;
-                                isAtHarmony = true;
-                            }
-                            break;
-                    }
-                    break;
-                default:
-                    // Optional: Code for handling unexpected values
-                    break;
-            }
-        }
-    }
-    public static boolean isAtKourend = false;
-    public void gettingToKourend(Graphics2D graphics){
-        if(!isAtKourend) {
-            FarmingHelperConfig.OptionEnumKourendTeleport teleportOption = config.enumOptionEnumKourendTeleport();
-            switch (teleportOption) {
-                case Mounted_Xerics:
-                    plugin.addTextToInfoBox("Teleport to Kourend farm patchs.");
-                    switch (currentTeleportCase) {
-                        case 1:
-                            gettingToHouse(graphics);
-                            break;
-                        case 2:
-                            List<Integer> xericsTalismanIds = Arrays.asList(33411 , 33412, 33413, 33414, 33415);
-
-                            for (int id : xericsTalismanIds) {
-                                Overlay decorativeObjectHighlight = decorativeObjectOverlay(id, brightBlue);
-                                decorativeObjectHighlight.render(graphics);
-                            }
-                            if(isInterfaceOpen(187, 3)) {
-                                currentTeleportCase = 3;
-                            }
-                            break;
-                        case 3:
-                            Widget widget = client.getWidget(187, 3);
-                            highlightDynamicComponent(graphics, widget, 1, brightBlue);
-                            if (client.getLocalPlayer().getAnimation() == 3865) {
-                                currentTeleportCase = 1;
-                                startSubCases = true;
-                                isAtKourend = true;
-                                if(config.generalLimpwurt()) {
-                                    farmLimps = true;
-                                }
-                            }
-                            break;
-                    }
-                    break;
-                case Xerics_Talisman:
-                    plugin.addTextToInfoBox("Teleport to Kourend farm patchs.");
-                    switch (currentTeleportCase) {
-                        case 1:
-                            itemHighlight(graphics, ItemID.XERICS_TALISMAN, brightBlue);
-                            if(isInterfaceOpen(187, 3)) {
-                                currentTeleportCase = 2;
-                            }
-                            //if (client.getLocalPlayer().getAnimation() == 3865) {
-                             //   currentTeleportCase = 2;
-                             //   System.out.println("Xerics talisman used");
-                            //}
-                        case 2:
-                            Widget widget = client.getWidget(187, 3);
-                            highlightDynamicComponent(graphics, widget, 1, brightBlue);
-                            if (client.getLocalPlayer().getAnimation() == 3865) {
-                                currentTeleportCase = 1;
-                                startSubCases = true;
-                                isAtKourend = true;
-                                if(config.generalLimpwurt()) {
-                                    farmLimps = true;
-                                }
-                            }
-                            break;
-                            default:
-                                // Optional: Code for handling unexpected values
+                        break;
+                    case PORTAL_NEXUS:
+                        switch (currentTeleportCase) {
+                            case 1:
+                                gettingToHouse(graphics);
                                 break;
-                    }
-            }
-        }
-    }
-    public static boolean isAtMorytania = false;
-    public void gettingToMorytania(Graphics2D graphics){
-        if(!isAtMorytania) {
-            FarmingHelperConfig.OptionEnumMorytaniaTeleport teleportOption = config.enumOptionEnumMorytaniaTeleport();
-            switch (teleportOption) {
-                case Ectophial:
-                    plugin.addTextToInfoBox("Teleport to Morytania with Ectophial and run east until you can see the farming patches.");
-                    itemHighlight(graphics, ItemID.ECTOPHIAL, brightBlue);
-                    if (client.getLocalPlayer().getAnimation() == 878) {
-                        isAtMorytania = true;
-                        startSubCases = true;
-                        if(config.generalLimpwurt()) {
-                            farmLimps = true;
+                            case 2:
+                                if (!isInterfaceOpen(17, 0)) {
+                                    List<Integer> portalNexusIds = getGameObjectIdsByName("Portal Nexus");
+                                    for (Integer objectId : portalNexusIds) {
+                                        gameObjectOverlay(objectId, leftClickColorWithAlpha).render(graphics);
+                                    }
+                                } else {
+                                    int index = getChildIndexPN(location.getName());
+                                    Widget widget = client.getWidget(17, 13);
+                                    highlightDynamicComponent(graphics, widget, index, leftClickColorWithAlpha);
+                                }
+                                if (currentRegionId == teleport.getRegionId()) {
+                                    System.out.println("Onwards to farming");
+                                    currentTeleportCase = 1;
+                                    isAtDestination = true;
+                                    startSubCases = true;
+                                    if (location.getFarmLimps()) {
+                                        farmLimps = true;
+                                    }
+                                }
+                                break;
                         }
-                    }
-            }
-        }
-    }
-    public static boolean isAtTrollStronghold = false;
-    public void gettingToTrollStronghold(Graphics2D graphics){
-        if(!isAtTrollStronghold) {
-            FarmingHelperConfig.OptionEnumTrollStrongholdTeleport teleportOption = config.enumOptionEnumTrollStrongholdTeleport();
-            switch (teleportOption) {
-                case Portal_Nexus:
-                    plugin.addTextToInfoBox("Use Portal Nexus to get to Troll Stronghold.");
-                    switch (currentTeleportCase) {
-                        case 1:
-                            gettingToHouse(graphics);
-                            break;
-                        case 2:
-                            gameObjectOverlay(33409, brightBlue).render(graphics);
-                            if (isInterfaceOpen(17, 0)) {
-                                currentTeleportCase = 3;
-                            }
-                            break;
-                        case 3:
-                            Widget widget = client.getWidget(17, 13);
-                            int trollStrongholdIndex = getChildIndexPN("Troll Stronghold");
-                            highlightDynamicComponent(graphics, widget, trollStrongholdIndex, brightBlue);
-                            if (plugin.isClicked(17, 13)) {
-                                currentTeleportCase = 1;
-                                startSubCases = true;
-                                isAtTrollStronghold = true;
-                            }
-                            break;
-                    }
-                    break;
-                case Stony_Basalt:
-                    plugin.addTextToInfoBox("Use Stony Basalt to get to Troll Stronghold.");
-                    itemHighlight(graphics, ItemID.STONY_BASALT, brightBlue);
-                    if (client.getLocalPlayer().getAnimation() == 8172) {
-                        isAtTrollStronghold = true;
-                        startSubCases = true;
-                        System.out.println("Stony basalt used");
-                    }
-                    break;
-                default:
-                    // Optional: Code for handling unexpected values
-                    break;
-            }
-        }
-    }
+                        break;
+                    case JEWELLERY_BOX:
+                        switch (currentTeleportCase) {
+                            case 1:
+                                gettingToHouse(graphics);
+                                break;
+                            case 2:
+                                List<Integer> jewelleryBoxIds = Arrays.asList(29154, 29155, 29156);
 
-    public static boolean isAtWeiss = false;
+                                if (!isInterfaceOpen(590, 0)) {
+                                    for (int id : jewelleryBoxIds) {
+                                        gameObjectOverlay(id, leftClickColorWithAlpha).render(graphics);
+                                    }
+                                    gameObjectOverlay(teleport.getId(), leftClickColorWithAlpha).render(graphics);
+                                } else {
+                                    Widget widget = client.getWidget(590, 5);
+                                    highlightDynamicComponent(graphics, widget, 10, leftClickColorWithAlpha);
+                                }
+                                if (currentRegionId == teleport.getRegionId()) {
+                                    System.out.println("Onwards to farming");
+                                    currentTeleportCase = 1;
+                                    isAtDestination = true;
+                                    startSubCases = true;
+                                    if (location.getFarmLimps()) {
+                                        farmLimps = true;
+                                    }
+                                }
+                                break;
+                        }
+                        break;
+                    case MOUNTED_XERICS:
+                        switch (currentTeleportCase) {
+                            case 1:
+                                gettingToHouse(graphics);
+                                break;
+                            case 2:
+                                List<Integer> xericsTalismanIds = Arrays.asList(33411, 33412, 33413, 33414, 33415);
 
-    public void gettingToWeiss(Graphics2D graphics) {
-        if(!isAtWeiss) {
-            FarmingHelperConfig.OptionEnumWeissTeleport teleportOption = config.enumOptionEnumWeissTeleport();
-            switch (teleportOption) {
-                case Portal_Nexus:
-                    plugin.addTextToInfoBox("Use Portal Nexus to get to Weiss.");
-                    switch (currentTeleportCase) {
-                        case 1:
-                            gettingToHouse(graphics);
-                            break;
-                        case 2:
-                            gameObjectOverlay(33409, brightBlue).render(graphics);
-                            if (isInterfaceOpen(17, 0)) {
-                                currentTeleportCase = 3;
-                            }
-                            break;
-                        case 3:
-                            Widget widget = client.getWidget(17, 13);
-                            int weissIndex = getChildIndexPN("Weiss");
-                            highlightDynamicComponent(graphics, widget, weissIndex, brightBlue);
-                            if (plugin.isClicked(17, 13)) {
-                                currentTeleportCase = 1;
-                                startSubCases = true;
-                                isAtWeiss = true;
-                            }
-                            break;
-                    }
-                    break;
-                case Icy_basalt:
-                    plugin.addTextToInfoBox("Use Icy Basalt to get to Weiss.");
-                    itemHighlight(graphics, ItemID.ICY_BASALT, brightBlue);
-                    if (client.getLocalPlayer().getAnimation() == 8172) {
-                        isAtWeiss = true;
-                        startSubCases = true;
-                        System.out.println("Icy basalt used");
-                    }
-                    break;
-                default:
-                    // Optional: Code for handling unexpected values
-                    break;
-            }
-        }
-    }
-    public static boolean farmLimps = false;
-    public void farming(Graphics2D graphics) {
-        if (startSubCases) {
-            if (subCase == 1) {
-                herbSteps(graphics);
-                if (herbPatchDone) {
-                    subCase = 2;
-                    herbPatchDone = false;
+                                if (!isInterfaceOpen(teleport.getInterfaceGroupId(), teleport.getInterfaceChildId())) {
+                                    for (int id : xericsTalismanIds) {
+                                        Overlay decorativeObjectHighlight = decorativeObjectOverlay(id, leftClickColorWithAlpha);
+                                        decorativeObjectHighlight.render(graphics);
+                                    }
+                                } else {
+                                    Widget widget = client.getWidget(teleport.getInterfaceGroupId(), teleport.getInterfaceChildId());
+                                    highlightDynamicComponent(graphics, widget, 1, leftClickColorWithAlpha);
+                                    if (currentRegionId == teleport.getRegionId()) {
+                                        System.out.println("Onwards to farming");
+                                        currentTeleportCase = 1;
+                                        isAtDestination = true;
+                                        startSubCases = true;
+                                        if (location.getFarmLimps()) {
+                                            farmLimps = true;
+                                        }
+                                    }
+                                }
+                                break;
+                        }
+                    case SPELLBOOK:
+                        InventoryTabChecker.TabState tabState;
+                        tabState = InventoryTabChecker.checkTab(client, VarClientInt.INVENTORY_TAB);
+                        switch (tabState) {
+                            case REST:
+                                if (currentRegionId == teleport.getRegionId()) {
+                                    currentTeleportCase = 1;
+                                    isAtDestination = true;
+                                    startSubCases = true;
+                                }
+                            case INVENTORY:
+                                interfaceOverlay(161, 64).render(graphics);
+                                if (currentRegionId == teleport.getRegionId()) {
+                                    currentTeleportCase = 1;
+                                    isAtDestination = true;
+                                    startSubCases = true;
+                                }
+                                break;
+                            case SPELLBOOK:
+                                interfaceOverlay(teleport.getInterfaceGroupId(), teleport.getInterfaceChildId()).render(graphics);
+                                if (currentRegionId == teleport.getRegionId()) {
+                                    currentTeleportCase = 1;
+                                    isAtDestination = true;
+                                    startSubCases = true;
+                                }
+                                break;
+                        }
+
+                        break;
+                    default:
+                        // Optional: Code for handling unexpected values
+                        break;
                 }
-            } else if (subCase == 2) {
-                if (config.generalLimpwurt()){
-                    flowerSteps(graphics);
-                    if (flowerPatchDone) {
+
+            } else {
+                farming(graphics, teleport);
+            }
+        } else {
+            herbRunIndex++;
+            System.out.println("herbRunIndex increased");
+        }
+    }
+    //}
+
+
+    public static boolean farmLimps = false;
+
+    public void farming(Graphics2D graphics, Location.Teleport teleport) {
+        if (startSubCases) {
+            if (herbRun) {
+                if (subCase == 1) {
+                    herbSteps(graphics, teleport);
+                    if (herbPatchDone) {
+                        subCase = 2;
+                        herbPatchDone = false;
+                        patchComposted = false;
+                    }
+                } else if (subCase == 2) {
+                    if (config.generalLimpwurt()) {
+                        flowerSteps(graphics);
+                        if (flowerPatchDone) {
+                            subCase = 1;
+                            startSubCases = false;
+                            isAtDestination = false;
+                            herbRunIndex++;
+                            farmLimps = false;
+                            flowerPatchDone = false;
+                            patchComposted = false;
+
+                        }
+                    } else {
                         subCase = 1;
                         startSubCases = false;
-                        isAtArdougne = false;
-                        isAtCatherby = false;
-                        isAtFalador = false;
-                        isAtFarmingGuild = false;
-                        isAtHarmony = false;
-                        isAtKourend = false;
-                        isAtMorytania = false;
-                        isAtTrollStronghold = false;
-                        isAtWeiss = false;
+                        isAtDestination = false;
                         herbRunIndex++;
                         farmLimps = false;
                         flowerPatchDone = false;
-
+                        patchComposted = false;
                     }
                 }
-                else{
-                    subCase = 1;
+            }
+            if (treeRun) {
+                treeSteps(graphics, teleport);
+                if (treePatchDone) {
                     startSubCases = false;
-                    isAtArdougne = false;
-                    isAtCatherby = false;
-                    isAtFalador = false;
-                    isAtFarmingGuild = false;
-                    isAtHarmony = false;
-                    isAtKourend = false;
-                    isAtMorytania = false;
-                    isAtTrollStronghold = false;
-                    isAtWeiss = false;
+                    isAtDestination = false;
                     herbRunIndex++;
-                    farmLimps = false;
-                    flowerPatchDone = false;
+                    patchComposted = false;
+                    treePatchDone = false;
+                }
+            }
+            if (fruitTreeRun) {
+                fruitTreeSteps(graphics, teleport);
+                if (fruitTreePatchDone) {
+                    startSubCases = false;
+                    isAtDestination = false;
+                    herbRunIndex++;
+                    patchComposted = false;
+                    fruitTreePatchDone = false;
                 }
             }
         }
@@ -851,26 +1006,8 @@ public class FarmingTeleportOverlay extends Overlay {
     public static int subCase = 1;
     public static boolean startSubCases = false;
     public static int herbRunIndex = 0;
-    public static void resetHerbRun() {
-        herbRunIndex = 0;
-        currentTeleportCase = 1;
-        subCase = 1;
-        startSubCases = false;
-        isAtArdougne = false;
-        isAtCatherby = false;
-        isAtFalador = false;
-        isAtFarmingGuild = false;
-        isAtHarmony = false;
-        isAtKourend = false;
-        isAtMorytania = false;
-        isAtTrollStronghold = false;
-        isAtWeiss = false;
-        farmLimps = false;
-        flowerPatchDone = false;
-        // Reset other variables if necessary
-    }
 
-    public void RemoveOverlay(){
+    public void RemoveOverlay() {
         System.out.println("RemoveOverlay");
         plugin.overlayManager.remove(farmingHelperOverlay);
         plugin.overlayManager.remove(farmingTeleportOverlay);
@@ -881,83 +1018,129 @@ public class FarmingTeleportOverlay extends Overlay {
         currentTeleportCase = 1;
         subCase = 1;
         startSubCases = false;
-        isAtArdougne = false;
-        isAtCatherby = false;
-        isAtFalador = false;
-        isAtFarmingGuild = false;
-        isAtHarmony = false;
-        isAtKourend = false;
-        isAtMorytania = false;
-        isAtTrollStronghold = false;
-        isAtWeiss = false;
+        isAtDestination = false;
         farmLimps = false;
         flowerPatchDone = false;
+        plugin.setItemsCollected(false);
+        plugin.getFarmingTeleportOverlay().herbRun = false;
+        plugin.getFarmingTeleportOverlay().treeRun = false;
+        plugin.getFarmingTeleportOverlay().fruitTreeRun = false;
+
+        fruitTreeRun = false;
+        herbRun = false;
+        treeRun = false;
+
     }
+
+    public Boolean herbRun = false;
+
+    public Boolean treeRun = false;
+
+    public Boolean fruitTreeRun = false;
+
 
     @Override
     public Dimension render(Graphics2D graphics) {
         if (plugin.isTeleportOverlayActive()) {
             Client client = plugin.getClient();
-            if (client != null) {
-                HerbRunLocation[] herbRunLocations = {
-                        new HerbRunLocation(config.ardougneHerb(), this::gettingToArdougne, isAtArdougne),
-                        new HerbRunLocation(config.catherbyHerb(), this::gettingToCatherby, isAtCatherby),
-                        new HerbRunLocation(config.faladorHerb(), this::gettingToFalador, isAtFalador),
-                        new HerbRunLocation(config.farmingGuildHerb(), this::gettingToFarmingGuild, isAtFarmingGuild),
-                        new HerbRunLocation(config.harmonyHerb(), this::gettingToHarmony, isAtHarmony),
-                        new HerbRunLocation(config.kourendHerb(), this::gettingToKourend, isAtKourend),
-                        new HerbRunLocation(config.morytaniaHerb(), this::gettingToMorytania, isAtMorytania),
-                        new HerbRunLocation(config.trollStrongholdHerb(), this::gettingToTrollStronghold, isAtTrollStronghold),
-                        new HerbRunLocation(config.weissHerb(), this::gettingToWeiss, isAtWeiss)
-                };
-
-                while (herbRunIndex < herbRunLocations.length) {
-                    HerbRunLocation location = herbRunLocations[herbRunIndex];
-                    if (location.isEnabled()) {
-                        location.gettingToMethod(graphics);
-                        if (location.isAtLocation()) {
-                            farming(graphics);
-                            //herbRunIndex++; was moved to: "public void farming" to increase after completing the required farming steps
-                        }
+            if (herbRun) {
+                switch (herbRunIndex) {
+                    case 0:
+                        gettingToLocation(graphics, plugin.getArdougneLocation());
                         break;
-                    } else {
-                        herbRunIndex++;
-                    }
+                    case 1:
+                        gettingToLocation(graphics, plugin.getCatherbyLocation());
+                        break;
+                    case 2:
+                        gettingToLocation(graphics, plugin.getFaladorLocation());
+                        break;
+                    case 3:
+                        gettingToLocation(graphics, plugin.getFarmingGuildLocation());
+                        break;
+                    case 4:
+                        gettingToLocation(graphics, plugin.getHarmonyLocation());
+                        break;
+                    case 5:
+                        gettingToLocation(graphics, plugin.getKourendLocation());
+                        break;
+                    case 6:
+                        gettingToLocation(graphics, plugin.getMorytaniaLocation());
+                        break;
+                    case 7:
+                        gettingToLocation(graphics, plugin.getTrollStrongholdLocation());
+                        break;
+                    case 8:
+                        gettingToLocation(graphics, plugin.getWeissLocation());
+                        break;
+                    case 9:
+                        RemoveOverlay();
+                        // add more cases for each location in the array
+                    default:
+                        System.out.println("Herb run reset");
+                        RemoveOverlay();
+                        // Add any other actions you want to perform when the herb run is complete
+                        break;
                 }
-                if (herbRunIndex >= herbRunLocations.length) {
-                    System.out.println("Herb run reset");
-                    //resetHerbRun();
-                    RemoveOverlay();
-                    //plugin.overlayManager.remove(farmingHelperOverlay);
-                    //plugin.overlayManager.remove(plugin.getFarmingHelperOverlayInfoBox());
-                    // Add any other actions you want to perform when the herb run is complete
+            } else if (treeRun) {
+                switch (herbRunIndex) {
+                    case 0:
+                        gettingToLocation(graphics, plugin.getFaladorTreeLocation());
+                        break;
+                    case 1:
+                        gettingToLocation(graphics, plugin.getFarmingGuildTreeLocation());
+                        break;
+                    case 2:
+                        gettingToLocation(graphics, plugin.getGnomeStrongholdTreeLocation());
+                        break;
+                    case 3:
+                        gettingToLocation(graphics, plugin.getLumbridgeTreeLocation());
+                        break;
+                    case 4:
+                        gettingToLocation(graphics, plugin.getTaverleyTreeLocation());
+                        break;
+                    case 5:
+                        gettingToLocation(graphics, plugin.getVarrockTreeLocation());
+                        break;
+                    case 6:
+                        RemoveOverlay();
+                        // add more cases for each location in the array
+                    default:
+                        System.out.println("Tree run reset");
+                        RemoveOverlay();
+                        // Add any other actions you want to perform when the herb run is complete
+                        break;
+                }
+            } else if (fruitTreeRun) {
+                switch (herbRunIndex) {
+                    case 0:
+                        gettingToLocation(graphics, plugin.getBrimhavenFruitTreeLocation());
+                        break;
+                    case 1:
+                        gettingToLocation(graphics, plugin.getCatherbyFruitTreeLocation());
+                        break;
+                    case 2:
+                        gettingToLocation(graphics, plugin.getFarmingGuildFruitTreeLocation());
+                        break;
+                    case 3:
+                        gettingToLocation(graphics, plugin.getGnomeStrongholdFruitTreeLocation());
+                        break;
+                    case 4:
+                        gettingToLocation(graphics, plugin.getLletyaFruitTreeLocation());
+                        break;
+                    case 5:
+                        gettingToLocation(graphics, plugin.getTreeGnomeVillageTreeLocation());
+                        break;
+                    case 6:
+                        RemoveOverlay();
+                        // add more cases for each location in the array
+                    default:
+                        System.out.println("Fruit Tree run reset");
+                        RemoveOverlay();
+                        // Add any other actions you want to perform when the herb run is complete
+                        break;
                 }
             }
         }
         return null;
-    }
-
-    private class HerbRunLocation {
-        private boolean enabled;
-        private Consumer<Graphics2D> gettingToMethod;
-        private boolean isAtLocation;
-
-        public HerbRunLocation(boolean enabled, Consumer<Graphics2D> gettingToMethod, boolean isAtLocation) {
-            this.enabled = enabled;
-            this.gettingToMethod = gettingToMethod;
-            this.isAtLocation = isAtLocation;
-        }
-
-        public boolean isEnabled() {
-            return enabled;
-        }
-
-        public void gettingToMethod(Graphics2D graphics) {
-            gettingToMethod.accept(graphics);
-        }
-
-        public boolean isAtLocation() {
-            return isAtLocation;
-        }
     }
 }

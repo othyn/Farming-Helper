@@ -1,60 +1,105 @@
-//package net.runelite.client.plugins.farminghelper;
 package com.farminghelper.speaax;
 
+import com.farminghelper.speaax.ItemsAndLocations.HerbRunItemAndLocation;
+import com.farminghelper.speaax.ItemsAndLocations.TreeRunItemAndLocation;
+import com.farminghelper.speaax.ItemsAndLocations.FruitTreeRunItemAndLocation;
 import net.runelite.api.*;
 import com.google.inject.Provides;
 import java.awt.image.BufferedImage;
 import javax.inject.Inject;
 
+import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.AnimationChanged;
 import net.runelite.api.events.ChatMessage;
 import net.runelite.client.config.ConfigManager;
+import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.NavigationButton;
 import net.runelite.client.util.ImageUtil;
 import net.runelite.client.ui.ClientToolbar;
 import net.runelite.client.ui.overlay.OverlayManager;
-import net.runelite.api.events.ItemContainerChanged;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.callback.ClientThread;
-import java.util.concurrent.CompletableFuture;
-import java.util.Map;
-import java.util.HashMap;
-import com.farminghelper.speaax.FarmingHelperConfig.OptionEnumHouseTele;
-//import net.runelite.client.plugins.farminghelper.FarmingHelperConfig.OptionEnumHouseTele;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.*;
 import net.runelite.api.events.MenuOptionClicked;
 import net.runelite.client.eventbus.EventBus;
+
 @PluginDescriptor(
 		name = "Farming Helper",
 		description = "Test run",
 		enabledByDefault = false
 )
 
-
 public class FarmingHelperPlugin extends Plugin
 {
+	private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
-	public enum Item {
-		dustRune(4696),
-		lawRune(563),
-		airRune(556),
-		earthRune(	557),
-		constrCape(9789),
-		constrCapeT(9790),
-		teleportToHouseTab(8013),
-		maxCape(13280),;
+	private HerbRunItemAndLocation herbRunItemAndLocation;
+	private TreeRunItemAndLocation treeRunItemAndLocation;
+	private FruitTreeRunItemAndLocation fruitTreeRunItemAndLocation;
 
-		private final int value;
 
-		private Item(int value) {
-			this.value = value;
-		}
+	@Inject
+	private ItemManager itemManager;
+	@Inject
+	private Client client;
 
-		public int getValue() {
-			return value;
-		}
+	public void runOnClientThread(Runnable task) {
+		clientThread.invokeLater(task);
 	}
+
+	public Location getArdougneLocation() {
+		return herbRunItemAndLocation.ardougneLocation;
+	}
+	public Location getCatherbyLocation() {
+		return herbRunItemAndLocation.catherbyLocation;
+	}
+	public Location getFaladorLocation() {
+		return herbRunItemAndLocation.faladorLocation;
+	}
+	public Location getFarmingGuildLocation() {return herbRunItemAndLocation.farmingGuildLocation;}
+	public Location getHarmonyLocation() {
+		return herbRunItemAndLocation.harmonyLocation;
+	}
+	public Location getKourendLocation() {
+		return herbRunItemAndLocation.kourendLocation;
+	}
+	public Location getMorytaniaLocation() {
+		return herbRunItemAndLocation.morytaniaLocation;
+	}
+	public Location getTrollStrongholdLocation() {
+		return herbRunItemAndLocation.trollStrongholdLocation;
+	}
+
+	public Location getWeissLocation() {
+		return herbRunItemAndLocation.weissLocation;
+	}
+
+	//get Tree locations
+	public Location getFaladorTreeLocation() {return treeRunItemAndLocation.faladorTreeLocation;}
+	public Location getFarmingGuildTreeLocation() {
+		return treeRunItemAndLocation.farmingGuildTreeLocation;
+	}
+	public Location getGnomeStrongholdTreeLocation() {return treeRunItemAndLocation.gnomeStrongholdTreeLocation;}
+	public Location getLumbridgeTreeLocation() {return treeRunItemAndLocation.lumbridgeTreeLocation;}
+	public Location getTaverleyTreeLocation() {
+		return treeRunItemAndLocation.taverleyTreeLocation;
+	}
+	public Location getVarrockTreeLocation() {
+		return treeRunItemAndLocation.varrockTreeLocation;
+	}
+
+	//get fruit tree locations
+	public Location getBrimhavenFruitTreeLocation() {return fruitTreeRunItemAndLocation.brimhavenFruitTreeLocation;}
+	public Location getCatherbyFruitTreeLocation() {return fruitTreeRunItemAndLocation.catherbyFruitTreeLocation;}
+	public Location getFarmingGuildFruitTreeLocation() {return fruitTreeRunItemAndLocation.farmingGuildFruitTreeLocation;}
+	public Location getGnomeStrongholdFruitTreeLocation() {return fruitTreeRunItemAndLocation.gnomeStrongholdFruitTreeLocation;}
+	public Location getLletyaFruitTreeLocation() {return fruitTreeRunItemAndLocation.lletyaFruitTreeLocation;}
+	public Location getTreeGnomeVillageTreeLocation() {return fruitTreeRunItemAndLocation.treeGnomeVillageFruitTreeLocation;}
+
 	private boolean isTeleportOverlayActive = false;
 	public boolean isTeleportOverlayActive() {
 		return isTeleportOverlayActive;
@@ -74,13 +119,14 @@ public class FarmingHelperPlugin extends Plugin
 	public void onChatMessage(ChatMessage event) {
 		if (event.getType() == ChatMessageType.GAMEMESSAGE) {
 			lastMessage = event.getMessage();
-			System.out.println("Last message updated: " + lastMessage);
+			System.out.println("Last game message updated: " + lastMessage);
 		}
-		if (event.getType() == ChatMessageType.SPAM) {
+		else if (event.getType() == ChatMessageType.SPAM) {
 			lastMessage = event.getMessage();
-			System.out.println("Last message updated: " + lastMessage);
+			System.out.println("Last spam message updated: " + lastMessage);
 		}
 	}
+
 	public String getLastMessage() {
 		return lastMessage;
 	}
@@ -90,8 +136,11 @@ public class FarmingHelperPlugin extends Plugin
 
 	@Inject
 	private EventBus eventBus;
+	/*
 	@Inject
 	private Client client;
+
+	 */
 	@Inject
 	private ClientThread clientThread;
 
@@ -109,6 +158,8 @@ public class FarmingHelperPlugin extends Plugin
 	public boolean isClicked(int groupId, int childId) {
 		return clicked && groupId == lastClickedGroupId && childId == lastClickedChildId;
 	}
+
+	//"no usage" but currently needed for spellbook check
 	@Subscribe
 	public void onMenuOptionClicked(MenuOptionClicked event) {
 		clientThread.invokeLater(() -> {
@@ -120,6 +171,7 @@ public class FarmingHelperPlugin extends Plugin
 			System.out.printf("Clicked widget: groupId=%d, childId=%d%n", groupId, childId);
 		});
 	}
+
 
 	private FarmingHelperPanel farmingHelperPanel;
 	private FarmingHelperPanel panel;
@@ -134,12 +186,7 @@ public class FarmingHelperPlugin extends Plugin
 	public OverlayManager overlayManager;
 
 	private boolean isOverlayActive = true;
-	private Map<Integer, Integer> herbItemsCache;
 
-	public Map<Integer, Integer> getHerbItemsCache()
-	{
-		return herbItemsCache;
-	}
 	@Inject
 	private FarmingHelperOverlay farmingHelperOverlay;
 
@@ -160,56 +207,8 @@ public class FarmingHelperPlugin extends Plugin
 		return client;
 	}
 
-	public int getArdougneDiaryTier() {
-		int easy = client.getVarbitValue(Varbits.DIARY_ARDOUGNE_EASY);
-		int medium = client.getVarbitValue(Varbits.DIARY_ARDOUGNE_MEDIUM);
-		int hard = client.getVarbitValue(Varbits.DIARY_ARDOUGNE_HARD);
-		int elite = client.getVarbitValue(Varbits.DIARY_ARDOUGNE_ELITE);
-
-		if (elite == 1) {
-			return 4;
-		} else if (hard == 1) {
-			return 3;
-		} else if (medium == 1) {
-			return 2;
-		} else if (easy == 1) {
-			return 1;
-		}
-
-		return 0;
-	}
-	public int getLumbridgeDiaryTier() {
-		int easy = client.getVarbitValue(Varbits.DIARY_LUMBRIDGE_EASY);
-		int medium = client.getVarbitValue(Varbits.DIARY_LUMBRIDGE_MEDIUM);
-		int hard = client.getVarbitValue(Varbits.DIARY_LUMBRIDGE_HARD);
-		int elite = client.getVarbitValue(Varbits.DIARY_LUMBRIDGE_ELITE);
-
-		if (elite == 1) {
-			return 4;
-		} else if (hard == 1) {
-			return 3;
-		} else if (medium == 1) {
-			return 2;
-		} else if (easy == 1) {
-			return 1;
-		}
-
-		return 0;
-	}
-	//Herb run item list
-	@Subscribe
-	public void onItemContainerChanged(ItemContainerChanged event)
-	{
-		if (event.getItemContainer() == client.getItemContainer(InventoryID.INVENTORY))
-		{
-			// Update the overlay with the new list of items
-			getHerbItems().thenAccept(items -> {
-				herbItemsCache = items;
-				updateOverlay(items);
-			});
-		}
-	}
 	private int lastAnimationId = -1;
+
 
 	@Subscribe
 	public void onAnimationChanged(AnimationChanged event)
@@ -228,231 +227,22 @@ public class FarmingHelperPlugin extends Plugin
 		}
 	}
 
-	public Item fetchValueOfDropdownHouseTele() {
-		OptionEnumHouseTele selectedOption = config.enumConfigHouseTele();
-
-		switch (selectedOption) {
-			case Law_air_earth_runes:
-					return Item.airRune;
-				case Law_dust_runes:
-					return Item.lawRune;
-				case Teleport_To_House:
-					return Item.teleportToHouseTab;
-				case Construction_cape:
-					return Item.constrCape;
-				case Construction_cape_t:
-					return Item.constrCapeT;
-				case Max_cape:
-				return Item.maxCape;
-				default:
-					throw new IllegalStateException("Unexpected value: " + selectedOption);
-		}
-	}
-
-	private void addTeleportToHouseItems(Map<Integer, Integer> items) {
-		int itemValue = fetchValueOfDropdownHouseTele().getValue();
-		if (itemValue == Item.lawRune.getValue()) {
-			addItemToMap(items, Item.dustRune.getValue(), 1);
-			addItemToMap(items, Item.lawRune.getValue(), 1);
-		} else if (itemValue == Item.airRune.getValue()) {
-			addItemToMap(items, Item.airRune.getValue(), 1);
-			addItemToMap(items, Item.earthRune.getValue(), 1);
-			addItemToMap(items, Item.lawRune.getValue(), 1);
-		} else {
-			if (!items.containsKey(itemValue)) {
-				addItemToMap(items, itemValue, 1);
-			}
-		}
-	}
-	public CompletableFuture<Map<Integer, Integer>> getHerbItems()
-	{
-		CompletableFuture<Map<Integer, Integer>> futureItems = new CompletableFuture<>();
-		Map<Integer, Integer> items = new HashMap<>(Map.of(
-				5343, 1,
-				7409, 1,
-				952, 1,
-				22997, 1
-		));
-
-		if (config.generalRake())
-		{
-			addItemToMap(items, 5341, 1);
-		}
-		if (config.ardougneHerb())
-		{
-			addItemToMap(items, 5291, 1);
-			if(config.generalLimpwurt())
-			{
-				addItemToMap(items, 5100, 1);
-			}
-			clientThread.invokeLater(() -> {
-				int ardougneDiaryTier = getArdougneDiaryTier();
-				if (ardougneDiaryTier > 0)
-				{
-					int itemId;
-					switch (ardougneDiaryTier)
-					{
-						case 1:
-							itemId = 13121;
-							break;
-						case 2:
-							itemId = 13122;
-							break;
-						case 3:
-							itemId = 13123;
-							break;
-						case 4:
-							itemId = 13124;
-							break;
-						default:
-							itemId = 13121;
-							break;
-					}
-					addItemToMap(items, itemId, 1);
-				}
-				//catherbyHerb
-				// Add more conditions for other config items
-
-				futureItems.complete(items);
-			});
-		}
-
-		else
-		{
-			futureItems.complete(items);
-		}
-		if (config.catherbyHerb())
-		{
-			addItemToMap(items, 5291, 1);
-			addTeleportToHouseItems(items);
-			if(config.generalLimpwurt())
-			{
-				addItemToMap(items, 5100, 1);
-			}
-		}
-		if (config.faladorHerb())
-		{
-			addItemToMap(items, 5291, 1);
-			if(config.generalLimpwurt())
-			{
-				addItemToMap(items, 5100, 1);
-			}
-			clientThread.invokeLater(() -> {
-				int lumbridgeDiaryTier = getArdougneDiaryTier();
-				if (lumbridgeDiaryTier > 0)
-				{
-					int itemId;
-					switch (lumbridgeDiaryTier)
-					{
-						case 1:
-							itemId = 13125;
-							break;
-						case 2:
-							itemId = 13126;
-							break;
-						case 3:
-							itemId = 13127;
-							break;
-						case 4:
-							itemId = 13128;
-							break;
-						default:
-							itemId = 13125;
-							break;
-					}
-					addItemToMap(items, itemId, 1);
-				}
-				futureItems.complete(items);
-			});
-		}
-
-		else
-		{
-			futureItems.complete(items);
-		}
-
-		if (config.farmingGuildHerb())
-		{
-			if(config.generalLimpwurt())
-			{
-				addItemToMap(items, 5100, 1);
-			}
-			addItemToMap(items, 5291, 1);
-			FarmingHelperConfig.OptionEnumFarmingGuildTeleport teleportOption = config.enumOptionEnumFarmingGuildTeleport();
-			if(teleportOption == FarmingHelperConfig.OptionEnumFarmingGuildTeleport.Skills_Necklace){
-				addItemToMap(items, ItemID.SKILLS_NECKLACE1, 1);
-			}
-			else{
-				addTeleportToHouseItems(items);
-			}
-		}
-		if (config.harmonyHerb())
-		{
-			addItemToMap(items, 5291, 1);
-			addTeleportToHouseItems(items);
-		}
-		if (config.kourendHerb())
-		{
-			if(config.generalLimpwurt())
-			{
-				addItemToMap(items, 5100, 1);
-			}
-			addItemToMap(items, 5291, 1);
-			FarmingHelperConfig.OptionEnumKourendTeleport teleportOption = config.enumOptionEnumKourendTeleport();
-			if(teleportOption == FarmingHelperConfig.OptionEnumKourendTeleport.Xerics_Talisman)
-			{
-				addItemToMap(items, 13393, 1);
-			}
-			else
-			{
-				addTeleportToHouseItems(items);
-			}
-		}
-		if (config.morytaniaHerb())
-		{
-			if(config.generalLimpwurt())
-			{
-				addItemToMap(items, 5100, 1);
-			}
-			addItemToMap(items, 5291, 1);
-			addItemToMap(items, 4251, 1);
-		}
-		if (config.trollStrongholdHerb())
-		{
-			addItemToMap(items, 5291, 1);
-			FarmingHelperConfig.OptionEnumTrollStrongholdTeleport teleportOption = config.enumOptionEnumTrollStrongholdTeleport();
-			if(teleportOption == FarmingHelperConfig.OptionEnumTrollStrongholdTeleport.Stony_Basalt)
-			{
-				addItemToMap(items, 22601, 1);
-			}
-			else{
-				addTeleportToHouseItems(items);
-			}
-		}
-		if (config.weissHerb())
-		{
-			addItemToMap(items, 5291, 1);
-			FarmingHelperConfig.OptionEnumWeissTeleport teleportOption = config.enumOptionEnumWeissTeleport();
-			if(teleportOption == FarmingHelperConfig.OptionEnumWeissTeleport.Icy_basalt)
-			{
-				addItemToMap(items, 22599, 1);
-			}
-			else{
-				addTeleportToHouseItems(items);
-			}
-		}
-
-		return futureItems;
-	}
-	private void addItemToMap(Map<Integer, Integer> items, int itemId, int count)
-	{
-		items.put(itemId, items.getOrDefault(itemId, 0) + count);
-	}
 	//update item list
-	public void updateOverlay(Map<Integer, Integer> herbItems)
+	private Map<Integer, Integer> herbItemsCache;
+	public void updateHerbOverlay(Map<Integer, Integer> herbItems)
 	{
-		//farmingHelperOverlay.updateItems(items);
 		this.herbItemsCache = herbItems;
+	}
+	private Map<Integer, Integer> treeItemsCache;
+	public void updateTreeOverlay(Map<Integer, Integer> treeItems)
+	{
+		this.treeItemsCache = treeItems;
+	}
+
+	private Map<Integer, Integer> fruitTreeItemsCache;
+	public void updateFruitTreeOverlay(Map<Integer, Integer> fruitTreeItems)
+	{
+		this.fruitTreeItemsCache = fruitTreeItems;
 	}
 
 	@Provides
@@ -473,13 +263,82 @@ public class FarmingHelperPlugin extends Plugin
 	public void addTextToInfoBox(String text) {
 		farmingHelperOverlayInfoBox.setText(text);
 	}
+	public boolean getHerbLocationEnabled(String locationName) {
+		switch (locationName) {
+			case "Ardougne":
+				return config.ardougneHerb();
+			case "Catherby":
+				return config.catherbyHerb();
+			case "Falador":
+				return config.faladorHerb();
+			case "Farming Guild":
+				return config.farmingGuildHerb();
+			case "Harmony Island":
+				return config.harmonyHerb();
+			case "Kourend":
+				return config.kourendHerb();
+			case "Morytania":
+				return config.morytaniaHerb();
+			case "Troll Stronghold":
+				return config.trollStrongholdHerb();
+			case "Weiss":
+				return config.weissHerb();
+			// Add cases for other locations as needed
+			default:
+				return false;
+		}
+	}
+
+	public boolean getTreeLocationEnabled(String locationName) {
+		switch (locationName) {
+			case "Falador":
+				return config.faladorTree();
+			case "Farming Guild":
+				return config.farmingGuildTree();
+			case "Gnome Stronghold":
+				return config.gnomeStrongholdTree();
+			case "Lumbridge":
+				return config.lumbridgeTree();
+			case "Taverley":
+				return config.taverleyTree();
+			case "Varrock":
+				return config.varrockTree();
+			// Add cases for other locations as needed
+			default:
+				return false;
+		}
+	}
+
+	public boolean getFruitTreeLocationEnabled(String locationName) {
+		switch (locationName) {
+			case "Brimhaven":
+				return config.brimhavenFruitTree();
+			case "Catherby":
+				return config.catherbyFruitTree();
+			case "Farming Guild":
+				return config.farmingGuildFruitTree();
+			case "Gnome Stronghold":
+				return config.gnomeStrongholdFruitTree();
+			case "Lletya":
+				return config.lletyaFruitTree();
+			case "Tree Gnome Village":
+				return config.treeGnomeVillageFruitTree();
+			// Add cases for other locations as needed
+			default:
+				return false;
+		}
+	}
 
 	@Override
 	protected void startUp()
 	{
-		//farmingTeleportOverlay.addHerbPatchToList(null);
 
-		panel = new FarmingHelperPanel(this, overlayManager, farmingTeleportOverlay);
+		herbRunItemAndLocation = new HerbRunItemAndLocation(config, client, this);
+		treeRunItemAndLocation = new TreeRunItemAndLocation(config, client, this);
+		fruitTreeRunItemAndLocation = new FruitTreeRunItemAndLocation(config, client, this);
+		farmingHelperOverlay = new FarmingHelperOverlay(client, this, itemManager, herbRunItemAndLocation, treeRunItemAndLocation, fruitTreeRunItemAndLocation);
+
+		panel = new FarmingHelperPanel(this, overlayManager, farmingTeleportOverlay, herbRunItemAndLocation, treeRunItemAndLocation, fruitTreeRunItemAndLocation);
 		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), "/com/farminghelper/speaax/icon.png");
 
 		navButton = NavigationButton.builder()
@@ -494,12 +353,15 @@ public class FarmingHelperPlugin extends Plugin
 		overlayManager.add(farmingTeleportOverlay);
 		overlayManager.add(farmingHelperOverlayInfoBox);
 
-		farmingHelperOverlay = new FarmingHelperOverlay(client, this);
-		//farmingHelperOverlay = new FarmingHelperOverlay(client, this);
+
+
 
 		// set overlay to inactive
 		isOverlayActive = false;
 		eventBus.register(this);
+
+		herbRunItemAndLocation.setupHerbLocations();
+
 	}
 
 	@Override
@@ -509,7 +371,6 @@ public class FarmingHelperPlugin extends Plugin
 		overlayManager.remove(farmingHelperOverlay);
 		overlayManager.remove(farmingTeleportOverlay);
 		overlayManager.remove(farmingHelperOverlayInfoBox);
-		int itemID = 4151; // Replace this with the ID of the item you want to highlight initially.
 		eventBus.unregister(this);
 	}
 }
