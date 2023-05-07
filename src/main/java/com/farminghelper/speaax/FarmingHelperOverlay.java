@@ -155,8 +155,8 @@ public class FarmingHelperOverlay extends Overlay {
         Map<Integer, Integer> runePouchContents = new HashMap<>();
 
         for (int i = 0; i < RUNE_POUCH_RUNE_VARBITS.size(); i++) {
-            int runeVarbitValue = client.getVar(RUNE_POUCH_RUNE_VARBITS.get(i));
-            int runeAmount = client.getVar(RUNE_POUCH_AMOUNT_VARBITS.get(i));
+            int runeVarbitValue = client.getVarbitValue(RUNE_POUCH_RUNE_VARBITS.get(i));
+            int runeAmount = client.getVarbitValue(RUNE_POUCH_AMOUNT_VARBITS.get(i));
 
             int runeId = getRuneItemIdFromVarbitValue(runeVarbitValue);
 
