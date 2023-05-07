@@ -2,7 +2,7 @@ package com.farminghelper.speaax;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.util.List;
+import java.util.*;
 import javax.inject.Inject;
 
 import net.runelite.api.*;
@@ -13,10 +13,7 @@ import net.runelite.client.ui.overlay.components.ImageComponent;
 import net.runelite.client.ui.overlay.components.PanelComponent;
 import java.awt.image.BufferedImage;
 import net.runelite.client.game.ItemManager;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.AbstractMap;
+
 import java.awt.Color;
 import com.farminghelper.speaax.ItemsAndLocations.HerbRunItemAndLocation;
 import com.farminghelper.speaax.ItemsAndLocations.TreeRunItemAndLocation;
@@ -86,6 +83,85 @@ public class FarmingHelperOverlay extends Overlay {
     private boolean isFruitTreeSapling(int itemId) {return FRUIT_TREE_SAPLING_IDS.contains(itemId);}
 
 
+    public static final List<Integer> RUNE_POUCH_ID = Arrays.asList(ItemID.RUNE_POUCH, ItemID.DIVINE_RUNE_POUCH);
+    public static final List<Integer> RUNE_POUCH_AMOUNT_VARBITS = Arrays.asList(Varbits.RUNE_POUCH_AMOUNT1, Varbits.RUNE_POUCH_AMOUNT2, Varbits.RUNE_POUCH_AMOUNT3, Varbits.RUNE_POUCH_AMOUNT4);
+
+    public static final List<Integer> RUNE_POUCH_RUNE_VARBITS = Arrays.asList(Varbits.RUNE_POUCH_RUNE1, Varbits.RUNE_POUCH_RUNE2, Varbits.RUNE_POUCH_RUNE3, Varbits.RUNE_POUCH_RUNE4);
+
+    private static final Map<Integer, List<Integer>> COMBINATION_RUNE_SUBRUNES_MAP = Map.of(
+            ItemID.DUST_RUNE, Arrays.asList(ItemID.AIR_RUNE, ItemID.EARTH_RUNE),
+            ItemID.MIST_RUNE, Arrays.asList(ItemID.AIR_RUNE, ItemID.WATER_RUNE),
+            ItemID.MUD_RUNE, Arrays.asList(ItemID.WATER_RUNE, ItemID.EARTH_RUNE),
+            ItemID.LAVA_RUNE, Arrays.asList(ItemID.FIRE_RUNE, ItemID.EARTH_RUNE),
+            ItemID.STEAM_RUNE, Arrays.asList(ItemID.FIRE_RUNE, ItemID.WATER_RUNE),
+            ItemID.SMOKE_RUNE, Arrays.asList(ItemID.FIRE_RUNE, ItemID.AIR_RUNE)
+    );
+
+    private int getRuneItemIdFromVarbitValue(int varbitValue) {
+        switch (varbitValue) {
+            case 1:
+                return ItemID.AIR_RUNE;
+            case 2:
+                return ItemID.WATER_RUNE;
+            case 3:
+                return ItemID.EARTH_RUNE;
+            case 4:
+                return ItemID.FIRE_RUNE;
+            case 5:
+                return ItemID.MIND_RUNE;
+            case 6:
+                return ItemID.CHAOS_RUNE;
+            case 7:
+                return ItemID.DEATH_RUNE;
+            case 8:
+                return ItemID.BLOOD_RUNE;
+            case 9:
+                return ItemID.COSMIC_RUNE;
+            case 10:
+                return ItemID.NATURE_RUNE;
+            case 11:
+                return ItemID.LAW_RUNE;
+            case 12:
+                return ItemID.BODY_RUNE;
+            case 13:
+                return ItemID.SOUL_RUNE;
+            case 14:
+                return ItemID.ASTRAL_RUNE;
+            case 15:
+                return ItemID.MIST_RUNE;
+            case 16:
+                return ItemID.MUD_RUNE;
+            case 17:
+                return ItemID.DUST_RUNE;
+            case 18:
+                return ItemID.LAVA_RUNE;
+            case 19:
+                return ItemID.STEAM_RUNE;
+            case 20:
+                return ItemID.SMOKE_RUNE;
+            case 21:
+                return ItemID.WRATH_RUNE;
+            // Add more cases for other runes
+            default:
+                return -1;
+        }
+    }
+
+    private Map<Integer, Integer> getRunePouchContentsVarbits() {
+        Map<Integer, Integer> runePouchContents = new HashMap<>();
+
+        for (int i = 0; i < RUNE_POUCH_RUNE_VARBITS.size(); i++) {
+            int runeVarbitValue = client.getVar(RUNE_POUCH_RUNE_VARBITS.get(i));
+            int runeAmount = client.getVar(RUNE_POUCH_AMOUNT_VARBITS.get(i));
+
+            int runeId = getRuneItemIdFromVarbitValue(runeVarbitValue);
+
+            if (runeId != -1 && runeAmount > 0) {
+                handleCombinationRunes(runeId, runeAmount, runePouchContents);
+            }
+        }
+        return runePouchContents;
+    }
 
     @Inject
     public FarmingHelperOverlay(Client client, FarmingHelperPlugin plugin, ItemManager itemManager, HerbRunItemAndLocation herbRunItemAndLocation, TreeRunItemAndLocation treeRunItemAndLocation, FruitTreeRunItemAndLocation fruitTreeRunItemAndLocation) {
@@ -99,6 +175,17 @@ public class FarmingHelperOverlay extends Overlay {
         setLayer(OverlayLayer.ABOVE_SCENE);
     }
 
+    private void handleCombinationRunes(int runeId, int runeAmount, Map<Integer, Integer> runePouchContents) {
+        if (COMBINATION_RUNE_SUBRUNES_MAP.containsKey(runeId)) {
+            List<Integer> subRunes = COMBINATION_RUNE_SUBRUNES_MAP.get(runeId);
+            for (int subRune : subRunes) {
+                runePouchContents.put(subRune, runePouchContents.getOrDefault(subRune, 0) + runeAmount);
+            }
+        } else {
+            runePouchContents.put(runeId, runeAmount);
+        }
+    }
+
     public Map<Integer, Integer> itemsToCheck;
     @Override
     public Dimension render(Graphics2D graphics) {
@@ -108,8 +195,6 @@ public class FarmingHelperOverlay extends Overlay {
             }
             plugin.addTextToInfoBox("Grab all the items needed");
             // List of items to check
-            //Map<Integer, Integer> itemsToCheck = plugin.getAllItemRequirements(plugin.locations);
-            //Map<Integer, Integer> itemsToCheck = herbRunItemAndLocation.getHerbItems();
             Map<Integer, Integer> itemsToCheck = null;
             if(plugin.getFarmingTeleportOverlay().herbRun) {
                 itemsToCheck = herbRunItemAndLocation.getHerbItems();
@@ -126,6 +211,7 @@ public class FarmingHelperOverlay extends Overlay {
             }
 
             ItemContainer inventory = client.getItemContainer(InventoryID.INVENTORY);
+            Map<Integer, Integer> runePouchContents = getRunePouchContentsVarbits();
 
             Item[] items;
             if (inventory == null || inventory.getItems() == null) {
@@ -141,8 +227,6 @@ public class FarmingHelperOverlay extends Overlay {
                     break;
                 }
             }
-
-
 
             int totalSeeds = 0;
             if(plugin.getFarmingTeleportOverlay().herbRun) {
@@ -233,6 +317,26 @@ public class FarmingHelperOverlay extends Overlay {
                 }
 
 
+                for (Item item: items) {
+                    if (item != null && RUNE_POUCH_ID.contains(item.getId())) {
+                        if (runePouchContents.containsKey(itemId)) {
+                            inventoryCount += runePouchContents.get(itemId);
+                        }
+                    }
+                }
+
+                for (Item item : items) {
+                    if (item != null) {
+                        int itemIdRune = item.getId();
+                        int itemQuantity = item.getQuantity();
+
+                        if (COMBINATION_RUNE_SUBRUNES_MAP.containsKey(itemIdRune)) {
+                            handleCombinationRunes(itemIdRune, itemQuantity, runePouchContents);
+                        }
+                    }
+                }
+
+
                 if (inventoryCount < count) {
                     allItemsCollected = false;
                     int missingCount = count - inventoryCount;
@@ -282,5 +386,4 @@ public class FarmingHelperOverlay extends Overlay {
         }
         return null;
     }
-
 }

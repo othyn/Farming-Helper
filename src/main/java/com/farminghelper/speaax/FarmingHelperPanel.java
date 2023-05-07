@@ -24,8 +24,7 @@ public class FarmingHelperPanel extends PluginPanel
     private JButton herbButton;
 	private JButton treeButton;
 	private JButton fruitTreeButton;
-
-    private JPanel itemsGridPanel;
+    private JLabel textLabel;
 
     public FarmingHelperPanel(FarmingHelperPlugin plugin, OverlayManager overlayManager, FarmingTeleportOverlay farmingTeleportOverlay, HerbRunItemAndLocation herbRunItemAndLocation, TreeRunItemAndLocation treeRunItemAndLocation, FruitTreeRunItemAndLocation fruitTreeRunItemAndLocation)
     {
@@ -51,12 +50,6 @@ public class FarmingHelperPanel extends PluginPanel
             public void actionPerformed(ActionEvent e) {
                 plugin.runOnClientThread(() -> {
                     Map<Integer, Integer> herbItems = herbRunItemAndLocation.getHerbItems();
-                    /*
-                    SwingUtilities.invokeLater(() -> {
-                        System.out.println(herbItems);
-                    });
-
-                     */
                     plugin.updateHerbOverlay(herbItems);
                     plugin.setOverlayActive(!plugin.isOverlayActive());
                     onHerbButtonClicked();
@@ -66,8 +59,17 @@ public class FarmingHelperPanel extends PluginPanel
 
         add(herbButton, c);
 
+        JLabel textLabel = new JLabel("Tree/Fruit Tree run is not recommended.");
+
+        c.gridx = 0;
+        c.gridy = 1;
+
+        add(textLabel, c);
+
+
 		c.gridx = 0;
-		c.gridy = 1;
+		c.gridy = 2;
+
 
 		treeButton = new JButton("Tree run");
         treeButton.setFocusable(false);
@@ -87,7 +89,7 @@ public class FarmingHelperPanel extends PluginPanel
 		add(treeButton, c);
 
 		c.gridx = 0;
-		c.gridy = 2;
+		c.gridy = 3;
 
 		
 		fruitTreeButton = new JButton("Fruit Tree run");

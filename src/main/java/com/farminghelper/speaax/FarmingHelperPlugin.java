@@ -29,7 +29,7 @@ import net.runelite.client.eventbus.EventBus;
 
 @PluginDescriptor(
 		name = "Farming Helper",
-		description = "Test run",
+		description = "Show item requirements and highlights for farming runs.",
 		enabledByDefault = false
 )
 

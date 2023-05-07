@@ -139,12 +139,10 @@ public class FarmingTeleportOverlay extends Overlay {
                     Widget widget = client.getWidget(groupId, childId);
                     if (widget != null) {
                         Rectangle bounds = widget.getBounds();
-                        // Set a brighter blue color and make it transparent
-                        //Color brightBlue = new Color(0, 191, 255, 128); // Transparent bright blue
                         graphics.setColor(leftClickColorWithAlpha);
 
                         // Set the composite for transparency
-                        AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
+                        AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.65f);
                         graphics.setComposite(alphaComposite);
 
                         // Draw a rectangle over the widget
@@ -152,6 +150,7 @@ public class FarmingTeleportOverlay extends Overlay {
 
                         // Reset the composite back to the original
                         graphics.setComposite(AlphaComposite.SrcOver);
+
                     }
                 }
                 return null;
@@ -197,20 +196,6 @@ public class FarmingTeleportOverlay extends Overlay {
                     //graphics.draw(bounds);
                     graphics.fill(bounds);
                 }
-            }
-        }
-    }
-
-
-    private void drawTile(Graphics2D graphics, Client client, WorldPoint worldPoint, Color color) {
-        LocalPoint localPoint = LocalPoint.fromWorld(client, worldPoint);
-        if (localPoint != null) {
-            Polygon tilePoly = Perspective.getCanvasTilePoly(client, localPoint);
-            if (tilePoly != null) {
-                graphics.setColor(color);
-                graphics.draw(tilePoly);
-                graphics.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha() / 5));
-                graphics.fill(tilePoly);
             }
         }
     }
@@ -456,7 +441,7 @@ public class FarmingTeleportOverlay extends Overlay {
         else {
             switch (plantState) {
                 case HARVESTABLE:
-                    plugin.addTextToInfoBox("Harvest Herbs (or plant one if patch is empty/herb died)");
+                    plugin.addTextToInfoBox("Harvest Herbs.");
                     highlightHerbPatches(graphics, leftClickColorWithAlpha);
                     break;
                 case PLANT:
@@ -582,7 +567,7 @@ public class FarmingTeleportOverlay extends Overlay {
                     highlightTreePatches(graphics, highlightUseItemWithAlpha);
                     break;
                 case REMOVE:
-                    plugin.addTextToInfoBox("Pay to remove tree, or cut it down and clear the patch. Dev note: add highlights for npc");
+                    plugin.addTextToInfoBox("Pay to remove tree, or cut it down and clear the patch.");
                     break;
                 case UNKNOWN:
                     plugin.addTextToInfoBox("UNKNOWN state: Try to do something with the tree patch to change its state.");
@@ -643,7 +628,7 @@ public class FarmingTeleportOverlay extends Overlay {
                     highlightFruitTreePatches(graphics, leftClickColorWithAlpha);
                     break;
                 case REMOVE:
-                    plugin.addTextToInfoBox("Pay to remove fruit tree, or cut it down and clear the patch. Dev note: add highlights to pay npc");
+                    plugin.addTextToInfoBox("Pay to remove fruit tree, or cut it down and clear the patch.");
                     break;
                 case UNKNOWN:
                     plugin.addTextToInfoBox("UNKNOWN state: Try to do something with the tree patch to change its state.");
@@ -688,51 +673,29 @@ public class FarmingTeleportOverlay extends Overlay {
         return foundObjectIds;
     }
 
-    public void equipmentHighlight(Graphics2D graphics, int itemID, Color color) {
-        Widget equipmentWidget = client.getWidget(WidgetID.EQUIPMENT_GROUP_ID, 62); // Use WidgetID instead of WidgetInfo
-
-        if (equipmentWidget != null) {
-            Widget[] children = equipmentWidget.getDynamicChildren();
-            if (children != null) {
-                for (Widget child : children) {
-                    if (child.getItemId() == itemID) {
-                        Rectangle bounds = child.getBounds();
-                        graphics.setColor(color);
-                        graphics.draw(bounds);
-                        graphics.fill(bounds);
-                    }
-                }
-            }
-        }
-    }
-
-
-    private int currentTeleportToHouseCase = 1;
 
     public void gettingToHouse(Graphics2D graphics) {
         FarmingHelperConfig.OptionEnumHouseTele teleportOption = config.enumConfigHouseTele();
         switch (teleportOption) {
             case Law_air_earth_runes:
+                /*
             case Law_dust_runes:
-                switch (currentTeleportToHouseCase) {
-                    case 1:
+                 */
+                InventoryTabChecker.TabState tabState;
+                tabState = InventoryTabChecker.checkTab(client, VarClientInt.INVENTORY_TAB);
+                switch (tabState) {
+                    case INVENTORY:
+                    case REST:
                         interfaceOverlay(161, 64).render(graphics);
-                        if (plugin.isClicked(161, 64)) {
-                            System.out.println("Spellbook clicked");
-                            currentTeleportToHouseCase = 2;
-                        }
                         break;
-                    case 2:
+                    case SPELLBOOK:
                         interfaceOverlay(218, 29).render(graphics);
                         if (plugin.isClicked(218, 29)) {
                             System.out.println("House teleport clicked");
-                            currentTeleportToHouseCase = 1;
                             currentTeleportCase = 2;
-
                         }
                         break;
                 }
-                break;
             case Teleport_To_House:
                 itemHighlight(graphics, ItemID.TELEPORT_TO_HOUSE, leftClickColorWithAlpha);
                 break;
@@ -766,7 +729,6 @@ public class FarmingTeleportOverlay extends Overlay {
         if (plugin.getFarmingTeleportOverlay().fruitTreeRun) {
             locationEnabledBool = plugin.getFruitTreeLocationEnabled(location.getName());
         }
-        //if (plugin.getHerbLocationEnabled(location.getName())) {
         if (locationEnabledBool) {
             if (!isAtDestination) {
                 int currentRegionId = client.getLocalPlayer().getWorldLocation().getRegionID();

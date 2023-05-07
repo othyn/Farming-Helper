@@ -19,7 +19,9 @@ public interface FarmingHelperConfig extends Config
 	enum OptionEnumHouseTele
 	{
 		Law_air_earth_runes,
+		/*
 		Law_dust_runes,
+		 */
 		Teleport_To_House,
 		Construction_cape,
 		Construction_cape_t,
@@ -35,7 +37,7 @@ public interface FarmingHelperConfig extends Config
 			description = "Desired way to teleport to house",
 			section = generalList
 	)
-	default OptionEnumHouseTele enumConfigHouseTele() { return OptionEnumHouseTele.Law_dust_runes; }
+	default OptionEnumHouseTele enumConfigHouseTele() { return OptionEnumHouseTele.Law_air_earth_runes; }
 	@ConfigItem(
 			position = 1,
 			keyName = "highlightLeftClickColor",
@@ -107,7 +109,7 @@ public interface FarmingHelperConfig extends Config
 	default boolean generalLimpwurt() { return false; }
 	@ConfigItem(
 			keyName = "booleanConfigAllotment",
-			name = "Allotment",
+			name = "Allotment (No code written yet)",
 			description = "Want to include Allotment in your farm run?",
 			position = 8,
 			section = generalList

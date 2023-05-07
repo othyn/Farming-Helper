@@ -50,10 +50,13 @@ public class HerbRunItemAndLocation {
                 itemRequirements.add(new ItemRequirement(ItemID.EARTH_RUNE, 1));
                 itemRequirements.add(new ItemRequirement(ItemID.LAW_RUNE, 1));
                 break;
+                /*
             case Law_dust_runes:
                 itemRequirements.add(new ItemRequirement(ItemID.DUST_RUNE, 1));
                 itemRequirements.add(new ItemRequirement(ItemID.LAW_RUNE, 1));
                 break;
+
+                 */
             case Teleport_To_House:
                 itemRequirements.add(new ItemRequirement(ItemID.TELEPORT_TO_HOUSE, 1));
                 break;
