@@ -78,26 +78,8 @@ public class FarmingTeleportOverlay extends Overlay {
 
     private int previousRegionId;
     public int inventoryTabValue = 0;
-    /*
-    @Subscribe
-    public void onGameTick(GameTick event) {
-        if (client.getGameState() == GameState.LOGGED_IN) {
-            int currentRegionId = client.getLocalPlayer().getWorldLocation().getRegionID();
-            if (previousRegionId == 0) {
-                previousRegionId = currentRegionId;
-            } else if (currentRegionId != previousRegionId) {
-                // The player has teleported
-                System.out.println("Previous Region ID: " + previousRegionId);
-                System.out.println("Current Region ID: " + currentRegionId);
-                // Update your plugin state or variables as needed
-                previousRegionId = currentRegionId;
-            }
-            inventoryTabValue = client.getVar(VarClientInt.INVENTORY_TAB);
-            System.out.println(inventoryTabValue);
-        }
-    }
 
-     */
+
 
     public boolean isItComposted(String message) {
         String regexCompost1 = "You treat the (herb patch|flower patch|tree patch|fruit tree patch) with (compost|supercompost|ultracompost)\\.";
@@ -109,17 +91,6 @@ public class FarmingTeleportOverlay extends Overlay {
 
         return matcherCompost.matches();
     }
-
-/*
-    public boolean isHerbPlanted(String message) {
-        String regex = "You plant (a guam|a marrentill|a tarromin|a harralander|a ranarr|a toadflax|an irit|an avantoe|a kwuarm|a snapdragon|a cadantine|a lantadyme|a dwarf weed|a torstol) seed in the herb patch\\.";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(message);
-
-        return matcher.matches();
-    }
-
- */
 
     @Inject
     public FarmingTeleportOverlay(FarmingHelperPlugin plugin, Client client, AreaCheck areaCheck) {

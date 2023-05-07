@@ -88,14 +88,18 @@ public class FarmingHelperOverlay extends Overlay {
 
     public static final List<Integer> RUNE_POUCH_RUNE_VARBITS = Arrays.asList(Varbits.RUNE_POUCH_RUNE1, Varbits.RUNE_POUCH_RUNE2, Varbits.RUNE_POUCH_RUNE3, Varbits.RUNE_POUCH_RUNE4);
 
-    private static final Map<Integer, List<Integer>> COMBINATION_RUNE_SUBRUNES_MAP = Map.of(
-            ItemID.DUST_RUNE, Arrays.asList(ItemID.AIR_RUNE, ItemID.EARTH_RUNE),
-            ItemID.MIST_RUNE, Arrays.asList(ItemID.AIR_RUNE, ItemID.WATER_RUNE),
-            ItemID.MUD_RUNE, Arrays.asList(ItemID.WATER_RUNE, ItemID.EARTH_RUNE),
-            ItemID.LAVA_RUNE, Arrays.asList(ItemID.FIRE_RUNE, ItemID.EARTH_RUNE),
-            ItemID.STEAM_RUNE, Arrays.asList(ItemID.FIRE_RUNE, ItemID.WATER_RUNE),
-            ItemID.SMOKE_RUNE, Arrays.asList(ItemID.FIRE_RUNE, ItemID.AIR_RUNE)
-    );
+    private static final Map<Integer, List<Integer>> COMBINATION_RUNE_SUBRUNES_MAP;
+
+    static {
+        Map<Integer, List<Integer>> tempMap = new HashMap<>();
+        tempMap.put(ItemID.DUST_RUNE, Arrays.asList(ItemID.AIR_RUNE, ItemID.EARTH_RUNE));
+        tempMap.put(ItemID.MIST_RUNE, Arrays.asList(ItemID.AIR_RUNE, ItemID.WATER_RUNE));
+        tempMap.put(ItemID.MUD_RUNE, Arrays.asList(ItemID.WATER_RUNE, ItemID.EARTH_RUNE));
+        tempMap.put(ItemID.LAVA_RUNE, Arrays.asList(ItemID.FIRE_RUNE, ItemID.EARTH_RUNE));
+        tempMap.put(ItemID.STEAM_RUNE, Arrays.asList(ItemID.FIRE_RUNE, ItemID.WATER_RUNE));
+        tempMap.put(ItemID.SMOKE_RUNE, Arrays.asList(ItemID.FIRE_RUNE, ItemID.AIR_RUNE));
+        COMBINATION_RUNE_SUBRUNES_MAP = Collections.unmodifiableMap(tempMap);
+    }
 
     private int getRuneItemIdFromVarbitValue(int varbitValue) {
         switch (varbitValue) {
