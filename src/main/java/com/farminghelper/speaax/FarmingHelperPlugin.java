@@ -28,7 +28,7 @@ import net.runelite.api.events.MenuOptionClicked;
 import net.runelite.client.eventbus.EventBus;
 
 @PluginDescriptor(
-		name = "Farming Helper",
+		name = "Lazy Farming",
 		description = "Show item requirements and highlights for farming runs.",
 		enabledByDefault = false
 )
@@ -342,7 +342,7 @@ public class FarmingHelperPlugin extends Plugin
 		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), "/com/farminghelper/speaax/icon.png");
 
 		navButton = NavigationButton.builder()
-				.tooltip("Farming Helper")
+				.tooltip("Lazy Farming")
 				.icon(icon)
 				.priority(6)
 				.panel(panel)
