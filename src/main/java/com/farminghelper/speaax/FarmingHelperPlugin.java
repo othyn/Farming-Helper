@@ -29,8 +29,7 @@ import net.runelite.client.eventbus.EventBus;
 
 @PluginDescriptor(
 		name = "Lazy Farming",
-		description = "Show item requirements and highlights for farming runs.",
-		enabledByDefault = false
+		description = "Show item requirements and highlights for farming runs."
 )
 
 public class FarmingHelperPlugin extends Plugin
