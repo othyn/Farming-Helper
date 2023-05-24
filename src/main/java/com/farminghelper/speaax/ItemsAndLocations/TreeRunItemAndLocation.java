@@ -118,7 +118,7 @@ public class TreeRunItemAndLocation {
         Location.Teleport faladorTreeTeleport = faladorTreeLocation.new Teleport(
                 "Falador_teleport",
                 Location.TeleportCategory.SPELLBOOK,
-                "Teleport to Falador with Spellbook.",
+                "Teleport to Falador with Spellbook and run to Falador park.",
                 0,
                 "null",
                 218,
@@ -193,7 +193,7 @@ public class TreeRunItemAndLocation {
         Location.Teleport taverleyTreeTeleport = taverleyTreeLocation.new Teleport(
                 "Falador_teleport",
                 Location.TeleportCategory.SPELLBOOK,
-                "Teleport to Falador with spellbook.",
+                "Teleport to Falador with spellbook and run to Taverly.",
                 0,
                 "null",
                 218,

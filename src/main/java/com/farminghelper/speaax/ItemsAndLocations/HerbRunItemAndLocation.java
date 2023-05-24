@@ -84,6 +84,9 @@ public class HerbRunItemAndLocation {
             if (plugin.getHerbLocationEnabled(location.getName())) {
                 //ItemID.GUAM_SEED is default for herb seeds, code later will allow for any seed to be used, just needed a placeholder ID
                 allRequirements.merge(ItemID.GUAM_SEED, 1, Integer::sum);
+                if (selectedCompostID() != -1 && selectedCompostID() != ItemID.BOTTOMLESS_COMPOST_BUCKET_22997) {
+                    allRequirements.merge(selectedCompostID(), 1, Integer::sum);
+                }
                 Location.Teleport teleport = location.getSelectedTeleport();
                 Map<Integer, Integer> locationRequirements = teleport.getItemRequirements();
                 for (Map.Entry<Integer, Integer> entry : locationRequirements.entrySet()) {
@@ -98,20 +101,38 @@ public class HerbRunItemAndLocation {
                 }
                 if(location.getFarmLimps() && config.generalLimpwurt()) {
                     allRequirements.merge(ItemID.LIMPWURT_SEED, 1, Integer::sum);
+                    if (selectedCompostID() != -1 && selectedCompostID() != ItemID.BOTTOMLESS_COMPOST_BUCKET_22997) {
+                        allRequirements.merge(selectedCompostID(), 1, Integer::sum);
+                    }
                 }
             }
         }
         allRequirements.merge(ItemID.SEED_DIBBER, 1, Integer::sum);
         allRequirements.merge(ItemID.SPADE, 1, Integer::sum);
-        allRequirements.merge(ItemID.BOTTOMLESS_COMPOST_BUCKET_22997, 1, Integer::sum);
+        if (selectedCompostID() == ItemID.BOTTOMLESS_COMPOST_BUCKET_22997) {
+            allRequirements.merge(ItemID.BOTTOMLESS_COMPOST_BUCKET_22997, 1, Integer::sum);
+        }
         allRequirements.merge(ItemID.MAGIC_SECATEURS, 1, Integer::sum);
         if(config.generalRake()){allRequirements.merge(ItemID.RAKE, 1, Integer::sum);}
         return allRequirements;
     }
+    public Integer selectedCompostID() {
+        FarmingHelperConfig.OptionEnumCompost selectedCompost = config.enumConfigCompost();
+        switch (selectedCompost) {
+            case Compost:
+                return ItemID.COMPOST;
+            case Supercompost:
+                return ItemID.SUPERCOMPOST;
+            case Ultracompost:
+                return ItemID.ULTRACOMPOST;
+            case Bottomless:
+                return ItemID.BOTTOMLESS_COMPOST_BUCKET_22997;
+        }
+        return -1;
+    }
     public void setupHerbLocations() {
         // Clear the existing locations list
         locations.clear();
-
         WorldPoint ardoiugneHerbPatchPoint = new WorldPoint(2670, 3374, 0);
         ardougneLocation = new Location(FarmingHelperConfig::enumOptionEnumArdougneTeleport, config, "Ardougne", true);
         List<ItemRequirement> ardougneArdyCloak2Item = Arrays.asList(

@@ -108,6 +108,17 @@ public class FarmingHelperPanel extends PluginPanel
         });
 
         add(fruitTreeButton, c);
+
+        JTextArea textAreaTip = new JTextArea("Tips: \n - Rune pouch and combination runes work. \n - If you don't have Bottomless compost bucket you should store compost @ Tool Leprechaun, the plugin checks if you have compost stored there.");
+        textAreaTip.setWrapStyleWord(true);
+        textAreaTip.setLineWrap(true);
+        textAreaTip.setEditable(false);
+
+
+        c.gridx = 0;
+        c.gridy = 6;
+
+        add(textAreaTip, c);
     }
 
     private void onHerbButtonClicked() {

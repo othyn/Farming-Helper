@@ -189,6 +189,23 @@ public class FarmingHelperOverlay extends Overlay {
             runePouchContents.put(runeId, runeAmount);
         }
     }
+    public Integer checkToolLep(Integer item) {
+        if(item == ItemID.COMPOST) {
+            return client.getVarbitValue(1442);
+        }
+        if(item == ItemID.SUPERCOMPOST) {
+            return client.getVarbitValue(1443);
+        }
+        if (item == ItemID.ULTRACOMPOST) {
+            return client.getVarbitValue(5732);
+        }
+        if (item == ItemID.BOTTOMLESS_COMPOST_BUCKET_22997) {
+            if (client.getVarbitValue(7915) != 0) {
+                return 1;
+            }
+        }
+        return 0;
+    }
 
     public Map<Integer, Integer> itemsToCheck;
     @Override
@@ -276,6 +293,11 @@ public class FarmingHelperOverlay extends Overlay {
                             }
                         }
                     }
+                }
+                // Check if the item is stored at the Tool Lep NPC
+                int toolLepCount = checkToolLep(itemId);
+                if (toolLepCount > 0) {
+                    inventoryCount += toolLepCount;
                 }
                 if(plugin.getFarmingTeleportOverlay().treeRun) {
                     if (itemId == BASE_SAPLING_ID) {

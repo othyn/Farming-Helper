@@ -118,7 +118,7 @@ public class FruitTreeRunItemAndLocation {
         Location.Teleport brimhavenFruitTreeTeleport = brimhavenFruitTreeLocation.new Teleport(
                 "Ardougne_teleport",
                 Location.TeleportCategory.SPELLBOOK,
-                "Teleport to Ardougne with Spellbook.",
+                "Teleport to Ardougne with Spellbook and run to Brimhaven.",
                 0,
                 "null",
                 218,
@@ -206,7 +206,7 @@ public class FruitTreeRunItemAndLocation {
         Location.Teleport treeGnomeVillageFruitTreeTeleport = treeGnomeVillageFruitTreeLocation.new Teleport(
                 "Royal_seed_pod",
                 Location.TeleportCategory.ITEM,
-                "Teleport to Tree Gnome Village with Royal seed pod.",
+                "Teleport to Tree Gnome Village with Royal seed pod and use Spirit tree to Tree Gnome Village.",
                 ItemID.ROYAL_SEED_POD,
                 "null",
                 0,

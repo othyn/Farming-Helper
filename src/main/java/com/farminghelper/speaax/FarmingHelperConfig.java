@@ -19,9 +19,6 @@ public interface FarmingHelperConfig extends Config
 	enum OptionEnumHouseTele
 	{
 		Law_air_earth_runes,
-		/*
-		Law_dust_runes,
-		 */
 		Teleport_To_House,
 		Construction_cape,
 		Construction_cape_t,
@@ -73,12 +70,9 @@ public interface FarmingHelperConfig extends Config
 
 	enum OptionEnumCompost
 	{
-		/*
 		Compost,
 		Supercompost,
 		Ultracompost,
-
-		 */
 		Bottomless
 	}
 	@ConfigItem(
@@ -384,8 +378,7 @@ public interface FarmingHelperConfig extends Config
 
 	enum OptionEnumFarmingGuildTeleport implements OptionEnumTeleport
 	{
-		Jewellery_box,
-		Skills_Necklace
+		Jewellery_box
 	}
 	@ConfigItem(
 			position = 5,
@@ -394,11 +387,11 @@ public interface FarmingHelperConfig extends Config
 			description = "Desired way to teleport to Farming Guild",
 			section = teleportOptionList
 	)
-	default OptionEnumFarmingGuildTeleport enumOptionEnumFarmingGuildTeleport() { return OptionEnumFarmingGuildTeleport.Skills_Necklace; }
+	default OptionEnumFarmingGuildTeleport enumOptionEnumFarmingGuildTeleport() { return OptionEnumFarmingGuildTeleport.Jewellery_box; }
 
 	enum OptionEnumHarmonyTeleport implements OptionEnumTeleport
 	{
-		Portal_Nexus,
+		Portal_Nexus
 	}
 	@ConfigItem(
 			position = 6,
