@@ -21,7 +21,7 @@ public class HerbPatchChecker {
         KWUARM(Arrays.asList(68,69,70,71), Arrays.asList(152,153,154), Arrays.asList(72,73,74)),
         SNAPDRAGON(Arrays.asList(75,76,77,78), Arrays.asList(155,156,157), Arrays.asList(79,80,81)),
         CADANTINE(Arrays.asList(82,83,84,85), Arrays.asList(158,159,160), Arrays.asList(86,87,88)),
-        LANTADYME(Arrays.asList(98,90,91,92), Arrays.asList(161,162,163), Arrays.asList(93,94,95)),
+        LANTADYME(Arrays.asList(89,90,91,92), Arrays.asList(161,162,163), Arrays.asList(93,94,95)),
         DWARF_WEED(Arrays.asList(96,97,98,99), Arrays.asList(164,165,166), Arrays.asList(100,101,102)),
         TORSTOL(Arrays.asList(103,104,105,106), Arrays.asList(167,168,169), Arrays.asList(107,108,109));
 
