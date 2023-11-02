@@ -399,6 +399,13 @@ public class FarmingTeleportOverlay extends Overlay {
         }
     }
 
+    public void highlightSkillsNecklace(Graphics2D graphics, Color color) {
+        List<Integer> skillsNecklaceIds = farmingHelperOverlay.getSkillsNecklaceIdsIds();
+        for (Integer seedId : skillsNecklaceIds) {
+            itemHighlight(graphics, seedId, color);
+        }
+    }
+
     public Integer selectedCompostID() {
         FarmingHelperConfig.OptionEnumCompost selectedCompost = config.enumConfigCompost();
         switch (selectedCompost) {
@@ -850,6 +857,22 @@ public class FarmingTeleportOverlay extends Overlay {
                                 if(teleport.getId() == ItemID.TELEPORT_CRYSTAL_1) {
                                     highlightTeleportCrystal(graphics, leftClickColorWithAlpha);
                                 }
+                                if(teleport.getId() == ItemID.SKILLS_NECKLACE1) {
+                                    String index = location.getName();
+                                    if(Objects.equals(index, "Ardougne")) {
+                                        highlightSkillsNecklace(graphics, leftClickColorWithAlpha);
+                                        highlightRightClickOption(graphics, "Rub");
+                                        Widget widget = client.getWidget(187, 3);
+                                        highlightDynamicComponent(graphics, widget, 0, leftClickColorWithAlpha);
+                                    }
+                                    if(Objects.equals(index, "Farming Guild")) {
+                                        highlightSkillsNecklace(graphics, leftClickColorWithAlpha);
+                                        highlightRightClickOption(graphics, "Rub");
+                                        Widget widget = client.getWidget(187, 3);
+                                        highlightDynamicComponent(graphics, widget, 5, leftClickColorWithAlpha);
+                                    }
+                                }
+
                                 else {
                                     itemHighlight(graphics, teleport.getId(), leftClickColorWithAlpha);
                                 }
@@ -1082,7 +1105,6 @@ public class FarmingTeleportOverlay extends Overlay {
     public Boolean treeRun = false;
 
     public Boolean fruitTreeRun = false;
-
 
     @Override
     public Dimension render(Graphics2D graphics) {

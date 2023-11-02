@@ -39,6 +39,15 @@ public class FarmingHelperOverlay extends Overlay {
         return TELEPORT_CRYSTAL_IDS.contains(itemId);
     }
 
+    public static final List<Integer> SKILLS_NECKLACE_IDS = Arrays.asList(ItemID.SKILLS_NECKLACE1, ItemID.SKILLS_NECKLACE2, ItemID.SKILLS_NECKLACE3, ItemID.SKILLS_NECKLACE4, ItemID.SKILLS_NECKLACE5, ItemID.SKILLS_NECKLACE6);
+    private static final int BASE_SKILLS_NECKLACE_ID = ItemID.SKILLS_NECKLACE1;
+    public List<Integer> getSkillsNecklaceIdsIds() {
+        return SKILLS_NECKLACE_IDS;
+    }
+    private boolean isSkillsNecklace(int itemId) {
+        return SKILLS_NECKLACE_IDS.contains(itemId);
+    }
+
 
     public static final List<Integer> HERB_PATCH_IDS = Arrays.asList(33176, 27115, 8152, 8150, 8153, 18816, 8151, 9372, 33979 );
     public List<Integer> getHerbPatchIds() {
@@ -248,6 +257,13 @@ public class FarmingHelperOverlay extends Overlay {
                     break;
                 }
             }
+            int skillsNecklaceCount = 0;
+            for (Item item : items) {
+                if (isSkillsNecklace(item.getId())) {
+                    skillsNecklaceCount += item.getQuantity();
+                    break;
+                }
+            }
 
             int totalSeeds = 0;
             if(plugin.getFarmingTeleportOverlay().herbRun) {
@@ -326,6 +342,17 @@ public class FarmingHelperOverlay extends Overlay {
 
                 if (itemId == BASE_TELEPORT_CRYSTAL_ID) {
                     inventoryCount = teleportCrystalCount;
+                } else {
+                    for (Item item : items) {
+                        if (item != null && item.getId() == itemId) {
+                            inventoryCount = item.getQuantity();
+                            break;
+                        }
+                    }
+                }
+
+                if (itemId == BASE_SKILLS_NECKLACE_ID) {
+                    inventoryCount = skillsNecklaceCount;
                 } else {
                     for (Item item : items) {
                         if (item != null && item.getId() == itemId) {

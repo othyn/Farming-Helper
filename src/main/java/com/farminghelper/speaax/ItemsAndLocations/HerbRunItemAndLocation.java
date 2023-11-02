@@ -133,8 +133,39 @@ public class HerbRunItemAndLocation {
     public void setupHerbLocations() {
         // Clear the existing locations list
         locations.clear();
-        WorldPoint ardoiugneHerbPatchPoint = new WorldPoint(2670, 3374, 0);
+        WorldPoint ardougneHerbPatchPoint = new WorldPoint(2670, 3374, 0);
         ardougneLocation = new Location(FarmingHelperConfig::enumOptionEnumArdougneTeleport, config, "Ardougne", true);
+
+        List<ItemRequirement> ardougneTeleportItem = Arrays.asList(
+                new ItemRequirement(ItemID.LAW_RUNE, 2),
+                new ItemRequirement(ItemID.WATER_RUNE, 2));
+        Location.Teleport ardougneTeleport = ardougneLocation.new Teleport(
+                "Ardougne_teleport",
+                Location.TeleportCategory.SPELLBOOK,
+                "Teleport to Ardougne with standard spellbook, and run north.",
+                0,
+                "null",
+                218,
+                38,
+                10547,
+                ardougneHerbPatchPoint,
+                ardougneTeleportItem
+        );
+        List<ItemRequirement> ardougneTeleTabItem = Arrays.asList(
+                new ItemRequirement(ItemID.ARDOUGNE_TELEPORT, 1));
+        Location.Teleport ardougneTeleTab = ardougneLocation.new Teleport(
+                "Ardougne_Tele_Tab",
+                Location.TeleportCategory.ITEM,
+                "Teleport to Ardougne with Ardougne tele tab, and run north.",
+                ItemID.ARDOUGNE_TELEPORT,
+                "null",
+                0,
+                0,
+                10547,
+                ardougneHerbPatchPoint,
+                ardougneTeleTabItem
+        );
+
         List<ItemRequirement> ardougneArdyCloak2Item = Arrays.asList(
                 new ItemRequirement(ItemID.ARDOUGNE_CLOAK_2, 1));
         Location.Teleport ardougneArdyCloak2 = ardougneLocation.new Teleport(
@@ -146,7 +177,7 @@ public class HerbRunItemAndLocation {
                 0,
                 0,
                 10548,
-                ardoiugneHerbPatchPoint,
+                ardougneHerbPatchPoint,
                 ardougneArdyCloak2Item
         );
         List<ItemRequirement> ardougneArdyCloak3Item = Arrays.asList(
@@ -160,7 +191,7 @@ public class HerbRunItemAndLocation {
                 0,
                 0,
                 10548,
-                ardoiugneHerbPatchPoint,
+                ardougneHerbPatchPoint,
                 ardougneArdyCloak3Item
         );
         List<ItemRequirement> ardougneArdyCloak4Item = Arrays.asList(
@@ -175,12 +206,31 @@ public class HerbRunItemAndLocation {
                 0,
                 0,
                 10548,
-                ardoiugneHerbPatchPoint,
+                ardougneHerbPatchPoint,
                 ardougneArdyCloak4Item
         );
+
+        List<ItemRequirement> ardougneSkillsNecklaceItem = Arrays.asList(
+                new ItemRequirement(ItemID.SKILLS_NECKLACE1, 1)
+        );
+        Location.Teleport ardougneSkillsNecklace = ardougneLocation.new Teleport(
+                "Skills_Necklace",
+                Location.TeleportCategory.ITEM,
+                "Teleport to Fishing guild with Skills necklace, and run east.",
+                ItemID.SKILLS_NECKLACE1,
+                "null",
+                0,
+                0,
+                10292,
+                ardougneHerbPatchPoint,
+                ardougneSkillsNecklaceItem
+        );
+        ardougneLocation.addTeleportOption(ardougneTeleport);
+        ardougneLocation.addTeleportOption(ardougneTeleTab);
         ardougneLocation.addTeleportOption(ardougneArdyCloak2);
         ardougneLocation.addTeleportOption(ardougneArdyCloak3);
         ardougneLocation.addTeleportOption(ardougneArdyCloak4);
+        ardougneLocation.addTeleportOption(ardougneSkillsNecklace);
         locations.add(ardougneLocation);
 
         WorldPoint catherbyHerbPatchPoint = new WorldPoint(2813, 3463, 0);
@@ -198,7 +248,60 @@ public class HerbRunItemAndLocation {
                 catherbyHerbPatchPoint,
                 catherbyPortalNexusItems
         );
+
+        List<ItemRequirement> catherbyCamelotTeleportItems = Arrays.asList(
+                new ItemRequirement(ItemID.AIR_RUNE, 5),
+                new ItemRequirement(ItemID.LAW_RUNE, 1)
+        );
+        Location.Teleport catherbyCamelotTeleport = catherbyLocation.new Teleport(
+                "Camelot_Teleport",
+                Location.TeleportCategory.SPELLBOOK,
+                "Teleport to Camelot using the standard spellbook, and run east.(If you have configured the teleport to seers you need to right click and teleport to Camelot)",
+                0,
+                "null",
+                218,
+                32,
+                11062,
+                catherbyHerbPatchPoint,
+                catherbyCamelotTeleportItems
+        );
+
+        List<ItemRequirement> catherbyCamelotTeleTabItems = Arrays.asList(
+                new ItemRequirement(ItemID.CAMELOT_TELEPORT, 1)
+        );
+        Location.Teleport catherbyCamelotTeleTab = catherbyLocation.new Teleport(
+                "Camelot_Tele_Tab",
+                Location.TeleportCategory.ITEM,
+                "Teleport to Camelot using a Camelot tele tab, and run east.(If you have configured the teleport to seers you need to right click and teleport to Camelot)",
+                ItemID.CAMELOT_TELEPORT,
+                "null",
+                0,
+                0,
+                11062,
+                catherbyHerbPatchPoint,
+                catherbyCamelotTeleTabItems
+        );
+
+        List<ItemRequirement> catherbyTeleTabItems = Arrays.asList(
+                new ItemRequirement(ItemID.CATHERBY_TELEPORT, 1)
+        );
+        Location.Teleport catherbyTeleTab = catherbyLocation.new Teleport(
+                "Catherby_Tele_Tab",
+                Location.TeleportCategory.ITEM,
+                "Teleport to Catherby using Catherby teleport tab.",
+                ItemID.CATHERBY_TELEPORT,
+                "null",
+                0,
+                0,
+                11061,
+                catherbyHerbPatchPoint,
+                catherbyTeleTabItems
+        );
+
         catherbyLocation.addTeleportOption(catherbyPortalNexus);
+        catherbyLocation.addTeleportOption(catherbyCamelotTeleport);
+        catherbyLocation.addTeleportOption(catherbyCamelotTeleTab);
+        catherbyLocation.addTeleportOption(catherbyTeleTab);
         locations.add(catherbyLocation);
 
         WorldPoint faladorHerbPatchPoint = new WorldPoint(3058, 3307, 0);
@@ -245,9 +348,56 @@ public class HerbRunItemAndLocation {
                 faladorHerbPatchPoint,
                 faladorExplorersRing4Item);
 
+        List<ItemRequirement> faladorTeleportItem = Arrays.asList(
+                new ItemRequirement(ItemID.AIR_RUNE, 3),
+                new ItemRequirement(ItemID.LAW_RUNE, 1),
+                new ItemRequirement(ItemID.WATER_RUNE, 1));
+        Location.Teleport faladorTeleport = faladorLocation.new Teleport(
+                "Falador_Teleport",
+                Location.TeleportCategory.SPELLBOOK,
+                "Teleport to Falador with standard spellbook, and run south-east.",
+                0,
+                "null",
+                218,
+                27,
+                11828,
+                faladorHerbPatchPoint,
+                faladorTeleportItem);
+
+        List<ItemRequirement> faladorTeleTabItem = Arrays.asList(
+                new ItemRequirement(ItemID.FALADOR_TELEPORT, 1));
+        Location.Teleport faladorTeleTab = faladorLocation.new Teleport(
+                "Falador_Tele_Tab",
+                Location.TeleportCategory.ITEM,
+                "Teleport to Falador with Falador Tele Tab, and run south-east.",
+                ItemID.FALADOR_TELEPORT,
+                "null",
+                0,
+                0,
+                11828,
+                faladorHerbPatchPoint,
+                faladorTeleTabItem);
+
+        List<ItemRequirement> faladorDraynorManorTeleTabItem = Arrays.asList(
+                new ItemRequirement(ItemID.DRAYNOR_MANOR_TELEPORT, 1));
+        Location.Teleport faladorDraynorManorTeleTab = faladorLocation.new Teleport(
+                "Draynor_Tele_Tab",
+                Location.TeleportCategory.ITEM,
+                "Teleport to Draynor Manor with Draynor Manor Tele Tab, and run south-west.",
+                ItemID.DRAYNOR_MANOR_TELEPORT,
+                "null",
+                0,
+                0,
+                12340,
+                faladorHerbPatchPoint,
+                faladorDraynorManorTeleTabItem);
+
         faladorLocation.addTeleportOption(faladorExplorersRing2);
         faladorLocation.addTeleportOption(faladorExplorersRing3);
         faladorLocation.addTeleportOption(faladorExplorersRing4);
+        faladorLocation.addTeleportOption(faladorTeleport);
+        faladorLocation.addTeleportOption(faladorTeleTab);
+        faladorLocation.addTeleportOption(faladorDraynorManorTeleTab);
         locations.add(faladorLocation);
 
         WorldPoint farmingGuildHerbPatchPoint = new WorldPoint(1238, 3726, 0);
@@ -265,7 +415,23 @@ public class HerbRunItemAndLocation {
                 farmingGuildHerbPatchPoint,
                 farmingGuildJewelleryBoxItems
         );
+
+        List<ItemRequirement> farmingGuildSkillsNecklaceItems = Arrays.asList(
+                new ItemRequirement(ItemID.SKILLS_NECKLACE1, 1));
+        Location.Teleport farmingGuildSkillsNecklace = farmingGuildLocation.new Teleport(
+                "Skills_Necklace",
+                Location.TeleportCategory.ITEM,
+                "Teleport to Farming guild using Skills necklace.",
+                ItemID.SKILLS_NECKLACE1,
+                "null",
+                0,
+                0,
+                4922,
+                farmingGuildHerbPatchPoint,
+                farmingGuildSkillsNecklaceItems
+        );
         farmingGuildLocation.addTeleportOption(farmingGuildJewelleryBox);
+        farmingGuildLocation.addTeleportOption(farmingGuildSkillsNecklace);
         locations.add(farmingGuildLocation);
 
         WorldPoint harmonyHerbPatchPoint = new WorldPoint(3789, 2837, 0);
@@ -283,6 +449,23 @@ public class HerbRunItemAndLocation {
                 harmonyHerbPatchPoint,
                 harmonyPortalNexusItems);
         harmonyLocation.addTeleportOption(harmonyPortalNexus);
+        locations.add(harmonyLocation);
+
+        List<ItemRequirement> harmonyTeleTabItems = Arrays.asList(
+                new ItemRequirement(ItemID.HARMONY_ISLAND_TELEPORT, 1));
+        Location.Teleport harmonyTeleTab = harmonyLocation.new Teleport(
+                "Harmony_Tele_Tab",
+                Location.TeleportCategory.ITEM,
+                "Teleport to Harmony with Harmony Tele Tab.",
+                ItemID.HARMONY_ISLAND_TELEPORT,
+                "null",
+                0,
+                0,
+                15148,
+                harmonyHerbPatchPoint,
+                harmonyTeleTabItems);
+        harmonyLocation.addTeleportOption(harmonyPortalNexus);
+        harmonyLocation.addTeleportOption(harmonyTeleTab);
         locations.add(harmonyLocation);
 
         WorldPoint kourendHerbPatchPoint = new WorldPoint(1738, 3550, 0);
@@ -408,7 +591,4 @@ public class HerbRunItemAndLocation {
         locations.add(weissLocation);
 
     }
-
-
-
 }

@@ -336,9 +336,12 @@ public interface FarmingHelperConfig extends Config
 
 	enum OptionEnumArdougneTeleport implements OptionEnumTeleport
 	{
+		Ardougne_teleport,
+		Ardougne_tele_tab,
 		Ardy_cloak_2,
 		Ardy_cloak_3,
-		Ardy_cloak_4
+		Ardy_cloak_4,
+		Skills_Necklace
 	}
 	@ConfigItem(
 			position = 2,
@@ -350,7 +353,10 @@ public interface FarmingHelperConfig extends Config
 	default OptionEnumArdougneTeleport enumOptionEnumArdougneTeleport() { return OptionEnumArdougneTeleport.Ardy_cloak_3; }
 	enum OptionEnumCatherbyTeleport implements OptionEnumTeleport
 	{
-		Portal_Nexus
+		Portal_Nexus,
+		Camelot_Teleport,
+		Camelot_Tele_Tab,
+		Catherby_Tele_Tab
 	}
 	@ConfigItem(
 			position = 3,
@@ -365,7 +371,10 @@ public interface FarmingHelperConfig extends Config
 	{
 		Explorers_ring_2,
 		Explorers_ring_3,
-		Explorers_ring_4
+		Explorers_ring_4,
+		Falador_Teleport,
+		Falador_Tele_Tab,
+		Draynor_Tele_Tab
 	}
 	@ConfigItem(
 			position = 4,
@@ -378,7 +387,8 @@ public interface FarmingHelperConfig extends Config
 
 	enum OptionEnumFarmingGuildTeleport implements OptionEnumTeleport
 	{
-		Jewellery_box
+		Jewellery_box,
+		Skills_Necklace
 	}
 	@ConfigItem(
 			position = 5,
@@ -391,7 +401,8 @@ public interface FarmingHelperConfig extends Config
 
 	enum OptionEnumHarmonyTeleport implements OptionEnumTeleport
 	{
-		Portal_Nexus
+		Portal_Nexus,
+		Harmony_Tele_tab
 	}
 	@ConfigItem(
 			position = 6,
