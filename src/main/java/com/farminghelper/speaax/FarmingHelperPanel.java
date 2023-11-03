@@ -60,7 +60,7 @@ public class FarmingHelperPanel extends PluginPanel
         titlePanel.setBorder(new EmptyBorder(0, 0, 15, 0));
         titlePanel.setLayout(new BorderLayout());
 
-        JLabel title = new JLabel("Start a new run farm run:");
+        JLabel title = new JLabel("Pick a new run farm run:");
         titlePanel.add(title, BorderLayout.WEST);
 
         return titlePanel;
@@ -84,7 +84,7 @@ public class FarmingHelperPanel extends PluginPanel
 //        constraints.gridwidth = 1;
 //        constraints.ipady = 10;
 
-        herbButton = new JButton("Herb Run");
+        StartStopJButton herbButton = new StartStopJButton("Herb Run");
 		herbButton.setFocusable(false);
         herbButton.addActionListener(new ActionListener() {
             @Override
@@ -93,6 +93,9 @@ public class FarmingHelperPanel extends PluginPanel
                     Map<Integer, Integer> herbItems = herbRunItemAndLocation.getHerbItems();
                     plugin.updateHerbOverlay(herbItems);
                     plugin.setOverlayActive(!plugin.isOverlayActive());
+
+                    herbButton.setStartStopState(plugin.isOverlayActive());
+
                     onHerbButtonClicked();
                 });
             }
@@ -101,7 +104,7 @@ public class FarmingHelperPanel extends PluginPanel
 //        farmRunButtonsPanel.add(herbButton, constraints);
         farmRunButtonsPanel.add(herbButton);
 
-		treeButton = new JButton("Tree Run");
+        StartStopJButton treeButton = new StartStopJButton("Tree Run");
         treeButton.setFocusable(false);
         treeButton.addActionListener(new ActionListener()
         {
@@ -111,6 +114,9 @@ public class FarmingHelperPanel extends PluginPanel
                     Map<Integer, Integer> treeItems = treeRunItemAndLocation.getTreeItems();
                     plugin.updateTreeOverlay(treeItems);
                     plugin.setOverlayActive(!plugin.isOverlayActive());
+
+                    treeButton.setStartStopState(plugin.isOverlayActive());
+
                     onTreeButtonClicked();
                 });
             }
@@ -119,7 +125,7 @@ public class FarmingHelperPanel extends PluginPanel
 //        farmRunButtonsPanel.add(treeButton, constraints);
         farmRunButtonsPanel.add(treeButton);
 
-		fruitTreeButton = new JButton("Fruit Tree Run");
+        StartStopJButton fruitTreeButton = new StartStopJButton("Fruit Tree Run");
         fruitTreeButton.setFocusable(false);
         fruitTreeButton.addActionListener(new ActionListener()
         {
@@ -129,6 +135,9 @@ public class FarmingHelperPanel extends PluginPanel
                     Map<Integer, Integer> fruitTreeItems = fruitTreeRunItemAndLocation.getFruitTreeItems();
                     plugin.updateFruitTreeOverlay(fruitTreeItems);
                     plugin.setOverlayActive(!plugin.isOverlayActive());
+
+                    fruitTreeButton.setStartStopState(plugin.isOverlayActive());
+
                     onFruitTreeButtonClicked();
                 });
             }
