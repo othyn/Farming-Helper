@@ -17,17 +17,21 @@ public class ItemAndLocation {
 
     public List<Location> locations = new ArrayList<>();
 
-    public ItemAndLocation() {
+    public ItemAndLocation()
+    {
     }
 
-    public ItemAndLocation(FarmingHelperConfig config, Client client, FarmingHelperPlugin plugin) {
+    public ItemAndLocation(FarmingHelperConfig config, Client client, FarmingHelperPlugin plugin)
+    {
         this.config = config;
         this.client = client;
         this.plugin = plugin;
     }
 
-    public List<ItemRequirement> getHouseTeleportItemRequirements() {
+    public List<ItemRequirement> getHouseTeleportItemRequirements()
+    {
         FarmingHelperConfig.OptionEnumHouseTele selectedOption = config.enumConfigHouseTele();
+
         List<ItemRequirement> itemRequirements = new ArrayList<>();
 
         switch (selectedOption) {
@@ -65,20 +69,30 @@ public class ItemAndLocation {
         return itemRequirements;
     }
 
-    public Integer selectedCompostID() {
+    public Integer selectedCompostID()
+    {
         FarmingHelperConfig.OptionEnumCompost selectedCompost = config.enumConfigCompost();
 
         switch (selectedCompost) {
             case Compost:
                 return ItemID.COMPOST;
+
             case Supercompost:
                 return ItemID.SUPERCOMPOST;
+
             case Ultracompost:
                 return ItemID.ULTRACOMPOST;
+
             case Bottomless:
                 return ItemID.BOTTOMLESS_COMPOST_BUCKET_22997;
         }
 
         return -1;
+    }
+
+    public void setupLocations()
+    {
+        // Clear the existing locations list
+        locations.clear();
     }
 }

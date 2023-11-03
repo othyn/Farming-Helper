@@ -35,7 +35,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
     public Map<Integer, Integer> getAllItemRequirements(List<Location> locations) {
         Map<Integer, Integer> allRequirements = new HashMap<>();
 
-        setupHerbLocations();
+        setupLocations();
 
         // Add other items and merge them with allRequirements
         for (Location location : locations) {
@@ -87,15 +87,30 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
         return allRequirements;
     }
 
-    public void setupHerbLocations() {
-        // Clear the existing locations list
-        locations.clear();
+    public void setupLocations() {
+        super.setupLocations();
+
+        setupArdougneLocation();
+        setupCatherbyLocation();
+        setupFaladorLocation();
+        setupFarmingGuildLocation();
+        setupHarmonyLocation();
+        setupKourendLocation();
+        setupMorytaniaLocation();
+        setupTrollStrongholdLocation();
+        setupWeissLocation();
+    }
+
+    private void setupArdougneLocation()
+    {
         WorldPoint ardougneHerbPatchPoint = new WorldPoint(2670, 3374, 0);
+
         ardougneLocation = new Location(FarmingHelperConfig::enumOptionEnumArdougneTeleport, config, "Ardougne", true);
 
         List<ItemRequirement> ardougneTeleportItem = Arrays.asList(
                 new ItemRequirement(ItemID.LAW_RUNE, 2),
-                new ItemRequirement(ItemID.WATER_RUNE, 2));
+                new ItemRequirement(ItemID.WATER_RUNE, 2)
+        );
         Location.Teleport ardougneTeleport = ardougneLocation.new Teleport(
                 "Ardougne_teleport",
                 Location.TeleportCategory.SPELLBOOK,
@@ -108,8 +123,10 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
                 ardougneHerbPatchPoint,
                 ardougneTeleportItem
         );
+
         List<ItemRequirement> ardougneTeleTabItem = Arrays.asList(
-                new ItemRequirement(ItemID.ARDOUGNE_TELEPORT, 1));
+                new ItemRequirement(ItemID.ARDOUGNE_TELEPORT, 1)
+        );
         Location.Teleport ardougneTeleTab = ardougneLocation.new Teleport(
                 "Ardougne_Tele_Tab",
                 Location.TeleportCategory.ITEM,
@@ -124,7 +141,8 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
         );
 
         List<ItemRequirement> ardougneArdyCloak2Item = Arrays.asList(
-                new ItemRequirement(ItemID.ARDOUGNE_CLOAK_2, 1));
+                new ItemRequirement(ItemID.ARDOUGNE_CLOAK_2, 1)
+        );
         Location.Teleport ardougneArdyCloak2 = ardougneLocation.new Teleport(
                 "Ardy_Cloak_2",
                 Location.TeleportCategory.ITEM,
@@ -137,8 +155,10 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
                 ardougneHerbPatchPoint,
                 ardougneArdyCloak2Item
         );
+
         List<ItemRequirement> ardougneArdyCloak3Item = Arrays.asList(
-                new ItemRequirement(ItemID.ARDOUGNE_CLOAK_3, 1));
+                new ItemRequirement(ItemID.ARDOUGNE_CLOAK_3, 1)
+        );
         Location.Teleport ardougneArdyCloak3 = ardougneLocation.new Teleport(
                 "Ardy_Cloak_3",
                 Location.TeleportCategory.ITEM,
@@ -151,6 +171,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
                 ardougneHerbPatchPoint,
                 ardougneArdyCloak3Item
         );
+
         List<ItemRequirement> ardougneArdyCloak4Item = Arrays.asList(
                 new ItemRequirement(ItemID.ARDOUGNE_CLOAK_4, 1)
         );
@@ -182,16 +203,23 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
                 ardougneHerbPatchPoint,
                 ardougneSkillsNecklaceItem
         );
+
         ardougneLocation.addTeleportOption(ardougneTeleport);
         ardougneLocation.addTeleportOption(ardougneTeleTab);
         ardougneLocation.addTeleportOption(ardougneArdyCloak2);
         ardougneLocation.addTeleportOption(ardougneArdyCloak3);
         ardougneLocation.addTeleportOption(ardougneArdyCloak4);
         ardougneLocation.addTeleportOption(ardougneSkillsNecklace);
-        locations.add(ardougneLocation);
 
+        locations.add(ardougneLocation);
+    }
+
+    private void setupCatherbyLocation()
+    {
         WorldPoint catherbyHerbPatchPoint = new WorldPoint(2813, 3463, 0);
+
         catherbyLocation = new Location(FarmingHelperConfig::enumOptionEnumCatherbyTeleport, config, "Catherby", true);
+
         List<ItemRequirement> catherbyPortalNexusItems = getHouseTeleportItemRequirements();
         Location.Teleport catherbyPortalNexus = catherbyLocation.new Teleport(
                 "Portal_nexus",
@@ -259,12 +287,19 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
         catherbyLocation.addTeleportOption(catherbyCamelotTeleport);
         catherbyLocation.addTeleportOption(catherbyCamelotTeleTab);
         catherbyLocation.addTeleportOption(catherbyTeleTab);
-        locations.add(catherbyLocation);
 
+        locations.add(catherbyLocation);
+    }
+
+    private void setupFaladorLocation()
+    {
         WorldPoint faladorHerbPatchPoint = new WorldPoint(3058, 3307, 0);
+
         faladorLocation = new Location(FarmingHelperConfig::enumOptionEnumFaladorTeleport, config, "Falador", true);
+
         List<ItemRequirement> faladorExplorersRing2Item = Arrays.asList(
-                new ItemRequirement(ItemID.EXPLORERS_RING_2, 1));
+                new ItemRequirement(ItemID.EXPLORERS_RING_2, 1)
+        );
         Location.Teleport faladorExplorersRing2 = faladorLocation.new Teleport(
                 "Explorers_ring_2",
                 Location.TeleportCategory.ITEM,
@@ -275,10 +310,12 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
                 0,
                 12083,
                 faladorHerbPatchPoint,
-                faladorExplorersRing2Item);
+                faladorExplorersRing2Item
+        );
 
         List<ItemRequirement> faladorExplorersRing3Item = Arrays.asList(
-                new ItemRequirement(ItemID.EXPLORERS_RING_3, 1));
+                new ItemRequirement(ItemID.EXPLORERS_RING_3, 1)
+        );
         Location.Teleport faladorExplorersRing3 = faladorLocation.new Teleport(
                 "Explorers_ring_3",
                 Location.TeleportCategory.ITEM,
@@ -289,10 +326,12 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
                 0,
                 12083,
                 faladorHerbPatchPoint,
-                faladorExplorersRing3Item);
+                faladorExplorersRing3Item
+        );
 
         List<ItemRequirement> faladorExplorersRing4Item = Arrays.asList(
-                new ItemRequirement(ItemID.EXPLORERS_RING_4, 1));
+                new ItemRequirement(ItemID.EXPLORERS_RING_4, 1)
+        );
         Location.Teleport faladorExplorersRing4 = faladorLocation.new Teleport(
                 "Explorers_ring_4",
                 Location.TeleportCategory.ITEM,
@@ -303,12 +342,14 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
                 0,
                 12083,
                 faladorHerbPatchPoint,
-                faladorExplorersRing4Item);
+                faladorExplorersRing4Item
+        );
 
         List<ItemRequirement> faladorTeleportItem = Arrays.asList(
                 new ItemRequirement(ItemID.AIR_RUNE, 3),
                 new ItemRequirement(ItemID.LAW_RUNE, 1),
-                new ItemRequirement(ItemID.WATER_RUNE, 1));
+                new ItemRequirement(ItemID.WATER_RUNE, 1)
+        );
         Location.Teleport faladorTeleport = faladorLocation.new Teleport(
                 "Falador_Teleport",
                 Location.TeleportCategory.SPELLBOOK,
@@ -319,10 +360,12 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
                 27,
                 11828,
                 faladorHerbPatchPoint,
-                faladorTeleportItem);
+                faladorTeleportItem
+        );
 
         List<ItemRequirement> faladorTeleTabItem = Arrays.asList(
-                new ItemRequirement(ItemID.FALADOR_TELEPORT, 1));
+                new ItemRequirement(ItemID.FALADOR_TELEPORT, 1)
+        );
         Location.Teleport faladorTeleTab = faladorLocation.new Teleport(
                 "Falador_Tele_Tab",
                 Location.TeleportCategory.ITEM,
@@ -333,10 +376,12 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
                 0,
                 11828,
                 faladorHerbPatchPoint,
-                faladorTeleTabItem);
+                faladorTeleTabItem
+        );
 
         List<ItemRequirement> faladorDraynorManorTeleTabItem = Arrays.asList(
-                new ItemRequirement(ItemID.DRAYNOR_MANOR_TELEPORT, 1));
+                new ItemRequirement(ItemID.DRAYNOR_MANOR_TELEPORT, 1)
+        );
         Location.Teleport faladorDraynorManorTeleTab = faladorLocation.new Teleport(
                 "Draynor_Tele_Tab",
                 Location.TeleportCategory.ITEM,
@@ -347,7 +392,8 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
                 0,
                 12340,
                 faladorHerbPatchPoint,
-                faladorDraynorManorTeleTabItem);
+                faladorDraynorManorTeleTabItem
+        );
 
         faladorLocation.addTeleportOption(faladorExplorersRing2);
         faladorLocation.addTeleportOption(faladorExplorersRing3);
@@ -355,10 +401,16 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
         faladorLocation.addTeleportOption(faladorTeleport);
         faladorLocation.addTeleportOption(faladorTeleTab);
         faladorLocation.addTeleportOption(faladorDraynorManorTeleTab);
-        locations.add(faladorLocation);
 
+        locations.add(faladorLocation);
+    }
+
+    private void setupFarmingGuildLocation()
+    {
         WorldPoint farmingGuildHerbPatchPoint = new WorldPoint(1238, 3726, 0);
+
         farmingGuildLocation = new Location(FarmingHelperConfig::enumOptionEnumFarmingGuildTeleport, config, "Farming Guild", true);
+
         List<ItemRequirement> farmingGuildJewelleryBoxItems = getHouseTeleportItemRequirements();
         Location.Teleport farmingGuildJewelleryBox = farmingGuildLocation.new Teleport(
                 "Jewellery_box",
@@ -374,7 +426,8 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
         );
 
         List<ItemRequirement> farmingGuildSkillsNecklaceItems = Arrays.asList(
-                new ItemRequirement(ItemID.SKILLS_NECKLACE1, 1));
+                new ItemRequirement(ItemID.SKILLS_NECKLACE1, 1)
+        );
         Location.Teleport farmingGuildSkillsNecklace = farmingGuildLocation.new Teleport(
                 "Skills_Necklace",
                 Location.TeleportCategory.ITEM,
@@ -387,12 +440,19 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
                 farmingGuildHerbPatchPoint,
                 farmingGuildSkillsNecklaceItems
         );
+
         farmingGuildLocation.addTeleportOption(farmingGuildJewelleryBox);
         farmingGuildLocation.addTeleportOption(farmingGuildSkillsNecklace);
-        locations.add(farmingGuildLocation);
 
+        locations.add(farmingGuildLocation);
+    }
+
+    private void setupHarmonyLocation()
+    {
         WorldPoint harmonyHerbPatchPoint = new WorldPoint(3789, 2837, 0);
+
         harmonyLocation = new Location(FarmingHelperConfig::enumOptionEnumHarmonyTeleport, config, "Harmony Island", false);
+
         List<ItemRequirement> harmonyPortalNexusItems = getHouseTeleportItemRequirements();
         Location.Teleport harmonyPortalNexus = harmonyLocation.new Teleport(
                 "Portal_Nexus",
@@ -404,12 +464,12 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
                 13,
                 15148,
                 harmonyHerbPatchPoint,
-                harmonyPortalNexusItems);
-        harmonyLocation.addTeleportOption(harmonyPortalNexus);
-        locations.add(harmonyLocation);
+                harmonyPortalNexusItems
+        );
 
         List<ItemRequirement> harmonyTeleTabItems = Arrays.asList(
-                new ItemRequirement(ItemID.HARMONY_ISLAND_TELEPORT, 1));
+                new ItemRequirement(ItemID.HARMONY_ISLAND_TELEPORT, 1)
+        );
         Location.Teleport harmonyTeleTab = harmonyLocation.new Teleport(
                 "Harmony_Tele_Tab",
                 Location.TeleportCategory.ITEM,
@@ -420,13 +480,21 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
                 0,
                 15148,
                 harmonyHerbPatchPoint,
-                harmonyTeleTabItems);
+                harmonyTeleTabItems
+        );
+
         harmonyLocation.addTeleportOption(harmonyPortalNexus);
         harmonyLocation.addTeleportOption(harmonyTeleTab);
-        locations.add(harmonyLocation);
 
+        locations.add(harmonyLocation);
+    }
+
+    private void setupKourendLocation()
+    {
         WorldPoint kourendHerbPatchPoint = new WorldPoint(1738, 3550, 0);
+
         kourendLocation = new Location(FarmingHelperConfig::enumOptionEnumKourendTeleport, config, "Kourend", true);
+
         List<ItemRequirement> kourendXericsTalismanItems = Arrays.asList(
                 new ItemRequirement(ItemID.XERICS_TALISMAN, 1)
         );
@@ -442,6 +510,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
                 kourendHerbPatchPoint,
                 kourendXericsTalismanItems
         );
+
         List<ItemRequirement> kourendMountedXericsItems = getHouseTeleportItemRequirements();
         Location.Teleport kourendMountedXerics = kourendLocation.new Teleport(
                 "Mounted_Xerics",
@@ -455,12 +524,19 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
                 kourendHerbPatchPoint,
                 kourendMountedXericsItems
         );
+
         kourendLocation.addTeleportOption(kourendXericsTalisman);
         kourendLocation.addTeleportOption(kourendMountedXerics);
-        locations.add(kourendLocation);
 
+        locations.add(kourendLocation);
+    }
+
+    private void setupMorytaniaLocation()
+    {
         WorldPoint morytaniaHerbPatchPoint = new WorldPoint(3601, 3525, 0);
+
         morytaniaLocation = new Location(FarmingHelperConfig::enumOptionEnumMorytaniaTeleport, config, "Morytania", true);
+
         List<ItemRequirement> morytaniaEctophialItems = Arrays.asList(
                 new ItemRequirement(ItemID.ECTOPHIAL, 1)
         );
@@ -476,11 +552,18 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
                 morytaniaHerbPatchPoint,
                 morytaniaEctophialItems
         );
-        morytaniaLocation.addTeleportOption(morytaniaEctophial);
-        locations.add(morytaniaLocation);
 
+        morytaniaLocation.addTeleportOption(morytaniaEctophial);
+
+        locations.add(morytaniaLocation);
+    }
+
+    private void setupTrollStrongholdLocation()
+    {
         WorldPoint trollStrongholhHerbPatchPoint = new WorldPoint(2824, 3696, 0);
+
         trollStrongholdLocation = new Location(FarmingHelperConfig::enumOptionEnumTrollStrongholdTeleport, config, "Troll Stronghold", false);
+
         List<ItemRequirement> tsStonyBasaltItems = Arrays.asList(
                 new ItemRequirement(ItemID.STONY_BASALT, 1)
         );
@@ -496,6 +579,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
                 trollStrongholhHerbPatchPoint,
                 tsStonyBasaltItems
         );
+
         List<ItemRequirement> tsPortalNexusItems = getHouseTeleportItemRequirements();
         Location.Teleport tsPortalNexus = trollStrongholdLocation.new Teleport(
                 "Portal_Nexus",
@@ -509,12 +593,19 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
                 trollStrongholhHerbPatchPoint,
                 tsPortalNexusItems
         );
+
         trollStrongholdLocation.addTeleportOption(tsStonyBasalt);
         trollStrongholdLocation.addTeleportOption(tsPortalNexus);
-        locations.add(trollStrongholdLocation);
 
+        locations.add(trollStrongholdLocation);
+    }
+
+    private void setupWeissLocation()
+    {
         WorldPoint weissHerbPatchPoint = new WorldPoint(2847, 3931, 0);
+
         weissLocation = new Location(FarmingHelperConfig::enumOptionEnumWeissTeleport, config, "Weiss", false);
+
         List<ItemRequirement> weissIcyBasaltItems = Arrays.asList(
                 new ItemRequirement(ItemID.ICY_BASALT, 1)
         );
@@ -530,6 +621,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
                 weissHerbPatchPoint,
                 weissIcyBasaltItems
         );
+
         List<ItemRequirement> weissPortalNexusItems = getHouseTeleportItemRequirements();
         Location.Teleport weissPortalNexus = weissLocation.new Teleport(
                 "Portal_Nexus",
@@ -543,9 +635,10 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
                 weissHerbPatchPoint,
                 weissPortalNexusItems
         );
+
         weissLocation.addTeleportOption(weissIcyBasalt);
         weissLocation.addTeleportOption(weissPortalNexus);
-        locations.add(weissLocation);
 
+        locations.add(weissLocation);
     }
 }

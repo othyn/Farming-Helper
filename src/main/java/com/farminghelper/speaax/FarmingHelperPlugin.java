@@ -359,7 +359,7 @@ public class FarmingHelperPlugin extends Plugin
 		isOverlayActive = false;
 		eventBus.register(this);
 
-		herbRunItemAndLocation.setupHerbLocations();
+		herbRunItemAndLocation.setupLocations();
 
 	}
 
