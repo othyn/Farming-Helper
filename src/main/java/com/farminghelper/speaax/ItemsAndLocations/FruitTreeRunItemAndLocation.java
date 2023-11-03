@@ -10,12 +10,7 @@ import net.runelite.api.coords.WorldPoint;
 
 import java.util.*;
 
-public class FruitTreeRunItemAndLocation {
-    private FarmingHelperConfig config;
-
-    private Client client;
-    private FarmingHelperPlugin plugin;
-
+public class FruitTreeRunItemAndLocation extends ItemAndLocation {
     public Location brimhavenFruitTreeLocation;
     public Location catherbyFruitTreeLocation;
     public Location farmingGuildFruitTreeLocation;
@@ -23,60 +18,22 @@ public class FruitTreeRunItemAndLocation {
     public Location lletyaFruitTreeLocation;
     public Location treeGnomeVillageFruitTreeLocation;
 
-
-    public List<Location> locations = new ArrayList<>();
     public FruitTreeRunItemAndLocation() {
     }
 
     public FruitTreeRunItemAndLocation(FarmingHelperConfig config, Client client, FarmingHelperPlugin plugin) {
-        this.config = config;
-        this.client = client;
-        this.plugin = plugin;
+        super(config, client, plugin);
     }
 
     public Map<Integer, Integer> getFruitTreeItems() {
         return getAllItemRequirements(locations);
     }
 
-    public List<ItemRequirement> getHouseTeleportItemRequirements() {
-        FarmingHelperConfig.OptionEnumHouseTele selectedOption = config.enumConfigHouseTele();
-        List<ItemRequirement> itemRequirements = new ArrayList<>();
-
-        switch (selectedOption) {
-            case Law_air_earth_runes:
-                itemRequirements.add(new ItemRequirement(ItemID.AIR_RUNE, 1));
-                itemRequirements.add(new ItemRequirement(ItemID.EARTH_RUNE, 1));
-                itemRequirements.add(new ItemRequirement(ItemID.LAW_RUNE, 1));
-                break;
-                /*
-            case Law_dust_runes:
-                itemRequirements.add(new ItemRequirement(ItemID.DUST_RUNE, 1));
-                itemRequirements.add(new ItemRequirement(ItemID.LAW_RUNE, 1));
-                break;
-
-                 */
-            case Teleport_To_House:
-                itemRequirements.add(new ItemRequirement(ItemID.TELEPORT_TO_HOUSE, 1));
-                break;
-            case Construction_cape:
-                itemRequirements.add(new ItemRequirement(ItemID.CONSTRUCT_CAPE, 1));
-                break;
-            case Construction_cape_t:
-                itemRequirements.add(new ItemRequirement(ItemID.CONSTRUCT_CAPET, 1));
-                break;
-            case Max_cape:
-                itemRequirements.add(new ItemRequirement(ItemID.MAX_CAPE, 1));
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + selectedOption);
-        }
-
-        return itemRequirements;
-    }
-
     public Map<Integer, Integer> getAllItemRequirements(List<Location> locations) {
         Map<Integer, Integer> allRequirements = new HashMap<>();
+
         setupFruitTreeLocations();
+
         // Add other items and merge them with allRequirements
         for (Location location : locations) {
             if (plugin.getFruitTreeLocationEnabled(location.getName())) {
@@ -86,6 +43,7 @@ public class FruitTreeRunItemAndLocation {
                 allRequirements.merge(ItemID.COINS_995, 200, Integer::sum);
                 Location.Teleport teleport = location.getSelectedTeleport();
                 Map<Integer, Integer> locationRequirements = teleport.getItemRequirements();
+
                 for (Map.Entry<Integer, Integer> entry : locationRequirements.entrySet()) {
                     int itemId = entry.getKey();
                     int quantity = entry.getValue();
@@ -98,13 +56,19 @@ public class FruitTreeRunItemAndLocation {
                 }
             }
         }
+
         //allRequirements.merge(ItemID.SEED_DIBBER, 1, Integer::sum);
         allRequirements.merge(ItemID.SPADE, 1, Integer::sum);
         allRequirements.merge(ItemID.BOTTOMLESS_COMPOST_BUCKET_22997, 1, Integer::sum);
         allRequirements.merge(ItemID.MAGIC_SECATEURS, 1, Integer::sum);
-        if(config.generalRake()){allRequirements.merge(ItemID.RAKE, 1, Integer::sum);}
+
+        if (config.generalRake()) {
+            allRequirements.merge(ItemID.RAKE, 1, Integer::sum);
+        }
+
         return allRequirements;
     }
+
     public void setupFruitTreeLocations() {
         // Clear the existing locations list
         locations.clear();

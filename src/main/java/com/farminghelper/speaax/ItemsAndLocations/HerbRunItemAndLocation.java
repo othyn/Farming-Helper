@@ -10,12 +10,7 @@ import net.runelite.api.coords.WorldPoint;
 
 import java.util.*;
 
-public class HerbRunItemAndLocation {
-    private FarmingHelperConfig config;
-
-    private Client client;
-    private FarmingHelperPlugin plugin;
-
+public class HerbRunItemAndLocation extends ItemAndLocation {
     public Location ardougneLocation;
     public Location catherbyLocation;
     public Location faladorLocation;
@@ -26,69 +21,35 @@ public class HerbRunItemAndLocation {
     public Location trollStrongholdLocation;
     public Location weissLocation;
 
-    public List<Location> locations = new ArrayList<>();
     public HerbRunItemAndLocation() {
     }
 
     public HerbRunItemAndLocation(FarmingHelperConfig config, Client client, FarmingHelperPlugin plugin) {
-        this.config = config;
-        this.client = client;
-        this.plugin = plugin;
+        super(config, client, plugin);
     }
 
     public Map<Integer, Integer> getHerbItems() {
         return getAllItemRequirements(locations);
     }
 
-    public List<ItemRequirement> getHouseTeleportItemRequirements() {
-        FarmingHelperConfig.OptionEnumHouseTele selectedOption = config.enumConfigHouseTele();
-        List<ItemRequirement> itemRequirements = new ArrayList<>();
-
-        switch (selectedOption) {
-            case Law_air_earth_runes:
-                itemRequirements.add(new ItemRequirement(ItemID.AIR_RUNE, 1));
-                itemRequirements.add(new ItemRequirement(ItemID.EARTH_RUNE, 1));
-                itemRequirements.add(new ItemRequirement(ItemID.LAW_RUNE, 1));
-                break;
-                /*
-            case Law_dust_runes:
-                itemRequirements.add(new ItemRequirement(ItemID.DUST_RUNE, 1));
-                itemRequirements.add(new ItemRequirement(ItemID.LAW_RUNE, 1));
-                break;
-
-                 */
-            case Teleport_To_House:
-                itemRequirements.add(new ItemRequirement(ItemID.TELEPORT_TO_HOUSE, 1));
-                break;
-            case Construction_cape:
-                itemRequirements.add(new ItemRequirement(ItemID.CONSTRUCT_CAPE, 1));
-                break;
-            case Construction_cape_t:
-                itemRequirements.add(new ItemRequirement(ItemID.CONSTRUCT_CAPET, 1));
-                break;
-            case Max_cape:
-                itemRequirements.add(new ItemRequirement(ItemID.MAX_CAPE, 1));
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + selectedOption);
-        }
-
-        return itemRequirements;
-    }
-
     public Map<Integer, Integer> getAllItemRequirements(List<Location> locations) {
         Map<Integer, Integer> allRequirements = new HashMap<>();
+
         setupHerbLocations();
+
         // Add other items and merge them with allRequirements
         for (Location location : locations) {
             if (plugin.getHerbLocationEnabled(location.getName())) {
                 //ItemID.GUAM_SEED is default for herb seeds, code later will allow for any seed to be used, just needed a placeholder ID
                 allRequirements.merge(ItemID.GUAM_SEED, 1, Integer::sum);
+
                 if (selectedCompostID() != -1 && selectedCompostID() != ItemID.BOTTOMLESS_COMPOST_BUCKET_22997) {
                     allRequirements.merge(selectedCompostID(), 1, Integer::sum);
                 }
+
                 Location.Teleport teleport = location.getSelectedTeleport();
                 Map<Integer, Integer> locationRequirements = teleport.getItemRequirements();
+
                 for (Map.Entry<Integer, Integer> entry : locationRequirements.entrySet()) {
                     int itemId = entry.getKey();
                     int quantity = entry.getValue();
@@ -99,37 +60,33 @@ public class HerbRunItemAndLocation {
                         allRequirements.merge(itemId, quantity, Integer::sum);
                     }
                 }
+
                 if(location.getFarmLimps() && config.generalLimpwurt()) {
                     allRequirements.merge(ItemID.LIMPWURT_SEED, 1, Integer::sum);
+
                     if (selectedCompostID() != -1 && selectedCompostID() != ItemID.BOTTOMLESS_COMPOST_BUCKET_22997) {
                         allRequirements.merge(selectedCompostID(), 1, Integer::sum);
                     }
                 }
             }
         }
+
         allRequirements.merge(ItemID.SEED_DIBBER, 1, Integer::sum);
         allRequirements.merge(ItemID.SPADE, 1, Integer::sum);
+
         if (selectedCompostID() == ItemID.BOTTOMLESS_COMPOST_BUCKET_22997) {
             allRequirements.merge(ItemID.BOTTOMLESS_COMPOST_BUCKET_22997, 1, Integer::sum);
         }
+
         allRequirements.merge(ItemID.MAGIC_SECATEURS, 1, Integer::sum);
-        if(config.generalRake()){allRequirements.merge(ItemID.RAKE, 1, Integer::sum);}
+
+        if (config.generalRake()) {
+            allRequirements.merge(ItemID.RAKE, 1, Integer::sum);
+        }
+
         return allRequirements;
     }
-    public Integer selectedCompostID() {
-        FarmingHelperConfig.OptionEnumCompost selectedCompost = config.enumConfigCompost();
-        switch (selectedCompost) {
-            case Compost:
-                return ItemID.COMPOST;
-            case Supercompost:
-                return ItemID.SUPERCOMPOST;
-            case Ultracompost:
-                return ItemID.ULTRACOMPOST;
-            case Bottomless:
-                return ItemID.BOTTOMLESS_COMPOST_BUCKET_22997;
-        }
-        return -1;
-    }
+
     public void setupHerbLocations() {
         // Clear the existing locations list
         locations.clear();
