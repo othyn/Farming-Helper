@@ -341,7 +341,7 @@ public class FarmingHelperPlugin extends Plugin
 		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), "/com/farminghelper/speaax/icon.png");
 
 		navButton = NavigationButton.builder()
-				.tooltip("Lazy Farming ")
+				.tooltip("Lazy Farming")
 				.icon(icon)
 				.priority(6)
 				.panel(panel)
