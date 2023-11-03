@@ -4,6 +4,7 @@ import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.overlay.OverlayManager;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,18 +33,58 @@ public class FarmingHelperPanel extends PluginPanel
         this.treeRunItemAndLocation = treeRunItemAndLocation;
         this.farmingTeleportOverlay = farmingTeleportOverlay;
         this.fruitTreeRunItemAndLocation = fruitTreeRunItemAndLocation;
+
         this.plugin = plugin;
         this.overlayManager = overlayManager;
-        setLayout(new GridBagLayout());
 
-        GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.insets = new Insets(0, 2, 4, 2);
+        setLayout(new BorderLayout());
+        setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        c.gridx = 0;
-        c.gridy = 0;
+        JPanel layoutPanel = new JPanel();
+        layoutPanel.setLayout(new BoxLayout(layoutPanel, BoxLayout.Y_AXIS));
 
-        herbButton = new JButton("Herb run");
+        JPanel titlePanel = createTitlePanel();
+        JPanel farmRunButtons = createFarmRunButtons();
+        JPanel infoPanel = createInfoPanel();
+
+        layoutPanel.add(titlePanel);
+        layoutPanel.add(farmRunButtons);
+        layoutPanel.add(infoPanel);
+
+        add(layoutPanel, BorderLayout.NORTH);
+    }
+
+    private JPanel createTitlePanel()
+    {
+        JPanel titlePanel = new JPanel();
+        titlePanel.setBorder(new EmptyBorder(0, 0, 15, 0));
+        titlePanel.setLayout(new BorderLayout());
+
+        JLabel title = new JLabel("Start a new run farm run:");
+        titlePanel.add(title, BorderLayout.WEST);
+
+        return titlePanel;
+    }
+
+    private JPanel createFarmRunButtons()
+    {
+        JPanel farmRunButtonsContainingPanel = new JPanel();
+        farmRunButtonsContainingPanel.setLayout(new BoxLayout(farmRunButtonsContainingPanel, BoxLayout.Y_AXIS));
+
+        // With GridLayout, you can't set the button height.
+        // With GridBagLayout, you can't make the buttons the full width of the container.
+        // The height seemed like the better thing to let go of.
+//        JPanel farmRunButtonsPanel = new JPanel(new GridBagLayout());
+        JPanel farmRunButtonsPanel = new JPanel(new GridLayout(0, 1, 0, 15));
+        farmRunButtonsPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+
+//        GridBagConstraints constraints = new GridBagConstraints();
+//        constraints.insets = new Insets(5, 0, 5, 0);
+//        constraints.fill = GridBagConstraints.HORIZONTAL;
+//        constraints.gridwidth = 1;
+//        constraints.ipady = 10;
+
+        herbButton = new JButton("Herb Run");
 		herbButton.setFocusable(false);
         herbButton.addActionListener(new ActionListener() {
             @Override
@@ -56,22 +97,11 @@ public class FarmingHelperPanel extends PluginPanel
                 });
             }
         });
+//        constraints.gridy = 0;
+//        farmRunButtonsPanel.add(herbButton, constraints);
+        farmRunButtonsPanel.add(herbButton);
 
-        add(herbButton, c);
-
-        JLabel textLabel = new JLabel("Tree/Fruit Tree run is not recommended.");
-
-        c.gridx = 0;
-        c.gridy = 1;
-
-        add(textLabel, c);
-
-
-		c.gridx = 0;
-		c.gridy = 2;
-
-
-		treeButton = new JButton("Tree run");
+		treeButton = new JButton("Tree Run");
         treeButton.setFocusable(false);
         treeButton.addActionListener(new ActionListener()
         {
@@ -85,14 +115,11 @@ public class FarmingHelperPanel extends PluginPanel
                 });
             }
         });
+//        constraints.gridy = 1;
+//        farmRunButtonsPanel.add(treeButton, constraints);
+        farmRunButtonsPanel.add(treeButton);
 
-		add(treeButton, c);
-
-		c.gridx = 0;
-		c.gridy = 3;
-
-		
-		fruitTreeButton = new JButton("Fruit Tree run");
+		fruitTreeButton = new JButton("Fruit Tree Run");
         fruitTreeButton.setFocusable(false);
         fruitTreeButton.addActionListener(new ActionListener()
         {
@@ -106,19 +133,32 @@ public class FarmingHelperPanel extends PluginPanel
                 });
             }
         });
+//        constraints.gridy = 2;
+//        farmRunButtonsPanel.add(fruitTreeButton, constraints);
+        farmRunButtonsPanel.add(fruitTreeButton);
 
-        add(fruitTreeButton, c);
+        farmRunButtonsContainingPanel.add(farmRunButtonsPanel);
+
+        return farmRunButtonsContainingPanel;
+    }
+
+    private JPanel createInfoPanel()
+    {
+        JPanel infoContainingPanel = new JPanel();
+        infoContainingPanel.setLayout(new BoxLayout(infoContainingPanel, BoxLayout.Y_AXIS));
+        
+        JPanel infoPanel = new JPanel(new GridLayout(0, 1, 0, 0));
+        infoPanel.setBorder(new EmptyBorder(25, 0, 0, 0));
 
         JTextArea textAreaTip = new JTextArea("Tips: \n - Rune pouch and combination runes work. \n - If you don't have Bottomless compost bucket you should store compost @ Tool Leprechaun, the plugin checks if you have compost stored there.");
         textAreaTip.setWrapStyleWord(true);
         textAreaTip.setLineWrap(true);
         textAreaTip.setEditable(false);
+        infoPanel.add(textAreaTip);
 
+        infoContainingPanel.add(infoPanel);
 
-        c.gridx = 0;
-        c.gridy = 6;
-
-        add(textAreaTip, c);
+        return infoContainingPanel;
     }
 
     private void onHerbButtonClicked() {
