@@ -10,9 +10,12 @@ import net.runelite.api.ItemID;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemAndLocation {
+public class ItemAndLocation
+{
     protected FarmingHelperConfig config;
+
     protected Client client;
+
     protected FarmingHelperPlugin plugin;
 
     public List<Location> locations = new ArrayList<>();
@@ -36,30 +39,66 @@ public class ItemAndLocation {
 
         switch (selectedOption) {
             case Law_air_earth_runes:
-                itemRequirements.add(new ItemRequirement(ItemID.AIR_RUNE, 1));
-                itemRequirements.add(new ItemRequirement(ItemID.EARTH_RUNE, 1));
-                itemRequirements.add(new ItemRequirement(ItemID.LAW_RUNE, 1));
+                itemRequirements.add(new ItemRequirement(
+                    ItemID.AIR_RUNE,
+                    1
+                ));
+
+                itemRequirements.add(new ItemRequirement(
+                    ItemID.EARTH_RUNE,
+                    1
+                ));
+
+                itemRequirements.add(new ItemRequirement(
+                    ItemID.LAW_RUNE,
+                    1
+                ));
+
                 break;
 
-//            case Law_dust_runes:
-//                itemRequirements.add(new ItemRequirement(ItemID.DUST_RUNE, 1));
-//                itemRequirements.add(new ItemRequirement(ItemID.LAW_RUNE, 1));
-//                break;
+            // case Law_dust_runes:
+            //     itemRequirements.add(new ItemRequirement(
+            //         ItemID.DUST_RUNE,
+            //         1
+            //     ));
+            //
+            //     itemRequirements.add(new ItemRequirement(
+            //         ItemID.LAW_RUNE,
+            //         1
+            //     ));
+            //
+            //     break;
 
             case Teleport_To_House:
-                itemRequirements.add(new ItemRequirement(ItemID.TELEPORT_TO_HOUSE, 1));
+                itemRequirements.add(new ItemRequirement(
+                    ItemID.TELEPORT_TO_HOUSE,
+                    1
+                ));
+
                 break;
 
             case Construction_cape:
-                itemRequirements.add(new ItemRequirement(ItemID.CONSTRUCT_CAPE, 1));
+                itemRequirements.add(new ItemRequirement(
+                    ItemID.CONSTRUCT_CAPE,
+                    1
+                ));
+
                 break;
 
             case Construction_cape_t:
-                itemRequirements.add(new ItemRequirement(ItemID.CONSTRUCT_CAPET, 1));
+                itemRequirements.add(new ItemRequirement(
+                    ItemID.CONSTRUCT_CAPET,
+                    1
+                ));
+
                 break;
 
             case Max_cape:
-                itemRequirements.add(new ItemRequirement(ItemID.MAX_CAPE, 1));
+                itemRequirements.add(new ItemRequirement(
+                    ItemID.MAX_CAPE,
+                    1
+                ));
+
                 break;
 
             default:
@@ -87,12 +126,11 @@ public class ItemAndLocation {
                 return ItemID.BOTTOMLESS_COMPOST_BUCKET_22997;
         }
 
-        return -1;
+        return - 1;
     }
 
     public void setupLocations()
     {
-        // Clear the existing locations list
         locations.clear();
     }
 }
