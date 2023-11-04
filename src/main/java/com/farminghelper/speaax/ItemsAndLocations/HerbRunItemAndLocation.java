@@ -309,7 +309,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
         );
 
         catherbyLocation.addTeleportOption(catherbyLocation.new Teleport(
-            "Portal_Nexus",
+            "Portal_Nexus_Catherby",
             Location.TeleportCategory.PORTAL_NEXUS,
             "Teleport to Catherby with Portal Nexus.",
             0,
@@ -317,6 +317,19 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             17,
             13,
             11061,
+            catherbyHerbPatchPoint,
+            getHouseTeleportItemRequirements()
+        ));
+
+        catherbyLocation.addTeleportOption(catherbyLocation.new Teleport(
+            "Portal_Nexus_Camelot",
+            Location.TeleportCategory.PORTAL_NEXUS,
+            "Teleport to Camelot with Portal Nexus.",
+            0,
+            "null",
+            17,
+            13,
+            11062,
             catherbyHerbPatchPoint,
             getHouseTeleportItemRequirements()
         ));

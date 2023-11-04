@@ -203,7 +203,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
         );
 
         catherbyFruitTreeLocation.addTeleportOption(catherbyFruitTreeLocation.new Teleport(
-            "Portal_Nexus",
+            "Portal_Nexus_Catherby",
             Location.TeleportCategory.PORTAL_NEXUS,
             "Teleport to Catherby with Portal Nexus.",
             0,
@@ -211,6 +211,19 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             17,
             13,
             11061,
+            cathebyFruitTreePatchPoint,
+            getHouseTeleportItemRequirements()
+        ));
+
+        catherbyFruitTreeLocation.addTeleportOption(catherbyFruitTreeLocation.new Teleport(
+            "Portal_Nexus_Camelot",
+            Location.TeleportCategory.PORTAL_NEXUS,
+            "Teleport to Camelot with Portal Nexus.",
+            0,
+            "null",
+            17,
+            13,
+            11062,
             cathebyFruitTreePatchPoint,
             getHouseTeleportItemRequirements()
         ));

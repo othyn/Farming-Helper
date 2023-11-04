@@ -354,7 +354,8 @@ public interface FarmingHelperConfig extends Config
 	default OptionEnumArdougneTeleport enumOptionEnumArdougneTeleport() { return OptionEnumArdougneTeleport.Ardy_cloak_3; }
 	enum OptionEnumCatherbyTeleport implements OptionEnumTeleport
 	{
-		Portal_Nexus,
+		Portal_Nexus_Catherby,
+		Portal_Nexus_Camelot,
 		Camelot_Teleport,
 		Camelot_Tele_Tab,
 		Catherby_Tele_Tab
@@ -366,7 +367,7 @@ public interface FarmingHelperConfig extends Config
 			description = "Desired way to teleport to Catherby",
 			section = teleportOptionList
 	)
-	default OptionEnumCatherbyTeleport enumOptionEnumCatherbyTeleport() { return OptionEnumCatherbyTeleport.Portal_Nexus; }
+	default OptionEnumCatherbyTeleport enumOptionEnumCatherbyTeleport() { return OptionEnumCatherbyTeleport.Portal_Nexus_Catherby; }
 
 	enum OptionEnumFaladorTeleport implements OptionEnumTeleport
 	{
@@ -581,7 +582,8 @@ public interface FarmingHelperConfig extends Config
 
 	enum FruitTreeOptionEnumCatherbyTeleport implements OptionEnumTeleport
 	{
-		Portal_Nexus
+		Portal_Nexus_Catherby,
+		Portal_Nexus_Camelot
 	}
 	@ConfigItem(
 			position = 1,
@@ -590,7 +592,7 @@ public interface FarmingHelperConfig extends Config
 			description = "Desired way to teleport to Catherby",
 			section = fruitTreeTeleportOptionList
 	)
-	default FruitTreeOptionEnumCatherbyTeleport enumFruitTreeCatherbyTeleport() { return FruitTreeOptionEnumCatherbyTeleport.Portal_Nexus; }
+	default FruitTreeOptionEnumCatherbyTeleport enumFruitTreeCatherbyTeleport() { return FruitTreeOptionEnumCatherbyTeleport.Portal_Nexus_Catherby; }
 
 	enum FruitTreeOptionEnumFarmingGuildTeleport implements OptionEnumTeleport
 	{
