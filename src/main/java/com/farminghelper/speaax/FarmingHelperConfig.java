@@ -149,7 +149,7 @@ public interface FarmingHelperConfig extends Config
 		position = 4,
 		keyName = "booleanConfigFarmingGuildHerb",
 		name = "Farming Guild",
-		description = "Include Farming guild?(Requires level 65 farming and 60% Hosidious favour)",
+		description = "Include Farming guild? (Requires level 65 farming and 60% Hosidious favour)",
 		section = herbList
 	)
 	default boolean farmingGuildHerb() { return false; }
@@ -158,7 +158,7 @@ public interface FarmingHelperConfig extends Config
 		position = 5,
 		keyName = "booleanConfigHarmonyHerb",
 		name = "Harmony",
-		description = "Include Harmony?(Requires elite Morytania diary)",
+		description = "Include Harmony? (Requires elite Morytania diary)",
 		section = herbList
 	)
 	default boolean harmonyHerb() { return false; }
@@ -194,7 +194,7 @@ public interface FarmingHelperConfig extends Config
 		position = 9,
 		keyName = "booleanConfigWeissHerb",
 		name = "Weiss",
-		description = "Include Weiss?(Requires completion of Making Friends with My Arm, and The Fire of Nourishment must be built)",
+		description = "Include Weiss? (Requires completion of Making Friends with My Arm, and The Fire of Nourishment must be built)",
 		section = herbList
 	)
 	default boolean weissHerb() { return false; }
@@ -219,7 +219,7 @@ public interface FarmingHelperConfig extends Config
 		position = 11,
 		keyName = "booleanConfigFarmingGuildTree",
 		name = "Farming guild",
-		description = "Include Farming Guild?(Requires 65 farming)",
+		description = "Include Farming Guild? (Requires 65 farming)",
 		section = treeList
 	)
 	default boolean farmingGuildTree() { return false; }
@@ -294,7 +294,7 @@ public interface FarmingHelperConfig extends Config
 		position = 18,
 		keyName = "booleanConfigFarmingGuildFruitTree",
 		name = "Farming Guild",
-		description = "Include Farming Guild?(Requires 85 farming)",
+		description = "Include Farming Guild? (Requires 85 farming)",
 		section = fruitTreeList
 	)
 	default boolean farmingGuildFruitTree() { return false; }
@@ -312,7 +312,7 @@ public interface FarmingHelperConfig extends Config
 		position = 20,
 		keyName = "booleanConfigLletyaFruitTree",
 		name = "Lletya",
-		description = "Include Lletya?(Requires starting Mourning's End Part I)",
+		description = "Include Lletya? (Requires starting Mourning's End Part I)",
 		section = fruitTreeList
 	)
 	default boolean lletyaFruitTree() { return false; }
