@@ -336,6 +336,7 @@ public interface FarmingHelperConfig extends Config
 
 	enum OptionEnumArdougneTeleport implements OptionEnumTeleport
 	{
+		Portal_Nexus,
 		Ardougne_teleport,
 		Ardougne_tele_tab,
 		Ardy_cloak_2,
@@ -369,6 +370,7 @@ public interface FarmingHelperConfig extends Config
 
 	enum OptionEnumFaladorTeleport implements OptionEnumTeleport
 	{
+		Portal_Nexus,
 		Explorers_ring_2,
 		Explorers_ring_3,
 		Explorers_ring_4,
@@ -476,6 +478,7 @@ public interface FarmingHelperConfig extends Config
 	String treeTeleportOptionList = "treeTeleportOptionList";
 	enum TreeOptionEnumFaladorTeleport implements OptionEnumTeleport
 	{
+		Portal_Nexus,
 		Falador_teleport
 	}
 	@ConfigItem(
@@ -515,6 +518,7 @@ public interface FarmingHelperConfig extends Config
 
 	enum TreeOptionEnumLumbridgeTeleport implements OptionEnumTeleport
 	{
+		Portal_Nexus,
 		Lumbridge_teleport
 	}
 	@ConfigItem(
@@ -528,6 +532,7 @@ public interface FarmingHelperConfig extends Config
 
 	enum TreeOptionEnumTaverleyTeleport implements OptionEnumTeleport
 	{
+		Portal_Nexus,
 		Falador_teleport
 	}
 	@ConfigItem(
@@ -541,6 +546,7 @@ public interface FarmingHelperConfig extends Config
 
 	enum TreeOptionEnumVarrockTeleport implements OptionEnumTeleport
 	{
+		Portal_Nexus,
 		Varrock_teleport
 	}
 	@ConfigItem(
@@ -561,6 +567,7 @@ public interface FarmingHelperConfig extends Config
 
 	enum FruitTreeOptionEnumBrimhavenTeleport implements OptionEnumTeleport
 	{
+		Portal_Nexus,
 		Ardougne_teleport
 	}
 	@ConfigItem(
@@ -574,7 +581,7 @@ public interface FarmingHelperConfig extends Config
 
 	enum FruitTreeOptionEnumCatherbyTeleport implements OptionEnumTeleport
 	{
-		Portal_nexus
+		Portal_Nexus
 	}
 	@ConfigItem(
 			position = 1,
@@ -583,7 +590,7 @@ public interface FarmingHelperConfig extends Config
 			description = "Desired way to teleport to Catherby",
 			section = fruitTreeTeleportOptionList
 	)
-	default FruitTreeOptionEnumCatherbyTeleport enumFruitTreeCatherbyTeleport() { return FruitTreeOptionEnumCatherbyTeleport.Portal_nexus; }
+	default FruitTreeOptionEnumCatherbyTeleport enumFruitTreeCatherbyTeleport() { return FruitTreeOptionEnumCatherbyTeleport.Portal_Nexus; }
 
 	enum FruitTreeOptionEnumFarmingGuildTeleport implements OptionEnumTeleport
 	{

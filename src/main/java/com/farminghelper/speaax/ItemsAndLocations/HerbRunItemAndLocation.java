@@ -176,6 +176,19 @@ public class HerbRunItemAndLocation extends ItemAndLocation
         );
 
         ardougneLocation.addTeleportOption(ardougneLocation.new Teleport(
+            "Portal_Nexus",
+            Location.TeleportCategory.PORTAL_NEXUS,
+            "Teleport to Ardougne with Portal Nexus.",
+            0,
+            "null",
+            17,
+            13,
+            10547,
+            ardougneHerbPatchPoint,
+            getHouseTeleportItemRequirements()
+        ));
+
+        ardougneLocation.addTeleportOption(ardougneLocation.new Teleport(
             "Ardougne_teleport",
             Location.TeleportCategory.SPELLBOOK,
             "Teleport to Ardougne with standard spellbook, and run north.",
@@ -296,9 +309,9 @@ public class HerbRunItemAndLocation extends ItemAndLocation
         );
 
         catherbyLocation.addTeleportOption(catherbyLocation.new Teleport(
-            "Portal_nexus",
+            "Portal_Nexus",
             Location.TeleportCategory.PORTAL_NEXUS,
-            "Teleport to Catherby with Portal nexus.",
+            "Teleport to Catherby with Portal Nexus.",
             0,
             "null",
             17,
@@ -379,6 +392,19 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             "Falador",
             true
         );
+
+        faladorLocation.addTeleportOption(faladorLocation.new Teleport(
+            "Portal_Nexus",
+            Location.TeleportCategory.PORTAL_NEXUS,
+            "Teleport to Falador with Portal Nexus.",
+            0,
+            "null",
+            17,
+            13,
+            11828,
+            faladorHerbPatchPoint,
+            getHouseTeleportItemRequirements()
+        ));
 
         faladorLocation.addTeleportOption(faladorLocation.new Teleport(
             "Explorers_ring_2",

@@ -146,9 +146,22 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
         );
 
         brimhavenFruitTreeLocation.addTeleportOption(brimhavenFruitTreeLocation.new Teleport(
+            "Portal_Nexus",
+            Location.TeleportCategory.PORTAL_NEXUS,
+            "Teleport to Ardougne with Portal Nexus and take the boat to Brimhaven.",
+            0,
+            "null",
+            17,
+            13,
+            10547,
+            brimhavenFruitTreePatchPoint,
+            getHouseTeleportItemRequirements()
+        ));
+
+        brimhavenFruitTreeLocation.addTeleportOption(brimhavenFruitTreeLocation.new Teleport(
             "Ardougne_teleport",
             Location.TeleportCategory.SPELLBOOK,
-            "Teleport to Ardougne with Spellbook and run to Brimhaven.",
+            "Teleport to Ardougne with Spellbook and take the boat to Brimhaven.",
             0,
             "null",
             218,
@@ -190,9 +203,9 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
         );
 
         catherbyFruitTreeLocation.addTeleportOption(catherbyFruitTreeLocation.new Teleport(
-            "Portal_nexus",
+            "Portal_Nexus",
             Location.TeleportCategory.PORTAL_NEXUS,
-            "Teleport to Catherby with Portal nexus.",
+            "Teleport to Catherby with Portal Nexus.",
             0,
             "null",
             17,

@@ -146,6 +146,19 @@ public class TreeRunItemAndLocation extends ItemAndLocation
         );
 
         faladorTreeLocation.addTeleportOption(faladorTreeLocation.new Teleport(
+            "Portal_Nexus",
+            Location.TeleportCategory.PORTAL_NEXUS,
+            "Teleport to Falador with Portal Nexus.",
+            0,
+            "null",
+            17,
+            13,
+            11828,
+            faladorTreePatchPoint,
+            getHouseTeleportItemRequirements()
+        ));
+
+        faladorTreeLocation.addTeleportOption(faladorTreeLocation.new Teleport(
             "Falador_teleport",
             Location.TeleportCategory.SPELLBOOK,
             "Teleport to Falador with Spellbook and run to Falador park.",
@@ -255,6 +268,19 @@ public class TreeRunItemAndLocation extends ItemAndLocation
         );
 
         lumbridgeTreeLocation.addTeleportOption(lumbridgeTreeLocation.new Teleport(
+            "Portal_Nexus",
+            Location.TeleportCategory.PORTAL_NEXUS,
+            "Teleport to Lumbridge with Portal Nexus.",
+            0,
+            "null",
+            17,
+            13,
+            12850,
+            lumbridgeTreePatchPoint,
+            getHouseTeleportItemRequirements()
+        ));
+
+        lumbridgeTreeLocation.addTeleportOption(lumbridgeTreeLocation.new Teleport(
             "Lumbridge_teleport",
             Location.TeleportCategory.SPELLBOOK,
             "Teleport to Lumbridge with spellbook.",
@@ -299,6 +325,19 @@ public class TreeRunItemAndLocation extends ItemAndLocation
         );
 
         taverleyTreeLocation.addTeleportOption(taverleyTreeLocation.new Teleport(
+            "Portal_Nexus",
+            Location.TeleportCategory.PORTAL_NEXUS,
+            "Teleport to Falador with Portal Nexus and run to Taverly.",
+            0,
+            "null",
+            17,
+            13,
+            11828,
+            taverlyPatchPoint,
+            getHouseTeleportItemRequirements()
+        ));
+
+        taverleyTreeLocation.addTeleportOption(taverleyTreeLocation.new Teleport(
             "Falador_teleport",
             Location.TeleportCategory.SPELLBOOK,
             "Teleport to Falador with spellbook and run to Taverly.",
@@ -341,6 +380,19 @@ public class TreeRunItemAndLocation extends ItemAndLocation
             "Varrock",
             false
         );
+
+        varrockTreeLocation.addTeleportOption(varrockTreeLocation.new Teleport(
+            "Portal_Nexus",
+            Location.TeleportCategory.PORTAL_NEXUS,
+            "Teleport to Varrock with Portal Nexus.",
+            0,
+            "null",
+            17,
+            13,
+            12853,
+            varrockTreePatchPoint,
+            getHouseTeleportItemRequirements()
+        ));
 
         varrockTreeLocation.addTeleportOption(varrockTreeLocation.new Teleport(
             "Varrock_teleport",
