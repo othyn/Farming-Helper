@@ -1,6 +1,7 @@
 package com.farminghelper.speaax;
 
 import com.farminghelper.speaax.ItemsAndLocations.HerbRunItemAndLocation;
+import com.farminghelper.speaax.ItemsAndLocations.ItemAndLocation;
 import com.farminghelper.speaax.ItemsAndLocations.TreeRunItemAndLocation;
 import com.farminghelper.speaax.ItemsAndLocations.FruitTreeRunItemAndLocation;
 
@@ -37,12 +38,14 @@ public class FarmingHelperPlugin extends Plugin
 	private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
 	private HerbRunItemAndLocation herbRunItemAndLocation;
-	private TreeRunItemAndLocation treeRunItemAndLocation;
-	private FruitTreeRunItemAndLocation fruitTreeRunItemAndLocation;
 
+	private TreeRunItemAndLocation treeRunItemAndLocation;
+
+	private FruitTreeRunItemAndLocation fruitTreeRunItemAndLocation;
 
 	@Inject
 	private ItemManager itemManager;
+
 	@Inject
 	private Client client;
 
@@ -51,39 +54,45 @@ public class FarmingHelperPlugin extends Plugin
 	}
 
 	public Location getArdougneLocation() {
-		return herbRunItemAndLocation.ardougneLocation;
+		return ItemAndLocation.Place.ARDOUGNE.location(config);
 	}
 	public Location getCatherbyLocation() {
-		return herbRunItemAndLocation.catherbyLocation;
+		return ItemAndLocation.Place.CATHERBY.location(config);
 	}
 	public Location getFaladorLocation() {
-		return herbRunItemAndLocation.faladorLocation;
+		return ItemAndLocation.Place.FALADOR.location(config);
 	}
-	public Location getFarmingGuildLocation() {return herbRunItemAndLocation.farmingGuildLocation;}
+	public Location getFarmingGuildLocation() {
+		return ItemAndLocation.Place.FARMING_GUILD.location(config);
+	}
 	public Location getHarmonyLocation() {
-		return herbRunItemAndLocation.harmonyLocation;
+		return ItemAndLocation.Place.HARMONY.location(config);
 	}
 	public Location getKourendLocation() {
-		return herbRunItemAndLocation.kourendLocation;
+		return ItemAndLocation.Place.KOUREND.location(config);
 	}
 	public Location getMorytaniaLocation() {
-		return herbRunItemAndLocation.morytaniaLocation;
+		return ItemAndLocation.Place.MORYTANIA.location(config);
 	}
 	public Location getTrollStrongholdLocation() {
-		return herbRunItemAndLocation.trollStrongholdLocation;
+		return ItemAndLocation.Place.TROLL_STRONGHOLD.location(config);
 	}
-
 	public Location getWeissLocation() {
-		return herbRunItemAndLocation.weissLocation;
+		return ItemAndLocation.Place.WEISS.location(config);
 	}
 
-	//get Tree locations
-	public Location getFaladorTreeLocation() {return treeRunItemAndLocation.faladorTreeLocation;}
+	public Location getFaladorTreeLocation() {
+		return treeRunItemAndLocation.faladorTreeLocation;
+	}
 	public Location getFarmingGuildTreeLocation() {
 		return treeRunItemAndLocation.farmingGuildTreeLocation;
 	}
-	public Location getGnomeStrongholdTreeLocation() {return treeRunItemAndLocation.gnomeStrongholdTreeLocation;}
-	public Location getLumbridgeTreeLocation() {return treeRunItemAndLocation.lumbridgeTreeLocation;}
+	public Location getGnomeStrongholdTreeLocation() {
+		return treeRunItemAndLocation.gnomeStrongholdTreeLocation;
+	}
+	public Location getLumbridgeTreeLocation() {
+		return treeRunItemAndLocation.lumbridgeTreeLocation;
+	}
 	public Location getTaverleyTreeLocation() {
 		return treeRunItemAndLocation.taverleyTreeLocation;
 	}
@@ -91,13 +100,24 @@ public class FarmingHelperPlugin extends Plugin
 		return treeRunItemAndLocation.varrockTreeLocation;
 	}
 
-	//get fruit tree locations
-	public Location getBrimhavenFruitTreeLocation() {return fruitTreeRunItemAndLocation.brimhavenFruitTreeLocation;}
-	public Location getCatherbyFruitTreeLocation() {return fruitTreeRunItemAndLocation.catherbyFruitTreeLocation;}
-	public Location getFarmingGuildFruitTreeLocation() {return fruitTreeRunItemAndLocation.farmingGuildFruitTreeLocation;}
-	public Location getGnomeStrongholdFruitTreeLocation() {return fruitTreeRunItemAndLocation.gnomeStrongholdFruitTreeLocation;}
-	public Location getLletyaFruitTreeLocation() {return fruitTreeRunItemAndLocation.lletyaFruitTreeLocation;}
-	public Location getTreeGnomeVillageTreeLocation() {return fruitTreeRunItemAndLocation.treeGnomeVillageFruitTreeLocation;}
+	public Location getBrimhavenFruitTreeLocation() {
+		return fruitTreeRunItemAndLocation.brimhavenFruitTreeLocation;
+	}
+	public Location getCatherbyFruitTreeLocation() {
+		return fruitTreeRunItemAndLocation.catherbyFruitTreeLocation;
+	}
+	public Location getFarmingGuildFruitTreeLocation() {
+		return fruitTreeRunItemAndLocation.farmingGuildFruitTreeLocation;
+	}
+	public Location getGnomeStrongholdFruitTreeLocation() {
+		return fruitTreeRunItemAndLocation.gnomeStrongholdFruitTreeLocation;
+	}
+	public Location getLletyaFruitTreeLocation() {
+		return fruitTreeRunItemAndLocation.lletyaFruitTreeLocation;
+	}
+	public Location getTreeGnomeVillageFruitTreeLocation() {
+		return fruitTreeRunItemAndLocation.treeGnomeVillageFruitTreeLocation;
+	}
 
 	private boolean isTeleportOverlayActive = false;
 	public boolean isTeleportOverlayActive() {
@@ -106,14 +126,17 @@ public class FarmingHelperPlugin extends Plugin
 	public void setTeleportOverlayActive(boolean isTeleportOverlayActive) {
 		this.isTeleportOverlayActive = isTeleportOverlayActive;
 	}
+
 	@Inject
 	private FarmingHelperOverlayInfoBox farmingHelperOverlayInfoBox;
+
 	public FarmingHelperOverlayInfoBox getFarmingHelperOverlayInfoBox()
 	{
 		return farmingHelperOverlayInfoBox;
 	}
 
 	private String lastMessage = "";
+
 	@Subscribe
 	public void onChatMessage(ChatMessage event) {
 		if (event.getType() == ChatMessageType.GAMEMESSAGE) {
@@ -135,14 +158,12 @@ public class FarmingHelperPlugin extends Plugin
 
 	@Inject
 	private EventBus eventBus;
-	/*
-	@Inject
-	private Client client;
 
-	 */
+//	@Inject
+//	private Client client;
+
 	@Inject
 	private ClientThread clientThread;
-
 
 	@Inject
 	private FarmingTeleportOverlay farmingTeleportOverlay;
@@ -171,9 +192,10 @@ public class FarmingHelperPlugin extends Plugin
 		});
 	}
 
-
 	private FarmingHelperPanel farmingHelperPanel;
+
 	private FarmingHelperPanel panel;
+
 	private NavigationButton navButton;
 
 	@Inject
@@ -181,6 +203,7 @@ public class FarmingHelperPlugin extends Plugin
 
 	@Inject
 	private FarmingHelperConfig config;
+
 	@Inject
 	public OverlayManager overlayManager;
 
@@ -195,6 +218,7 @@ public class FarmingHelperPlugin extends Plugin
 	}
 
 	private boolean itemsCollected = false;
+
 	public boolean areItemsCollected() {
 		return itemsCollected;
 	}
@@ -202,12 +226,12 @@ public class FarmingHelperPlugin extends Plugin
 	public void setItemsCollected(boolean itemsCollected) {
 		this.itemsCollected = itemsCollected;
 	}
+
 	public Client getClient() {
 		return client;
 	}
 
 	private int lastAnimationId = -1;
-
 
 	@Subscribe
 	public void onAnimationChanged(AnimationChanged event)
@@ -226,19 +250,22 @@ public class FarmingHelperPlugin extends Plugin
 		}
 	}
 
-	//update item list
 	private Map<Integer, Integer> herbItemsCache;
+
 	public void updateHerbOverlay(Map<Integer, Integer> herbItems)
 	{
 		this.herbItemsCache = herbItems;
 	}
+
 	private Map<Integer, Integer> treeItemsCache;
+
 	public void updateTreeOverlay(Map<Integer, Integer> treeItems)
 	{
 		this.treeItemsCache = treeItems;
 	}
 
 	private Map<Integer, Integer> fruitTreeItemsCache;
+
 	public void updateFruitTreeOverlay(Map<Integer, Integer> fruitTreeItems)
 	{
 		this.fruitTreeItemsCache = fruitTreeItems;
@@ -259,9 +286,11 @@ public class FarmingHelperPlugin extends Plugin
 	{
 		isOverlayActive = overlayActive;
 	}
+
 	public void addTextToInfoBox(String text) {
 		farmingHelperOverlayInfoBox.setText(text);
 	}
+
 	public boolean getHerbLocationEnabled(String locationName) {
 		switch (locationName) {
 			case "Ardougne":
@@ -352,15 +381,11 @@ public class FarmingHelperPlugin extends Plugin
 		overlayManager.add(farmingTeleportOverlay);
 		overlayManager.add(farmingHelperOverlayInfoBox);
 
-
-
-
 		// set overlay to inactive
 		isOverlayActive = false;
 		eventBus.register(this);
 
-		herbRunItemAndLocation.setupLocations();
-
+		herbRunItemAndLocation.setupTeleports();
 	}
 
 	@Override

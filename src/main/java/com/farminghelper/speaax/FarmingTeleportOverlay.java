@@ -4,16 +4,13 @@ import java.awt.*;
 import javax.inject.Inject;
 
 import net.runelite.api.*;
-import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.widgets.Widget;
-import net.runelite.api.widgets.WidgetID;
 import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.api.Client;
 import net.runelite.api.GameObject;
-import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.ui.overlay.components.PanelComponent;
 import net.runelite.api.ItemID;
 import net.runelite.client.util.ColorUtil;
@@ -1193,7 +1190,7 @@ public class FarmingTeleportOverlay extends Overlay {
                         gettingToLocation(graphics, plugin.getLletyaFruitTreeLocation());
                         break;
                     case 5:
-                        gettingToLocation(graphics, plugin.getTreeGnomeVillageTreeLocation());
+                        gettingToLocation(graphics, plugin.getTreeGnomeVillageFruitTreeLocation());
                         break;
                     case 6:
                         RemoveOverlay();
