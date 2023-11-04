@@ -21,18 +21,22 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
     public Location trollStrongholdLocation;
     public Location weissLocation;
 
-    public HerbRunItemAndLocation() {
+    public HerbRunItemAndLocation()
+    {
     }
 
-    public HerbRunItemAndLocation(FarmingHelperConfig config, Client client, FarmingHelperPlugin plugin) {
+    public HerbRunItemAndLocation(FarmingHelperConfig config, Client client, FarmingHelperPlugin plugin)
+    {
         super(config, client, plugin);
     }
 
-    public Map<Integer, Integer> getHerbItems() {
+    public Map<Integer, Integer> getHerbItems()
+    {
         return getAllItemRequirements(locations);
     }
 
-    public Map<Integer, Integer> getAllItemRequirements(List<Location> locations) {
+    public Map<Integer, Integer> getAllItemRequirements(List<Location> locations)
+    {
         Map<Integer, Integer> allRequirements = new HashMap<>();
 
         setupLocations();
@@ -87,7 +91,8 @@ public class HerbRunItemAndLocation extends ItemAndLocation {
         return allRequirements;
     }
 
-    public void setupLocations() {
+    public void setupLocations()
+    {
         super.setupLocations();
 
         setupArdougneLocation();
