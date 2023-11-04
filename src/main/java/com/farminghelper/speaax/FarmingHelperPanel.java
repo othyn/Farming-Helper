@@ -60,7 +60,7 @@ public class FarmingHelperPanel extends PluginPanel
         titlePanel.setBorder(new EmptyBorder(0, 0, 15, 0));
         titlePanel.setLayout(new BorderLayout());
 
-        JLabel title = new JLabel("Pick a new run farm run:");
+        JLabel title = new JLabel("Pick a new farm run:");
         titlePanel.add(title, BorderLayout.WEST);
 
         return titlePanel;
