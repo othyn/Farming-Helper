@@ -22,10 +22,10 @@ public class FarmingHelperPanel extends PluginPanel
 	private final FarmingHelperPlugin plugin;
     private final OverlayManager overlayManager;
     private final FarmingTeleportOverlay farmingTeleportOverlay;
-    private JButton herbButton;
-	private JButton treeButton;
-	private JButton fruitTreeButton;
-    private JLabel textLabel;
+
+    public StartStopJButton herbButton;
+    public StartStopJButton treeButton;
+    public StartStopJButton fruitTreeButton;
 
     public FarmingHelperPanel(FarmingHelperPlugin plugin, OverlayManager overlayManager, FarmingTeleportOverlay farmingTeleportOverlay, HerbRunItemAndLocation herbRunItemAndLocation, TreeRunItemAndLocation treeRunItemAndLocation, FruitTreeRunItemAndLocation fruitTreeRunItemAndLocation)
     {
@@ -84,7 +84,7 @@ public class FarmingHelperPanel extends PluginPanel
 //        constraints.gridwidth = 1;
 //        constraints.ipady = 10;
 
-        StartStopJButton herbButton = new StartStopJButton("Herb Run");
+        herbButton = new StartStopJButton("Herb Run");
 		herbButton.setFocusable(false);
         herbButton.addActionListener(new ActionListener() {
             @Override
@@ -104,7 +104,7 @@ public class FarmingHelperPanel extends PluginPanel
 //        farmRunButtonsPanel.add(herbButton, constraints);
         farmRunButtonsPanel.add(herbButton);
 
-        StartStopJButton treeButton = new StartStopJButton("Tree Run");
+        treeButton = new StartStopJButton("Tree Run");
         treeButton.setFocusable(false);
         treeButton.addActionListener(new ActionListener()
         {
@@ -125,7 +125,7 @@ public class FarmingHelperPanel extends PluginPanel
 //        farmRunButtonsPanel.add(treeButton, constraints);
         farmRunButtonsPanel.add(treeButton);
 
-        StartStopJButton fruitTreeButton = new StartStopJButton("Fruit Tree Run");
+        fruitTreeButton = new StartStopJButton("Fruit Tree Run");
         fruitTreeButton.setFocusable(false);
         fruitTreeButton.addActionListener(new ActionListener()
         {

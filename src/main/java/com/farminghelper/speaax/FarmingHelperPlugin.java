@@ -331,7 +331,6 @@ public class FarmingHelperPlugin extends Plugin
 	@Override
 	protected void startUp()
 	{
-
 		herbRunItemAndLocation = new HerbRunItemAndLocation(config, client, this);
 		treeRunItemAndLocation = new TreeRunItemAndLocation(config, client, this);
 		fruitTreeRunItemAndLocation = new FruitTreeRunItemAndLocation(config, client, this);
@@ -352,24 +351,26 @@ public class FarmingHelperPlugin extends Plugin
 		overlayManager.add(farmingTeleportOverlay);
 		overlayManager.add(farmingHelperOverlayInfoBox);
 
-
-
-
 		// set overlay to inactive
 		isOverlayActive = false;
 		eventBus.register(this);
 
 		herbRunItemAndLocation.setupLocations();
-
 	}
 
 	@Override
 	protected void shutDown()
 	{
 		clientToolbar.removeNavigation(navButton);
+
 		overlayManager.remove(farmingHelperOverlay);
 		overlayManager.remove(farmingTeleportOverlay);
 		overlayManager.remove(farmingHelperOverlayInfoBox);
+
+		panel.herbButton.setStartStopState(false);
+		panel.treeButton.setStartStopState(false);
+		panel.fruitTreeButton.setStartStopState(false);
+
 		eventBus.unregister(this);
 	}
 }
