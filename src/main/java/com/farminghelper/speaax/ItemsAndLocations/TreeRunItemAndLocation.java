@@ -18,21 +18,25 @@ public class TreeRunItemAndLocation extends ItemAndLocation {
     public Location taverleyTreeLocation;
     public Location varrockTreeLocation;
 
-    public TreeRunItemAndLocation() {
+    public TreeRunItemAndLocation()
+    {
     }
 
-    public TreeRunItemAndLocation(FarmingHelperConfig config, Client client, FarmingHelperPlugin plugin) {
+    public TreeRunItemAndLocation(FarmingHelperConfig config, Client client, FarmingHelperPlugin plugin)
+    {
         super(config, client, plugin);
     }
 
-    public Map<Integer, Integer> getTreeItems() {
+    public Map<Integer, Integer> getTreeItems()
+    {
         return getAllItemRequirements(locations);
     }
 
-    public Map<Integer, Integer> getAllItemRequirements(List<Location> locations) {
+    public Map<Integer, Integer> getAllItemRequirements(List<Location> locations)
+    {
         Map<Integer, Integer> allRequirements = new HashMap<>();
 
-        setupTreeLocations();
+        setupLocations();
 
         // Add other items and merge them with allRequirements
         for (Location location : locations) {
@@ -69,16 +73,29 @@ public class TreeRunItemAndLocation extends ItemAndLocation {
         return allRequirements;
     }
 
-    public void setupTreeLocations() {
-        // Clear the existing locations list
-        locations.clear();
+    public void setupLocations()
+    {
+        super.setupLocations();
+
+        setupFaladorLocation();
+        setupFarmingGuildLocation();
+        setupGnomeStrongholdLocation();
+        setupLumbridgeLocation();
+        setupTaverleyLocation();
+        setupVarrockLocation();
+    }
+
+    private void setupFaladorLocation()
+    {
+        WorldPoint faladorTreePatchPoint = new WorldPoint(3000, 3373, 0);
 
         faladorTreeLocation = new Location(FarmingHelperConfig::enumTreeFaladorTeleport, config, "Falador", false);
+
         List<ItemRequirement> faladorTreeTeleportItems = Arrays.asList(
                 new ItemRequirement(ItemID.AIR_RUNE, 3),
                 new ItemRequirement(ItemID.LAW_RUNE, 1),
-                new ItemRequirement(ItemID.WATER_RUNE, 1));
-        WorldPoint faladorTreePatchPoint = new WorldPoint(3000, 3373, 0);
+                new ItemRequirement(ItemID.WATER_RUNE, 1)
+        );
         Location.Teleport faladorTreeTeleport = faladorTreeLocation.new Teleport(
                 "Falador_teleport",
                 Location.TeleportCategory.SPELLBOOK,
@@ -89,13 +106,21 @@ public class TreeRunItemAndLocation extends ItemAndLocation {
                 27,
                 11828,
                 faladorTreePatchPoint,
-                faladorTreeTeleportItems);
+                faladorTreeTeleportItems
+        );
+
         faladorTreeLocation.addTeleportOption(faladorTreeTeleport);
+
         locations.add(faladorTreeLocation);
+    }
+
+    private void setupFarmingGuildLocation()
+    {
+        WorldPoint farmingGuildTreePatchPoint = new WorldPoint(1232, 3736, 0);
 
         farmingGuildTreeLocation = new Location(FarmingHelperConfig::enumTreeFarmingGuildTeleport, config, "Farming Guild", false);
+
         List<ItemRequirement> farmingGuildTreeTeleportItems = getHouseTeleportItemRequirements();
-        WorldPoint farmingGuildTreePatchPoint = new WorldPoint(1232, 3736, 0);
         Location.Teleport farmingGuildTreeTeleport = farmingGuildTreeLocation.new Teleport(
                 "Jewellery_box",
                 Location.TeleportCategory.JEWELLERY_BOX,
@@ -106,14 +131,23 @@ public class TreeRunItemAndLocation extends ItemAndLocation {
                 0,
                 4922,
                 farmingGuildTreePatchPoint,
-                farmingGuildTreeTeleportItems);
+                farmingGuildTreeTeleportItems
+        );
+
         farmingGuildTreeLocation.addTeleportOption(farmingGuildTreeTeleport);
+
         locations.add(farmingGuildTreeLocation);
+    }
+
+    private void setupGnomeStrongholdLocation()
+    {
+        WorldPoint gnomeStrongholdTreePatchPoint = new WorldPoint(2436, 3415, 0);
 
         gnomeStrongholdTreeLocation = new Location(FarmingHelperConfig::enumTreeGnomeStrongoldTeleport, config, "Gnome Stronghold", false);
+
         List<ItemRequirement> gnomeStrongholdTreeTeleportItems = Arrays.asList(
-                new ItemRequirement(ItemID.ROYAL_SEED_POD, 1));
-        WorldPoint gnomeStrongholdTreePatchPoint = new WorldPoint(2436, 3415, 0);
+                new ItemRequirement(ItemID.ROYAL_SEED_POD, 1)
+        );
         Location.Teleport gnomeStrongholdTreeTeleport = gnomeStrongholdTreeLocation.new Teleport(
                 "Royal_seed_pod",
                 Location.TeleportCategory.ITEM,
@@ -124,16 +158,25 @@ public class TreeRunItemAndLocation extends ItemAndLocation {
                 0,
                 9782,
                 gnomeStrongholdTreePatchPoint,
-                gnomeStrongholdTreeTeleportItems);
+                gnomeStrongholdTreeTeleportItems
+        );
+
         gnomeStrongholdTreeLocation.addTeleportOption(gnomeStrongholdTreeTeleport);
+
         locations.add(gnomeStrongholdTreeLocation);
+    }
+
+    private void setupLumbridgeLocation()
+    {
+        WorldPoint lumbridgeTreePatchPoint = new WorldPoint(3193, 3231, 0);
 
         lumbridgeTreeLocation = new Location(FarmingHelperConfig::enumTreeLumbridgeTeleport, config, "Lumbridge", false);
+
         List<ItemRequirement> lumbridgeTreeTeleportItems = Arrays.asList(
                 new ItemRequirement(ItemID.AIR_RUNE, 3),
                 new ItemRequirement(ItemID.LAW_RUNE, 1),
-                new ItemRequirement(ItemID.EARTH_RUNE, 1));
-        WorldPoint lumbridgeTreePatchPoint = new WorldPoint(3193, 3231, 0);
+                new ItemRequirement(ItemID.EARTH_RUNE, 1)
+        );
         Location.Teleport lumbridgeTreeTeleport = lumbridgeTreeLocation.new Teleport(
                 "Lumbridge_teleport",
                 Location.TeleportCategory.SPELLBOOK,
@@ -144,16 +187,25 @@ public class TreeRunItemAndLocation extends ItemAndLocation {
                 24,
                 12850,
                 lumbridgeTreePatchPoint,
-                lumbridgeTreeTeleportItems);
+                lumbridgeTreeTeleportItems
+        );
+
         lumbridgeTreeLocation.addTeleportOption(lumbridgeTreeTeleport);
+
         locations.add(lumbridgeTreeLocation);
+    }
+
+    private void setupTaverleyLocation()
+    {
+        WorldPoint taverlyPatchPoint = new WorldPoint(2936, 3438, 0);
 
         taverleyTreeLocation = new Location(FarmingHelperConfig::enumTreeTaverleyTeleport, config, "Taverley", false);
+
         List<ItemRequirement> taverleyTreeTeleportItems = Arrays.asList(
                 new ItemRequirement(ItemID.AIR_RUNE, 3),
                 new ItemRequirement(ItemID.LAW_RUNE, 1),
-                new ItemRequirement(ItemID.WATER_RUNE, 1));
-        WorldPoint taverlyPatchPoint = new WorldPoint(2936, 3438, 0);
+                new ItemRequirement(ItemID.WATER_RUNE, 1)
+        );
         Location.Teleport taverleyTreeTeleport = taverleyTreeLocation.new Teleport(
                 "Falador_teleport",
                 Location.TeleportCategory.SPELLBOOK,
@@ -164,16 +216,25 @@ public class TreeRunItemAndLocation extends ItemAndLocation {
                 27,
                 11828,
                 taverlyPatchPoint,
-                taverleyTreeTeleportItems);
+                taverleyTreeTeleportItems
+        );
+
         taverleyTreeLocation.addTeleportOption(taverleyTreeTeleport);
+
         locations.add(taverleyTreeLocation);
+    }
+
+    private void setupVarrockLocation()
+    {
+        WorldPoint varrockTreePatchPoint = new WorldPoint(3229, 3459, 0);
 
         varrockTreeLocation = new Location(FarmingHelperConfig::enumTreeVarrockTeleport, config, "Varrock", false);
+
         List<ItemRequirement> varrockTreeTeleportItems = Arrays.asList(
                 new ItemRequirement(ItemID.AIR_RUNE, 3),
                 new ItemRequirement(ItemID.LAW_RUNE, 1),
-                new ItemRequirement(ItemID.FIRE_RUNE, 1));
-        WorldPoint varrockTreePatchPoint = new WorldPoint(3229, 3459, 0);
+                new ItemRequirement(ItemID.FIRE_RUNE, 1)
+        );
         Location.Teleport varrockTreeTeleport = varrockTreeLocation.new Teleport(
                 "Varrock_teleport",
                 Location.TeleportCategory.SPELLBOOK,
@@ -184,8 +245,11 @@ public class TreeRunItemAndLocation extends ItemAndLocation {
                 21,
                 12853,
                 varrockTreePatchPoint,
-                varrockTreeTeleportItems);
+                varrockTreeTeleportItems
+        );
+
         varrockTreeLocation.addTeleportOption(varrockTreeTeleport);
+
         locations.add(varrockTreeLocation);
     }
 }

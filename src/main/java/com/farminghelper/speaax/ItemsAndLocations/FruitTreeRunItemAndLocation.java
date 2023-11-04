@@ -32,7 +32,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation {
     public Map<Integer, Integer> getAllItemRequirements(List<Location> locations) {
         Map<Integer, Integer> allRequirements = new HashMap<>();
 
-        setupFruitTreeLocations();
+        setupLocations();
 
         // Add other items and merge them with allRequirements
         for (Location location : locations) {
@@ -69,16 +69,29 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation {
         return allRequirements;
     }
 
-    public void setupFruitTreeLocations() {
-        // Clear the existing locations list
-        locations.clear();
+    public void setupLocations()
+    {
+        super.setupLocations();
+
+        setupBrimhavenLocations();
+        setupCatherbyLocations();
+        setupFarmingGuildLocation();
+        setupGnomeStrongholdLocation();
+        setupLletyaLocation();
+        setupTreeGnomeVillage();
+    }
+
+    private void setupBrimhavenLocations()
+    {
+        WorldPoint brimhavenFruitTreePatchPoint = new WorldPoint(2764, 3212, 0);
 
         brimhavenFruitTreeLocation = new Location(FarmingHelperConfig::enumFruitTreeBrimhavenTeleport, config, "Brimhaven", false);
+
         List<ItemRequirement> brimhavenFruitTreeTeleportItems = Arrays.asList(
                 new ItemRequirement(ItemID.COINS_995, 30),
                 new ItemRequirement(ItemID.LAW_RUNE, 2),
-                new ItemRequirement(ItemID.WATER_RUNE, 2));
-        WorldPoint brimhavenFruitTreePatchPoint = new WorldPoint(2764, 3212, 0);
+                new ItemRequirement(ItemID.WATER_RUNE, 2)
+        );
         Location.Teleport brimhavenFruitTreeTeleport = brimhavenFruitTreeLocation.new Teleport(
                 "Ardougne_teleport",
                 Location.TeleportCategory.SPELLBOOK,
@@ -89,13 +102,21 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation {
                 38,
                 10547,
                 brimhavenFruitTreePatchPoint,
-                brimhavenFruitTreeTeleportItems);
+                brimhavenFruitTreeTeleportItems
+        );
+
         brimhavenFruitTreeLocation.addTeleportOption(brimhavenFruitTreeTeleport);
+
         locations.add(brimhavenFruitTreeLocation);
+    }
+
+    private void setupCatherbyLocations()
+    {
+        WorldPoint cathebyFruitTreePatchPoint = new WorldPoint(2860, 3433, 0);
 
         catherbyFruitTreeLocation = new Location(FarmingHelperConfig::enumFruitTreeCatherbyTeleport, config, "Catherby", false);
+
         List<ItemRequirement> catherbyFruitTreeTeleportItems = getHouseTeleportItemRequirements();
-        WorldPoint cathebyFruitTreePatchPoint = new WorldPoint(2860, 3433, 0);
         Location.Teleport catherbyFruitTreeTeleport = catherbyFruitTreeLocation.new Teleport(
                 "Portal_nexus",
                 Location.TeleportCategory.PORTAL_NEXUS,
@@ -106,13 +127,21 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation {
                 13,
                 11061,
                 cathebyFruitTreePatchPoint,
-                catherbyFruitTreeTeleportItems);
+                catherbyFruitTreeTeleportItems
+        );
+
         catherbyFruitTreeLocation.addTeleportOption(catherbyFruitTreeTeleport);
+
         locations.add(catherbyFruitTreeLocation);
+    }
+
+    private void setupFarmingGuildLocation()
+    {
+        WorldPoint farmingGuildFruitTreePatchPoint = new WorldPoint(1243, 3759, 0);
 
         farmingGuildFruitTreeLocation = new Location(FarmingHelperConfig::enumFruitTreeFarmingGuildTeleport, config, "Farming Guild", false);
+
         List<ItemRequirement> farmingGuildFruitTreeTeleportItems = getHouseTeleportItemRequirements();
-        WorldPoint farmingGuildFruitTreePatchPoint = new WorldPoint(1243, 3759, 0);
         Location.Teleport farmingGuildFruitTreeTeleport = farmingGuildFruitTreeLocation.new Teleport(
                 "Jewellery_box",
                 Location.TeleportCategory.JEWELLERY_BOX,
@@ -123,14 +152,23 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation {
                 13,
                 4922,
                 farmingGuildFruitTreePatchPoint,
-                farmingGuildFruitTreeTeleportItems);
+                farmingGuildFruitTreeTeleportItems
+        );
+
         farmingGuildFruitTreeLocation.addTeleportOption(farmingGuildFruitTreeTeleport);
+
         locations.add(farmingGuildFruitTreeLocation);
+    }
+
+    private void setupGnomeStrongholdLocation()
+    {
+        WorldPoint gnomeStrongholdFruitTreePatchPoint = new WorldPoint(2475, 3446, 0);
 
         gnomeStrongholdFruitTreeLocation = new Location(FarmingHelperConfig::enumFruitTreeGnomeStrongholdTeleport, config, "Gnome Stronghold", false);
+
         List<ItemRequirement> gnomeStrongholdFruitTreeTeleportItems = Arrays.asList(
-                new ItemRequirement(ItemID.ROYAL_SEED_POD, 1));
-        WorldPoint gnomeStrongholdFruitTreePatchPoint = new WorldPoint(2475, 3446, 0);
+                new ItemRequirement(ItemID.ROYAL_SEED_POD, 1)
+        );
         Location.Teleport gnomeStrongholdFruitTreeTeleport = gnomeStrongholdFruitTreeLocation.new Teleport(
                 "Royal_seed_pod",
                 Location.TeleportCategory.ITEM,
@@ -141,14 +179,23 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation {
                 0,
                 9782,
                 gnomeStrongholdFruitTreePatchPoint,
-                gnomeStrongholdFruitTreeTeleportItems);
+                gnomeStrongholdFruitTreeTeleportItems
+        );
+
         gnomeStrongholdFruitTreeLocation.addTeleportOption(gnomeStrongholdFruitTreeTeleport);
+
         locations.add(gnomeStrongholdFruitTreeLocation);
+    }
+
+    private void setupLletyaLocation()
+    {
+        WorldPoint lletyaFruitTreePatchPoint = new WorldPoint(2346, 3162, 0);
 
         lletyaFruitTreeLocation = new Location(FarmingHelperConfig::enumFruitTreeLletyaTeleport, config, "Lletya", false);
+
         List<ItemRequirement> lletyaFruitTreeTeleportItems = Arrays.asList(
-                new ItemRequirement(ItemID.TELEPORT_CRYSTAL_1, 1));
-        WorldPoint lletyaFruitTreePatchPoint = new WorldPoint(2346, 3162, 0);
+                new ItemRequirement(ItemID.TELEPORT_CRYSTAL_1, 1)
+        );
         Location.Teleport lletyaFruitTreeTeleport = lletyaFruitTreeLocation.new Teleport(
                 "Teleport_crystal",
                 Location.TeleportCategory.ITEM,
@@ -159,14 +206,23 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation {
                 0,
                 9265,
                 lletyaFruitTreePatchPoint,
-                lletyaFruitTreeTeleportItems);
+                lletyaFruitTreeTeleportItems
+        );
+
         lletyaFruitTreeLocation.addTeleportOption(lletyaFruitTreeTeleport);
+
         locations.add(lletyaFruitTreeLocation);
+    }
+
+    private void setupTreeGnomeVillage()
+    {
+        WorldPoint treeGnomeVillageFruitTreePatchPoint = new WorldPoint(2490, 3180, 0);
 
         treeGnomeVillageFruitTreeLocation = new Location(FarmingHelperConfig::enumFruitTreeTreeGnomeVillageTeleport, config, "Tree Gnome Village", false);
+
         List<ItemRequirement> treeGnomeVillageFruitTreeTeleportItems = Arrays.asList(
-                new ItemRequirement(ItemID.ROYAL_SEED_POD, 1));
-        WorldPoint treeGnomeVillageFruitTreePatchPoint = new WorldPoint(2490, 3180, 0);
+                new ItemRequirement(ItemID.ROYAL_SEED_POD, 1)
+        );
         Location.Teleport treeGnomeVillageFruitTreeTeleport = treeGnomeVillageFruitTreeLocation.new Teleport(
                 "Royal_seed_pod",
                 Location.TeleportCategory.ITEM,
@@ -177,9 +233,11 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation {
                 0,
                 9782,
                 treeGnomeVillageFruitTreePatchPoint,
-                treeGnomeVillageFruitTreeTeleportItems);
-        treeGnomeVillageFruitTreeLocation.addTeleportOption(treeGnomeVillageFruitTreeTeleport);
-        locations.add(treeGnomeVillageFruitTreeLocation);
+                treeGnomeVillageFruitTreeTeleportItems
+        );
 
+        treeGnomeVillageFruitTreeLocation.addTeleportOption(treeGnomeVillageFruitTreeTeleport);
+        
+        locations.add(treeGnomeVillageFruitTreeLocation);
     }
 }
