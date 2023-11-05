@@ -585,6 +585,8 @@ public class FarmingTeleportOverlay extends Overlay {
     }
 
     public Boolean treePatchDone = false;
+    public Boolean treePatchComposted = false;
+    public Boolean treePatchProtected = false;
     public Boolean patchComposted = false;
 
     public void treeSteps(Graphics2D graphics, Location.Teleport teleport) {
@@ -628,12 +630,12 @@ public class FarmingTeleportOverlay extends Overlay {
                 case REMOVE:
                     plugin.addTextToInfoBox("Pay to remove tree, or cut it down and clear the patch.");
                     if(!isInterfaceOpen(219, 1)) {
-                        highlightNpc(graphics, "Heskel", leftClickColorWithAlpha); //Falador
-                        highlightNpc(graphics, "Rosie", leftClickColorWithAlpha); //Farming Guild
-                        highlightNpc(graphics, "Prissy Scilla", leftClickColorWithAlpha); //Gnome Stronghold
-                        highlightNpc(graphics, "Fayeth", leftClickColorWithAlpha); //Lumbridge
-                        highlightNpc(graphics, "Alain", leftClickColorWithAlpha); //Taverly
-                        highlightNpc(graphics, "Treznor", leftClickColorWithAlpha); //Varrock
+                        highlightNpc(graphics, "Heskel", leftClickColorWithAlpha); // Falador
+                        highlightNpc(graphics, "Rosie", leftClickColorWithAlpha); // Farming Guild
+                        highlightNpc(graphics, "Prissy Scilla", leftClickColorWithAlpha); // Gnome Stronghold
+                        highlightNpc(graphics, "Fayeth", leftClickColorWithAlpha); // Lumbridge
+                        highlightNpc(graphics, "Alain", leftClickColorWithAlpha); // Taverly
+                        highlightNpc(graphics, "Treznor", leftClickColorWithAlpha); // Varrock
                     }
                     else {
                         Widget widget = client.getWidget(219, 1);
@@ -644,18 +646,46 @@ public class FarmingTeleportOverlay extends Overlay {
                     plugin.addTextToInfoBox("UNKNOWN state: Try to do something with the tree patch to change its state.");
                     break;
                 case GROWING:
-                    plugin.addTextToInfoBox("Use Compost on patch.");
-                    if(isItemInInventory(selectedCompostID())) {
-                        highlightTreePatches(graphics, highlightUseItemWithAlpha);
-                        itemHighlight(graphics, selectedCompostID(), highlightUseItemWithAlpha);
+                    if (!treePatchComposted) {
+                        plugin.addTextToInfoBox("Use Compost on patch.");
+
+                        if (isItemInInventory(selectedCompostID())) {
+                            highlightTreePatches(graphics, highlightUseItemWithAlpha);
+                            itemHighlight(graphics, selectedCompostID(), highlightUseItemWithAlpha);
+                        } else {
+                            withdrawCompost(graphics);
+                        }
+
+                        if (isItComposted(plugin.getLastMessage())) {
+                            treePatchComposted = true;
+                        } else {
+                            // If the patch is yet to be composted, only show the compost step at this time, until it has been composted
+                            break;
+                        }
                     }
-                    else {
-                        withdrawCompost(graphics);
+
+                    if (config.payForProtection() && !treePatchProtected) {
+                        plugin.addTextToInfoBox("Pay to protect the patch.");
+
+                        if (! isInterfaceOpen(219, 1)) {
+                            highlightNpc(graphics, "Heskel", leftClickColorWithAlpha); // Falador
+                            highlightNpc(graphics, "Rosie", leftClickColorWithAlpha); // Farming Guild
+                            highlightNpc(graphics, "Prissy Scilla", leftClickColorWithAlpha); // Gnome Stronghold
+                            highlightNpc(graphics, "Fayeth", leftClickColorWithAlpha); // Lumbridge
+                            highlightNpc(graphics, "Alain", leftClickColorWithAlpha); // Taverly
+                            highlightNpc(graphics, "Treznor", leftClickColorWithAlpha); // Varrock
+                        } else {
+                            Widget widget = client.getWidget(219, 1);
+                            highlightDynamicComponent(graphics, widget, 1, leftClickColorWithAlpha);
+                            treePatchProtected = true;
+                        }
                     }
-                    if (isItComposted(plugin.getLastMessage())) {
+
+                    if (treePatchComposted && (!config.payForProtection() || (config.payForProtection() && treePatchProtected))) {
                         currentHerbCase = 1;
                         treePatchDone = true;
                     }
+
                     break;
             }
         }
@@ -923,7 +953,7 @@ public class FarmingTeleportOverlay extends Overlay {
                             case 2:
                                 if (!isInterfaceOpen(17, 0)) {
                                     // TODO: Need to figure out what the game object ID of the Spirit Tree is
-                                    List<Integer> spiritTreeIds = getGameObjectIdsByName("Spirit Tree");
+                                    List<Integer> spiritTreeIds = getGameObjectIdsByName("Spirit tree");
                                     for (Integer objectId : spiritTreeIds) {
                                         gameObjectOverlay(objectId, leftClickColorWithAlpha).render(graphics);
                                     }
@@ -1087,6 +1117,8 @@ public class FarmingTeleportOverlay extends Overlay {
                     herbRunIndex++;
                     patchComposted = false;
                     treePatchDone = false;
+                    treePatchComposted = false;
+                    treePatchProtected = false;
                 }
             }
             if (fruitTreeRun) {
