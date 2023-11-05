@@ -945,13 +945,13 @@ public class FarmingTeleportOverlay extends Overlay {
                                 break;
                             case 2:
                                 if (!isInterfaceOpen(187, 3)) {
-                                    List<Integer> spiritTreeIds = getGameObjectIdsByName("Spirit Tree");
+                                    //Might be more
+                                    List<Integer> spiritTreeIds = Arrays.asList(1293, 1294, 1295, 8355, 29227, 29229, 37329, 40778);
                                     for (Integer objectId : spiritTreeIds) {
                                         gameObjectOverlay(objectId, leftClickColorWithAlpha).render(graphics);
                                     }
                                 } else {
                                     Widget widget = client.getWidget(187, 3);
-                                    System.out.print(location.getName());
                                     if (Objects.equals(
                                         location.getName(),
                                         "Gnome Stronghold"
