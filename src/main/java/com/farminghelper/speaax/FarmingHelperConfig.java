@@ -110,6 +110,15 @@ public interface FarmingHelperConfig extends Config
 	)
 	default boolean generalAllotment() { return false; }
 
+	@ConfigItem(
+		keyName = "booleanConfigPayForProtection",
+		name = "Pay for protection",
+		description = "Want a reminder to pay for protection? (This currently doesn't check for the required items, only prompts you to pay the farmer.)",
+		position = 9,
+		section = generalList
+	)
+	default boolean payForProtection() { return false; }
+
 
 	@ConfigSection(
 		name = "Herbs",
