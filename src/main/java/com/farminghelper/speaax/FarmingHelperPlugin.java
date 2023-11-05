@@ -173,7 +173,7 @@ public class FarmingHelperPlugin extends Plugin
 
 
 	private FarmingHelperPanel farmingHelperPanel;
-	private FarmingHelperPanel panel;
+	public FarmingHelperPanel panel;
 	private NavigationButton navButton;
 
 	@Inject
@@ -366,10 +366,6 @@ public class FarmingHelperPlugin extends Plugin
 		overlayManager.remove(farmingHelperOverlay);
 		overlayManager.remove(farmingTeleportOverlay);
 		overlayManager.remove(farmingHelperOverlayInfoBox);
-
-		panel.herbButton.setStartStopState(false);
-		panel.treeButton.setStartStopState(false);
-		panel.fruitTreeButton.setStartStopState(false);
 
 		eventBus.unregister(this);
 	}
