@@ -149,7 +149,7 @@ public interface FarmingHelperConfig extends Config
 		position = 4,
 		keyName = "booleanConfigFarmingGuildHerb",
 		name = "Farming Guild",
-		description = "Include Farming guild?(Requires level 65 farming and 60% Hosidious favour)",
+		description = "Include Farming guild? (Requires level 65 farming and 60% Hosidious favour)",
 		section = herbList
 	)
 	default boolean farmingGuildHerb() { return false; }
@@ -158,7 +158,7 @@ public interface FarmingHelperConfig extends Config
 		position = 5,
 		keyName = "booleanConfigHarmonyHerb",
 		name = "Harmony",
-		description = "Include Harmony?(Requires elite Morytania diary)",
+		description = "Include Harmony? (Requires elite Morytania diary)",
 		section = herbList
 	)
 	default boolean harmonyHerb() { return false; }
@@ -194,7 +194,7 @@ public interface FarmingHelperConfig extends Config
 		position = 9,
 		keyName = "booleanConfigWeissHerb",
 		name = "Weiss",
-		description = "Include Weiss?(Requires completion of Making Friends with My Arm, and The Fire of Nourishment must be built)",
+		description = "Include Weiss? (Requires completion of Making Friends with My Arm, and The Fire of Nourishment must be built)",
 		section = herbList
 	)
 	default boolean weissHerb() { return false; }
@@ -219,7 +219,7 @@ public interface FarmingHelperConfig extends Config
 		position = 11,
 		keyName = "booleanConfigFarmingGuildTree",
 		name = "Farming guild",
-		description = "Include Farming Guild?(Requires 65 farming)",
+		description = "Include Farming Guild? (Requires 65 farming)",
 		section = treeList
 	)
 	default boolean farmingGuildTree() { return false; }
@@ -294,7 +294,7 @@ public interface FarmingHelperConfig extends Config
 		position = 18,
 		keyName = "booleanConfigFarmingGuildFruitTree",
 		name = "Farming Guild",
-		description = "Include Farming Guild?(Requires 85 farming)",
+		description = "Include Farming Guild? (Requires 85 farming)",
 		section = fruitTreeList
 	)
 	default boolean farmingGuildFruitTree() { return false; }
@@ -312,7 +312,7 @@ public interface FarmingHelperConfig extends Config
 		position = 20,
 		keyName = "booleanConfigLletyaFruitTree",
 		name = "Lletya",
-		description = "Include Lletya?(Requires starting Mourning's End Part I)",
+		description = "Include Lletya? (Requires starting Mourning's End Part I)",
 		section = fruitTreeList
 	)
 	default boolean lletyaFruitTree() { return false; }
@@ -336,6 +336,7 @@ public interface FarmingHelperConfig extends Config
 
 	enum OptionEnumArdougneTeleport implements OptionEnumTeleport
 	{
+		Portal_Nexus,
 		Ardougne_teleport,
 		Ardougne_tele_tab,
 		Ardy_cloak_2,
@@ -353,7 +354,8 @@ public interface FarmingHelperConfig extends Config
 	default OptionEnumArdougneTeleport enumOptionEnumArdougneTeleport() { return OptionEnumArdougneTeleport.Ardy_cloak_3; }
 	enum OptionEnumCatherbyTeleport implements OptionEnumTeleport
 	{
-		Portal_Nexus,
+		Portal_Nexus_Catherby,
+		Portal_Nexus_Camelot,
 		Camelot_Teleport,
 		Camelot_Tele_Tab,
 		Catherby_Tele_Tab
@@ -365,10 +367,11 @@ public interface FarmingHelperConfig extends Config
 			description = "Desired way to teleport to Catherby",
 			section = teleportOptionList
 	)
-	default OptionEnumCatherbyTeleport enumOptionEnumCatherbyTeleport() { return OptionEnumCatherbyTeleport.Portal_Nexus; }
+	default OptionEnumCatherbyTeleport enumOptionEnumCatherbyTeleport() { return OptionEnumCatherbyTeleport.Portal_Nexus_Catherby; }
 
 	enum OptionEnumFaladorTeleport implements OptionEnumTeleport
 	{
+		Portal_Nexus,
 		Explorers_ring_2,
 		Explorers_ring_3,
 		Explorers_ring_4,
@@ -476,6 +479,7 @@ public interface FarmingHelperConfig extends Config
 	String treeTeleportOptionList = "treeTeleportOptionList";
 	enum TreeOptionEnumFaladorTeleport implements OptionEnumTeleport
 	{
+		Portal_Nexus,
 		Falador_teleport
 	}
 	@ConfigItem(
@@ -515,6 +519,7 @@ public interface FarmingHelperConfig extends Config
 
 	enum TreeOptionEnumLumbridgeTeleport implements OptionEnumTeleport
 	{
+		Portal_Nexus,
 		Lumbridge_teleport
 	}
 	@ConfigItem(
@@ -528,6 +533,7 @@ public interface FarmingHelperConfig extends Config
 
 	enum TreeOptionEnumTaverleyTeleport implements OptionEnumTeleport
 	{
+		Portal_Nexus,
 		Falador_teleport
 	}
 	@ConfigItem(
@@ -541,6 +547,7 @@ public interface FarmingHelperConfig extends Config
 
 	enum TreeOptionEnumVarrockTeleport implements OptionEnumTeleport
 	{
+		Portal_Nexus,
 		Varrock_teleport
 	}
 	@ConfigItem(
@@ -561,6 +568,7 @@ public interface FarmingHelperConfig extends Config
 
 	enum FruitTreeOptionEnumBrimhavenTeleport implements OptionEnumTeleport
 	{
+		Portal_Nexus,
 		Ardougne_teleport
 	}
 	@ConfigItem(
@@ -574,7 +582,8 @@ public interface FarmingHelperConfig extends Config
 
 	enum FruitTreeOptionEnumCatherbyTeleport implements OptionEnumTeleport
 	{
-		Portal_nexus
+		Portal_Nexus_Catherby,
+		Portal_Nexus_Camelot
 	}
 	@ConfigItem(
 			position = 1,
@@ -583,7 +592,7 @@ public interface FarmingHelperConfig extends Config
 			description = "Desired way to teleport to Catherby",
 			section = fruitTreeTeleportOptionList
 	)
-	default FruitTreeOptionEnumCatherbyTeleport enumFruitTreeCatherbyTeleport() { return FruitTreeOptionEnumCatherbyTeleport.Portal_nexus; }
+	default FruitTreeOptionEnumCatherbyTeleport enumFruitTreeCatherbyTeleport() { return FruitTreeOptionEnumCatherbyTeleport.Portal_Nexus_Catherby; }
 
 	enum FruitTreeOptionEnumFarmingGuildTeleport implements OptionEnumTeleport
 	{

@@ -1080,8 +1080,10 @@ public class FarmingTeleportOverlay extends Overlay {
         plugin.overlayManager.remove(farmingHelperOverlay);
         plugin.overlayManager.remove(farmingTeleportOverlay);
         plugin.overlayManager.remove(farmingHelperOverlayInfoBox);
+
         plugin.setOverlayActive(false);
         plugin.setTeleportOverlayActive(false);
+
         herbRunIndex = 0;
         currentTeleportCase = 1;
         subCase = 1;
@@ -1089,7 +1091,9 @@ public class FarmingTeleportOverlay extends Overlay {
         isAtDestination = false;
         farmLimps = false;
         flowerPatchDone = false;
+
         plugin.setItemsCollected(false);
+
         plugin.getFarmingTeleportOverlay().herbRun = false;
         plugin.getFarmingTeleportOverlay().treeRun = false;
         plugin.getFarmingTeleportOverlay().fruitTreeRun = false;
@@ -1098,6 +1102,9 @@ public class FarmingTeleportOverlay extends Overlay {
         herbRun = false;
         treeRun = false;
 
+        plugin.panel.herbButton.setStartStopState(false);
+        plugin.panel.treeButton.setStartStopState(false);
+        plugin.panel.fruitTreeButton.setStartStopState(false);
     }
 
     public Boolean herbRun = false;

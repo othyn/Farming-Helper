@@ -173,7 +173,7 @@ public class FarmingHelperPlugin extends Plugin
 
 
 	private FarmingHelperPanel farmingHelperPanel;
-	private FarmingHelperPanel panel;
+	public FarmingHelperPanel panel;
 	private NavigationButton navButton;
 
 	@Inject
@@ -331,7 +331,6 @@ public class FarmingHelperPlugin extends Plugin
 	@Override
 	protected void startUp()
 	{
-
 		herbRunItemAndLocation = new HerbRunItemAndLocation(config, client, this);
 		treeRunItemAndLocation = new TreeRunItemAndLocation(config, client, this);
 		fruitTreeRunItemAndLocation = new FruitTreeRunItemAndLocation(config, client, this);
@@ -341,7 +340,7 @@ public class FarmingHelperPlugin extends Plugin
 		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), "/com/farminghelper/speaax/icon.png");
 
 		navButton = NavigationButton.builder()
-				.tooltip("Lazy Farming ")
+				.tooltip("Lazy Farming")
 				.icon(icon)
 				.priority(6)
 				.panel(panel)
@@ -352,24 +351,22 @@ public class FarmingHelperPlugin extends Plugin
 		overlayManager.add(farmingTeleportOverlay);
 		overlayManager.add(farmingHelperOverlayInfoBox);
 
-
-
-
 		// set overlay to inactive
 		isOverlayActive = false;
 		eventBus.register(this);
 
-		herbRunItemAndLocation.setupHerbLocations();
-
+		herbRunItemAndLocation.setupLocations();
 	}
 
 	@Override
 	protected void shutDown()
 	{
 		clientToolbar.removeNavigation(navButton);
+
 		overlayManager.remove(farmingHelperOverlay);
 		overlayManager.remove(farmingTeleportOverlay);
 		overlayManager.remove(farmingHelperOverlayInfoBox);
+
 		eventBus.unregister(this);
 	}
 }
