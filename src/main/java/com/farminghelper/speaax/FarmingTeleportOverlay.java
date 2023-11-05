@@ -985,33 +985,29 @@ public class FarmingTeleportOverlay extends Overlay {
                         }
                         break;
                     case SPIRIT_TREE:
-                        switch (currentTeleportCase) {
-                            case 1:
-                                gettingToHouse(graphics);
-                                break;
-                            case 2:
-                                if (!isInterfaceOpen(17, 0)) {
-                                    List<Integer> spiritTreeIds = Arrays.asList(1293, 1294, 1295);
+                        if (!isInterfaceOpen(17, 0)) {
+                            List<Integer> spiritTreeIds = Arrays.asList(1293, 1294, 1295);
 
-                                    for (Integer objectId : spiritTreeIds) {
-                                        gameObjectOverlay(objectId, leftClickColorWithAlpha).render(graphics);
-                                    }
-                                } else {
-                                    // TODO: The location doesn't always align with the Teleport option, meaning it won't be highlighted, such as using the Camelot teleport for Catherby
-                                    int index = getChildIndexPN(location.getName());
-                                    Widget widget = client.getWidget(187, 3);
-                                    highlightDynamicComponent(graphics, widget, index, leftClickColorWithAlpha);
-                                }
-                                if (currentRegionId == teleport.getRegionId()) {
-                                    currentTeleportCase = 1;
-                                    isAtDestination = true;
-                                    startSubCases = true;
-                                    if (location.getFarmLimps()) {
-                                        farmLimps = true;
-                                    }
-                                }
-                                break;
+                            for (Integer objectId : spiritTreeIds) {
+                                gameObjectOverlay(objectId, leftClickColorWithAlpha).render(graphics);
+                            }
+                        } else {
+                            // TODO: The location doesn't always align with the Teleport option, meaning it won't be highlighted, such as using the Camelot teleport for Catherby
+                            int index = getChildIndexPN(location.getName());
+                            Widget widget = client.getWidget(187, 3);
+                            highlightDynamicComponent(graphics, widget, index, leftClickColorWithAlpha);
                         }
+
+                        if (currentRegionId == teleport.getRegionId()) {
+                            currentTeleportCase = 1;
+                            isAtDestination = true;
+                            startSubCases = true;
+
+                            if (location.getFarmLimps()) {
+                                farmLimps = true;
+                            }
+                        }
+
                         break;
                     case JEWELLERY_BOX:
                         switch (currentTeleportCase) {
