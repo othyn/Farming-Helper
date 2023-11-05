@@ -991,8 +991,8 @@ public class FarmingTeleportOverlay extends Overlay {
                                 break;
                             case 2:
                                 if (!isInterfaceOpen(17, 0)) {
-                                    // TODO: Need to figure out what the game object ID of the Spirit Tree is
-                                    List<Integer> spiritTreeIds = getGameObjectIdsByName("Spirit tree");
+                                    List<Integer> spiritTreeIds = Arrays.asList(1293, 1294, 1295);
+
                                     for (Integer objectId : spiritTreeIds) {
                                         gameObjectOverlay(objectId, leftClickColorWithAlpha).render(graphics);
                                     }
