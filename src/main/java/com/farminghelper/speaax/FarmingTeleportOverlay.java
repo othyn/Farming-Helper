@@ -159,6 +159,32 @@ public class FarmingTeleportOverlay extends Overlay {
         }
         return -1; // Return -1 if the specified text is not found
     }
+    public int getChildIndexST(String searchText) {
+        Widget parentWidget = client.getWidget(187, 3);
+        if (parentWidget == null) {
+            return -1;
+        }
+
+        Widget[] children = parentWidget.getChildren();
+        if (children == null) {
+            return -1;
+        }
+
+        for (int index = 0; index < children.length; index++) {
+            Widget child = children[index];
+            String text = child.getText();
+            if (text != null) {
+                int colonIndex = text.indexOf(':');
+                if (colonIndex != -1 && colonIndex + 1 < text.length()) {
+                    String textAfterColon = text.substring(colonIndex + 1).trim();
+                    if (textAfterColon.equals(searchText)) {
+                        return index;
+                    }
+                }
+            }
+        }
+        return -1; // Return -1 if the specified text is not found
+    }
 
     public void highlightDynamicComponent(Graphics2D graphics, Widget widget, int dynamicChildIndex, Color color) {
         if (widget != null) {
@@ -969,8 +995,8 @@ public class FarmingTeleportOverlay extends Overlay {
                                     }
                                 } else {
                                     // TODO: The location doesn't always align with the Teleport option, meaning it won't be highlighted, such as using the Camelot teleport for Catherby
-                                    int index = getChildIndexPN(location.getName());
                                     Widget widget = client.getWidget(17, 13);
+                                    int index = getChildIndexPN(location.getName());
                                     highlightDynamicComponent(graphics, widget, index, leftClickColorWithAlpha);
                                 }
                                 if (currentRegionId == teleport.getRegionId()) {
@@ -986,7 +1012,7 @@ public class FarmingTeleportOverlay extends Overlay {
                         break;
                     case SPIRIT_TREE:
                         if (!isInterfaceOpen(17, 0)) {
-                            List<Integer> spiritTreeIds = Arrays.asList(1293, 1294, 1295);
+                            List<Integer> spiritTreeIds = Arrays.asList(1293, 1294, 1295, 8355, 29227, 29229, 37329, 40778);
 
                             for (Integer objectId : spiritTreeIds) {
                                 gameObjectOverlay(objectId, leftClickColorWithAlpha).render(graphics);
