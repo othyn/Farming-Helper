@@ -692,6 +692,8 @@ public class FarmingTeleportOverlay extends Overlay {
     }
 
     public Boolean fruitTreePatchDone = false;
+    public Boolean fruitTreePatchComposted = false;
+    public Boolean fruitTreePatchProtected = false;
 
     public void fruitTreeSteps(Graphics2D graphics, Location.Teleport teleport) {
         int currentRegionId = client.getLocalPlayer().getWorldLocation().getRegionID();
@@ -735,12 +737,12 @@ public class FarmingTeleportOverlay extends Overlay {
                 case REMOVE:
                     plugin.addTextToInfoBox("Pay to remove fruit tree, or cut it down and clear the patch.");
                     if(!isInterfaceOpen(219, 1)) {
-                        highlightNpc(graphics, "Garth", leftClickColorWithAlpha); //Brimhaven
-                        highlightNpc(graphics, "Ellena", leftClickColorWithAlpha); //Catherby
-                        highlightNpc(graphics, "Nikkie", leftClickColorWithAlpha); //Farming Guild
-                        highlightNpc(graphics, "Bolongo", leftClickColorWithAlpha); //Gnome Stronghold
-                        highlightNpc(graphics, "Liliwen", leftClickColorWithAlpha); //Lletya
-                        highlightNpc(graphics, "Gileth", leftClickColorWithAlpha); //Tree Gnome Village
+                        highlightNpc(graphics, "Garth", leftClickColorWithAlpha); // Brimhaven
+                        highlightNpc(graphics, "Ellena", leftClickColorWithAlpha); // Catherby
+                        highlightNpc(graphics, "Nikkie", leftClickColorWithAlpha); // Farming Guild
+                        highlightNpc(graphics, "Bolongo", leftClickColorWithAlpha); // Gnome Stronghold
+                        highlightNpc(graphics, "Liliwen", leftClickColorWithAlpha); // Lletya
+                        highlightNpc(graphics, "Gileth", leftClickColorWithAlpha); // Tree Gnome Village
                     }
                     else {
                         Widget widget = client.getWidget(219, 1);
@@ -751,19 +753,46 @@ public class FarmingTeleportOverlay extends Overlay {
                     plugin.addTextToInfoBox("UNKNOWN state: Try to do something with the tree patch to change its state.");
                     break;
                 case GROWING:
-                    plugin.addTextToInfoBox("Use Compost on patch.");
-                    if(isItemInInventory(selectedCompostID())) {
-                        highlightFruitTreePatches(graphics, highlightUseItemWithAlpha);
-                        itemHighlight(graphics, selectedCompostID(), highlightUseItemWithAlpha);
-                    }
-                    else {
-                        withdrawCompost(graphics);
+                    if (!fruitTreePatchComposted) {
+                        plugin.addTextToInfoBox("Use Compost on patch.");
+
+                        if (isItemInInventory(selectedCompostID())) {
+                            highlightFruitTreePatches(graphics, highlightUseItemWithAlpha);
+                            itemHighlight(graphics, selectedCompostID(), highlightUseItemWithAlpha);
+                        } else {
+                            withdrawCompost(graphics);
+                        }
+
+                        if (isItComposted(plugin.getLastMessage())) {
+                            fruitTreePatchComposted = true;
+                        } else {
+                            // If the patch is yet to be composted, only show the compost step at this time, until it has been composted
+                            break;
+                        }
                     }
 
-                    if (isItComposted(plugin.getLastMessage())) {
+                    if (config.payForProtection() && !fruitTreePatchProtected) {
+                        plugin.addTextToInfoBox("Pay to protect the patch.");
+
+                        if (! isInterfaceOpen(219, 1)) {
+                            highlightNpc(graphics, "Garth", leftClickColorWithAlpha); // Brimhaven
+                            highlightNpc(graphics, "Ellena", leftClickColorWithAlpha); // Catherby
+                            highlightNpc(graphics, "Nikkie", leftClickColorWithAlpha); // Farming Guild
+                            highlightNpc(graphics, "Bolongo", leftClickColorWithAlpha); // Gnome Stronghold
+                            highlightNpc(graphics, "Liliwen", leftClickColorWithAlpha); // Lletya
+                            highlightNpc(graphics, "Gileth", leftClickColorWithAlpha); // Tree Gnome Village
+                        } else {
+                            Widget widget = client.getWidget(219, 1);
+                            highlightDynamicComponent(graphics, widget, 1, leftClickColorWithAlpha);
+                            fruitTreePatchProtected = true;
+                        }
+                    }
+
+                    if (fruitTreePatchComposted && (!config.payForProtection() || (config.payForProtection() && fruitTreePatchProtected))) {
                         currentHerbCase = 1;
                         fruitTreePatchDone = true;
                     }
+
                     break;
             }
         }
@@ -1129,6 +1158,8 @@ public class FarmingTeleportOverlay extends Overlay {
                     herbRunIndex++;
                     patchComposted = false;
                     fruitTreePatchDone = false;
+                    fruitTreePatchComposted = false;
+                    fruitTreePatchProtected = false;
                 }
             }
         }
