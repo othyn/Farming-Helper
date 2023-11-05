@@ -506,7 +506,8 @@ public interface FarmingHelperConfig extends Config
 
 	enum TreeOptionEnumGnomeStrongholdTeleport implements OptionEnumTeleport
 	{
-		Royal_seed_pod
+		Royal_seed_pod,
+		Spirit_Tree
 	}
 	@ConfigItem(
 			position = 2,
@@ -609,7 +610,8 @@ public interface FarmingHelperConfig extends Config
 
 	enum FruitTreeOptionEnumGnomeStrongholdTeleport implements OptionEnumTeleport
 	{
-		Royal_seed_pod
+		Royal_seed_pod,
+		Spirit_Tree
 	}
 	@ConfigItem(
 			position = 1,
@@ -635,7 +637,8 @@ public interface FarmingHelperConfig extends Config
 
 	enum FruitTreeOptionEnumTreeGnomeVillageTeleport implements OptionEnumTeleport
 	{
-		Royal_seed_pod
+		Royal_seed_pod,
+		Spirit_Tree
 	}
 	@ConfigItem(
 			position = 1,
