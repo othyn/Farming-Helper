@@ -951,7 +951,6 @@ public class FarmingTeleportOverlay extends Overlay {
                                     }
                                 } else {
                                     Widget widget = client.getWidget(187, 3);
-                                    System.out.print(location.getName());
                                     if (Objects.equals(
                                         location.getName(),
                                         "Gnome Stronghold"
