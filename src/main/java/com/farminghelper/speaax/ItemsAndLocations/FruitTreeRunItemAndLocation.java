@@ -293,6 +293,20 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
+        gnomeStrongholdFruitTreeLocation.addTeleportOption(gnomeStrongholdFruitTreeLocation.new Teleport(
+            "Spirit_Tree",
+            Location.TeleportCategory.SPIRIT_TREE,
+            "Teleport to Gnome Stronghold via a Spirit Tree.",
+            0,
+            "null",
+            187,
+            3,
+            9781,
+            gnomeStrongholdFruitTreePatchPoint,
+            // TODO: Change this to no requirements? House is handy for people with a tree in their home
+            getHouseTeleportItemRequirements()
+        ));
+
         locations.add(gnomeStrongholdFruitTreeLocation);
     }
 
@@ -359,6 +373,20 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
                 ItemID.ROYAL_SEED_POD,
                 1
             ))
+        ));
+
+        treeGnomeVillageFruitTreeLocation.addTeleportOption(treeGnomeVillageFruitTreeLocation.new Teleport(
+            "Spirit_Tree",
+            Location.TeleportCategory.SPIRIT_TREE,
+            "Teleport to Tree Gnome Village via a Spirit Tree.",
+            0,
+            "null",
+            187,
+            3,
+            10033,
+            treeGnomeVillageFruitTreePatchPoint,
+            // TODO: Change this to no requirements? House is handy for people with a tree in their home
+            getHouseTeleportItemRequirements()
         ));
 
         locations.add(treeGnomeVillageFruitTreeLocation);

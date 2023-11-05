@@ -249,6 +249,20 @@ public class TreeRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
+        gnomeStrongholdTreeLocation.addTeleportOption(gnomeStrongholdTreeLocation.new Teleport(
+            "Spirit_Tree",
+            Location.TeleportCategory.SPIRIT_TREE,
+            "Teleport to Gnome Stronghold via a Spirit Tree.",
+            0,
+            "null",
+            187,
+            3,
+            9781,
+            gnomeStrongholdTreePatchPoint,
+            // TODO: Change this to no requirements? House is handy for people with a tree in their home
+            getHouseTeleportItemRequirements()
+        ));
+
         locations.add(gnomeStrongholdTreeLocation);
     }
 
