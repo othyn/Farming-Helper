@@ -28,7 +28,7 @@ public interface FarmingHelperConfig extends Config
 		String name();
 	}
 	@ConfigItem(
-			position = 9,
+			position = 10,
 			keyName = "enumConfigHouseTele",
 			name = "House teleport",
 			description = "Desired way to teleport to house",
