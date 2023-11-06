@@ -982,17 +982,14 @@ public class FarmingTeleportOverlay extends Overlay {
                             Widget widget = client.getWidget(187, 3);
 
                             switch (location.getName()) {
-                                case "Gnome Stronghold":
-                                    highlightDynamicComponent(graphics, widget, getChildIndex(widget, "Gnome Stronghold"));
-
-                                case "Tree Gnome Village":
-                                    highlightDynamicComponent(graphics, widget, getChildIndex(widget, "Tree Gnome Village"));
-
                                 case "Falador":
                                     highlightDynamicComponent(graphics, widget, getChildIndex(widget, "Port Sarim"));
 
                                 case "Kourend":
                                     highlightDynamicComponent(graphics, widget, getChildIndex(widget, "Hosidius"));
+
+                                default:
+                                    highlightDynamicComponent(graphics, widget, getChildIndex(widget, location.getName()));
                             }
                         }
 
