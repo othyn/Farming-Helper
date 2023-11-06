@@ -405,7 +405,10 @@ public class FarmingTeleportOverlay extends Overlay {
     public void highlightCompost(Graphics2D graphics)
     {
         if (isItemInInventory(selectedCompostID())) {
+            highlightHerbPatches(graphics);
+            highlightFlowerPatches(graphics);
             highlightTreePatches(graphics);
+            highlightFruitTreePatches(graphics);
             itemHighlight(graphics, selectedCompostID());
         } else {
             withdrawCompost(graphics);
@@ -497,8 +500,7 @@ public class FarmingTeleportOverlay extends Overlay {
         }
         return -1;
     }
-    private int currentHerbCase = 1;
-    public Boolean herbPatchDone = false;
+
     private boolean isItemInInventory(int itemId) {
         ItemContainer inventory = client.getItemContainer(InventoryID.INVENTORY);
 
@@ -539,6 +541,8 @@ public class FarmingTeleportOverlay extends Overlay {
             }
         }
     }
+
+    public Boolean herbPatchDone = false;
 
     public void herbSteps(Graphics2D graphics, Location.Teleport teleport) {
         int currentRegionId = client.getLocalPlayer().getWorldLocation().getRegionID();
@@ -595,7 +599,6 @@ public class FarmingTeleportOverlay extends Overlay {
                     highlightCompost(graphics);
 
                     if (patchIsComposted()) {
-                        currentHerbCase = 1;
                         herbPatchDone = true;
                     }
                     break;
@@ -642,7 +645,6 @@ public class FarmingTeleportOverlay extends Overlay {
                     highlightCompost(graphics);
 
                     if (patchIsComposted()) {
-                        currentHerbCase = 1;
                         flowerPatchDone = true;
                     }
                     break;
@@ -708,7 +710,6 @@ public class FarmingTeleportOverlay extends Overlay {
                         highlightTreeFarmers(graphics);
 
                         if (patchIsProtected()) {
-                            currentHerbCase = 1;
                             treePatchDone = true;
                         }
                     } else {
@@ -717,7 +718,6 @@ public class FarmingTeleportOverlay extends Overlay {
                         highlightCompost(graphics);
 
                         if (patchIsComposted()) {
-                            currentHerbCase = 1;
                             treePatchDone = true;
                         }
                     }
@@ -784,7 +784,6 @@ public class FarmingTeleportOverlay extends Overlay {
                         highlightFruitTreeFarmers(graphics);
 
                         if (patchIsProtected()) {
-                            currentHerbCase = 1;
                             fruitTreePatchDone = true;
                         }
                     } else {
@@ -793,7 +792,6 @@ public class FarmingTeleportOverlay extends Overlay {
                         highlightCompost(graphics);
 
                         if (patchIsComposted()) {
-                            currentHerbCase = 1;
                             fruitTreePatchDone = true;
                         }
                     }
