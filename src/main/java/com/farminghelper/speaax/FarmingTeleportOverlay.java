@@ -160,13 +160,16 @@ public class FarmingTeleportOverlay extends Overlay {
         }
         return -1; // Return -1 if the specified text is not found
     }
+
     public int getChildIndexST(String searchText) {
         Widget parentWidget = client.getWidget(187, 3);
+
         if (parentWidget == null) {
             return -1;
         }
 
         Widget[] children = parentWidget.getChildren();
+
         if (children == null) {
             return -1;
         }
@@ -184,6 +187,7 @@ public class FarmingTeleportOverlay extends Overlay {
                 }
             }
         }
+
         return -1; // Return -1 if the specified text is not found
     }
 
@@ -980,17 +984,22 @@ public class FarmingTeleportOverlay extends Overlay {
                         }
                         break;
                     case SPIRIT_TREE:
-                        if (!isInterfaceOpen(17, 0)) {
+                        if (!isInterfaceOpen(187, 3)) {
                             List<Integer> spiritTreeIds = Arrays.asList(1293, 1294, 1295, 8355, 29227, 29229, 37329, 40778);
 
                             for (Integer objectId : spiritTreeIds) {
                                 gameObjectOverlay(objectId, leftClickColorWithAlpha).render(graphics);
                             }
                         } else {
-                            // TODO: The location doesn't always align with the Teleport option, meaning it won't be highlighted, such as using the Camelot teleport for Catherby
-                            int index = getChildIndexPN(location.getName());
                             Widget widget = client.getWidget(187, 3);
-                            highlightDynamicComponent(graphics, widget, index);
+
+                            if (Objects.equals(location.getName(), "Gnome Stronghold")) {
+                                highlightDynamicComponent(graphics, widget, getChildIndexST("Gnome Stronghold"));
+                            }
+
+                            if (Objects.equals(location.getName(), "Tree Gnome Village")) {
+                                highlightDynamicComponent(graphics, widget, getChildIndexST("Tree Gnome Village"));
+                            }
                         }
 
                         if (currentRegionId == teleport.getRegionId()) {
