@@ -232,9 +232,36 @@ public interface FarmingHelperConfig extends Config
 		section = treeList
 	)
 	default boolean farmingGuildTree() { return false; }
-	
+
 	@ConfigItem(
 		position = 12,
+		keyName = "booleanConfigFossilIslandEastTree",
+		name = "Fossil Island - East",
+		description = "Include Fossil Island - East? (Requires completion of the Bone Voyage quest)",
+		section = treeList
+	)
+	default boolean fossilIslandEastTree() { return false; }
+
+	@ConfigItem(
+		position = 13,
+		keyName = "booleanConfigFossilIslandSouthTree",
+		name = "Fossil Island - South",
+		description = "Include Fossil Island - South? (Requires completion of the Bone Voyage quest)",
+		section = treeList
+	)
+	default boolean fossilIslandSouthTree() { return false; }
+
+	@ConfigItem(
+		position = 14,
+		keyName = "booleanConfigFossilIslandWestTree",
+		name = "Fossil Island - West",
+		description = "Include Fossil Island - West? (Requires completion of the Bone Voyage quest)",
+		section = treeList
+	)
+	default boolean fossilIslandWestTree() { return false; }
+	
+	@ConfigItem(
+		position = 15,
 		keyName = "booleanConfigGnomeStrongholdTree",
 		name = "Gnome Stronghold",
 		description = "Include Gnome Stronghold?",
@@ -243,7 +270,7 @@ public interface FarmingHelperConfig extends Config
 	default boolean gnomeStrongholdTree() { return true; }
 	
 	@ConfigItem(
-		position = 13,
+		position = 16,
 		keyName = "booleanConfigLumbridgeTree",
 		name = "Lumbridge",
 		description = "Include Lumbridge?",
@@ -252,7 +279,7 @@ public interface FarmingHelperConfig extends Config
 	default boolean lumbridgeTree() { return true; }
 	
 	@ConfigItem(
-		position = 14,
+		position = 17,
 		keyName = "booleanConfigTaverleyTree",
 		name = "Taverley",
 		description = "Include Taverley?",
@@ -261,7 +288,7 @@ public interface FarmingHelperConfig extends Config
 	default boolean taverleyTree() { return true; }
 	
 	@ConfigItem(
-		position = 15,
+		position = 18,
 		keyName = "booleanConfigVarrockTree",
 		name = "Varrock",
 		description = "Include Varrock?",
@@ -282,7 +309,7 @@ public interface FarmingHelperConfig extends Config
 	String fruitTreeList = "fruitTreeList";
 	
 	@ConfigItem(
-		position = 16,
+		position = 19,
 		keyName = "booleanConfigBrimhavenFruitTree",
 		name = "Brimhaven",
 		description = "Include Brimhaven?",
@@ -291,7 +318,7 @@ public interface FarmingHelperConfig extends Config
 	default boolean brimhavenFruitTree() { return true; }
 	
 	@ConfigItem(
-		position = 17,
+		position = 20,
 		keyName = "booleanConfigCatherbyFruitTree",
 		name = "Catherby",
 		description = "Include Catherby?",
@@ -300,7 +327,7 @@ public interface FarmingHelperConfig extends Config
 	default boolean catherbyFruitTree() { return true; }
 	
 	@ConfigItem(
-		position = 18,
+		position = 21,
 		keyName = "booleanConfigFarmingGuildFruitTree",
 		name = "Farming Guild",
 		description = "Include Farming Guild? (Requires 85 farming)",
@@ -309,7 +336,7 @@ public interface FarmingHelperConfig extends Config
 	default boolean farmingGuildFruitTree() { return false; }
 	
 	@ConfigItem(
-		position = 19,
+		position = 22,
 		keyName = "booleanConfigGnomeStrongholdFruitTree",
 		name = "Gnome Stronghold",
 		description = "Include Gnome Stronghold?",
@@ -318,7 +345,7 @@ public interface FarmingHelperConfig extends Config
 	default boolean gnomeStrongholdFruitTree() { return true; }
 	
 	@ConfigItem(
-		position = 20,
+		position = 23,
 		keyName = "booleanConfigLletyaFruitTree",
 		name = "Lletya",
 		description = "Include Lletya? (Requires starting Mourning's End Part I)",
@@ -327,7 +354,7 @@ public interface FarmingHelperConfig extends Config
 	default boolean lletyaFruitTree() { return false; }
 	
 	@ConfigItem(
-		position = 21,
+		position = 24,
 		keyName = "booleanConfigTreeGnomeVillageFruitTree",
 		name = "Tree Gnome Village",
 		description = "Include Tree Gnome Village?",
@@ -416,6 +443,7 @@ public interface FarmingHelperConfig extends Config
 		Portal_Nexus,
 		Harmony_Tele_tab
 	}
+
 	@ConfigItem(
 			position = 6,
 			keyName = "enumOptionEnumHarmonyTeleport",
@@ -505,7 +533,7 @@ public interface FarmingHelperConfig extends Config
 		Jewellery_box
 	}
 	@ConfigItem(
-			position = 1,
+			position = 2,
 			keyName = "enumTreeFarmingGuildTeleport",
 			name = "Farming Guild",
 			description = "Desired way to teleport to Farming Guild",
@@ -513,13 +541,56 @@ public interface FarmingHelperConfig extends Config
 	)
 	default TreeOptionEnumFarmingGuildTeleport enumTreeFarmingGuildTeleport() { return TreeOptionEnumFarmingGuildTeleport.Jewellery_box; }
 
+	enum OptionEnumFossilIslandTeleport implements OptionEnumTeleport
+	{
+		Digsite_pendant,
+		Mounted_Digsite_pendant
+	}
+
+	@ConfigItem(
+		position = 3,
+		keyName = "enumOptionFossilIslandEastTree",
+		name = "Fossil Island - East",
+		description = "Desired way to teleport to Fossil Island - East",
+		section = treeTeleportOptionList
+	)
+	default OptionEnumFossilIslandTeleport optionEnumFossilIslandEastTeleport()
+	{
+		return OptionEnumFossilIslandTeleport.Digsite_pendant;
+	}
+
+	@ConfigItem(
+		position = 4,
+		keyName = "enumOptionFossilIslandSouthTree",
+		name = "Fossil Island - South",
+		description = "Desired way to teleport to Fossil Island - South",
+		section = treeTeleportOptionList
+	)
+	default OptionEnumFossilIslandTeleport optionEnumFossilIslandSouthTeleport()
+	{
+		return OptionEnumFossilIslandTeleport.Digsite_pendant;
+	}
+
+	@ConfigItem(
+		position = 5,
+		keyName = "enumOptionFossilIslandWestTree",
+		name = "Fossil Island - West",
+		description = "Desired way to teleport to Fossil Island - West",
+		section = treeTeleportOptionList
+	)
+	default OptionEnumFossilIslandTeleport optionEnumFossilIslandWestTeleport()
+	{
+		return OptionEnumFossilIslandTeleport.Digsite_pendant;
+	}
+
 	enum TreeOptionEnumGnomeStrongholdTeleport implements OptionEnumTeleport
 	{
 		Royal_seed_pod,
 		Spirit_Tree
 	}
+
 	@ConfigItem(
-			position = 2,
+			position = 6,
 			keyName = "enumTreeGnomeStrongoldTeleport",
 			name = "Gnome Stronghold",
 			description = "Desired way to teleport to Gnome Stronghold",
@@ -533,7 +604,7 @@ public interface FarmingHelperConfig extends Config
 		Lumbridge_teleport
 	}
 	@ConfigItem(
-			position = 3,
+			position = 7,
 			keyName = "enumTreeLumbridgeTeleport",
 			name = "Lumbridge",
 			description = "Desired way to teleport to Lumbridge",
@@ -547,7 +618,7 @@ public interface FarmingHelperConfig extends Config
 		Falador_teleport
 	}
 	@ConfigItem(
-			position = 4,
+			position = 8,
 			keyName = "enumTreeTaverleyTeleport",
 			name = "Taverley",
 			description = "Desired way to teleport to Taverley",
@@ -561,7 +632,7 @@ public interface FarmingHelperConfig extends Config
 		Varrock_teleport
 	}
 	@ConfigItem(
-			position = 5,
+			position = 9,
 			keyName = "enumTreeVarrockTeleport",
 			name = "Varrock",
 			description = "Desired way to teleport to Varrock",
@@ -596,7 +667,7 @@ public interface FarmingHelperConfig extends Config
 		Portal_Nexus_Camelot
 	}
 	@ConfigItem(
-			position = 1,
+			position = 2,
 			keyName = "enumFruitTreeCatherbyTeleport",
 			name = "Catherby",
 			description = "Desired way to teleport to Catherby",
@@ -609,7 +680,7 @@ public interface FarmingHelperConfig extends Config
 		Jewellery_box
 	}
 	@ConfigItem(
-			position = 1,
+			position = 3,
 			keyName = "enumFruitTreeFarmingGuildTeleport",
 			name = "Farming Guild",
 			description = "Desired way to teleport to Farming Guild",
@@ -623,7 +694,7 @@ public interface FarmingHelperConfig extends Config
 		Spirit_Tree
 	}
 	@ConfigItem(
-			position = 1,
+			position = 4,
 			keyName = "enumFruitTreeGnomeStrongholdTeleport",
 			name = "Gnome Stronghold",
 			description = "Desired way to teleport to Gnome Stronghold",
@@ -636,7 +707,7 @@ public interface FarmingHelperConfig extends Config
 		Teleport_crystal
 	}
 	@ConfigItem(
-			position = 1,
+			position = 5,
 			keyName = "enumFruitTreeLletyaTeleport",
 			name = "Lletya",
 			description = "Desired way to teleport to Lletya",
@@ -650,7 +721,7 @@ public interface FarmingHelperConfig extends Config
 		Spirit_Tree
 	}
 	@ConfigItem(
-			position = 1,
+			position = 6,
 			keyName = "enumFruitTreeTreeGnomeVillageTeleport",
 			name = "Tree Gnome Village",
 			description = "Desired way to teleport to Tree Gnome Village",

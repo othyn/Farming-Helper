@@ -48,6 +48,20 @@ public class FarmingHelperOverlay extends Overlay {
         return SKILLS_NECKLACE_IDS.contains(itemId);
     }
 
+    public static final List<Integer> DIGSITE_PENDANT_IDS = Arrays.asList(
+        ItemID.DIGSITE_PENDANT_1,
+        ItemID.DIGSITE_PENDANT_2,
+        ItemID.DIGSITE_PENDANT_3,
+        ItemID.DIGSITE_PENDANT_4,
+        ItemID.DIGSITE_PENDANT_5
+    );
+
+    private static final int BASE_DIGSITE_PENDANT_ID = ItemID.DIGSITE_PENDANT_1;
+
+    private boolean isDigsitePendant(int itemId) {
+        return DIGSITE_PENDANT_IDS.contains(itemId);
+    }
+
 
     public static final List<Integer> HERB_PATCH_IDS = Arrays.asList(33176, 27115, 8152, 8150, 8153, 18816, 8151, 9372, 33979 );
     public List<Integer> getHerbPatchIds() {
@@ -70,16 +84,31 @@ public class FarmingHelperOverlay extends Overlay {
     }
 
 
-    public static final List<Integer> TREE_PATCH_IDS = Arrays.asList(8389, 33732, 19147, 8391, 8388, 8390);
-    public List<Integer> getTreePatchIds() {
+    public static final List<Integer> TREE_PATCH_IDS = Arrays.asList(
+        8389, 33732, 19147, 8391, 8388, 8390, 30482, 30480, 30481
+    );
+    public List<Integer> getTreePatchIds()
+    {
         return TREE_PATCH_IDS;
     }
-    private static final List<Integer> TREE_SAPLING_IDS = Arrays.asList(ItemID.OAK_SAPLING, ItemID.WILLOW_SAPLING,ItemID.MAPLE_SAPLING,ItemID.YEW_SAPLING,ItemID.MAGIC_SAPLING);
+    private static final List<Integer> TREE_SAPLING_IDS = Arrays.asList(
+        ItemID.OAK_SAPLING,
+        ItemID.WILLOW_SAPLING,
+        ItemID.MAPLE_SAPLING,
+        ItemID.YEW_SAPLING,
+        ItemID.MAGIC_SAPLING,
+        ItemID.TEAK_SAPLING,
+        ItemID.MAHOGANY_SAPLING
+    );
     private static final int BASE_SAPLING_ID = ItemID.OAK_SAPLING;
-    public List<Integer> getTreeSaplingIds() {
+    public List<Integer> getTreeSaplingIds()
+    {
         return TREE_SAPLING_IDS;
     }
-    private boolean isTreeSapling(int itemId) {return TREE_SAPLING_IDS.contains(itemId);}
+    private boolean isTreeSapling(int itemId)
+    {
+        return TREE_SAPLING_IDS.contains(itemId);
+    }
 
 
     public static final List<Integer> FRUIT_TREE_PATCH_IDS = Arrays.asList(7964, 7965, 34007, 7962, 26579, 7963);
@@ -257,10 +286,19 @@ public class FarmingHelperOverlay extends Overlay {
                     break;
                 }
             }
+
             int skillsNecklaceCount = 0;
             for (Item item : items) {
                 if (isSkillsNecklace(item.getId())) {
                     skillsNecklaceCount += item.getQuantity();
+                    break;
+                }
+            }
+
+            int digsitePendantCount = 0;
+            for (Item item : items) {
+                if (isDigsitePendant(item.getId())) {
+                    digsitePendantCount += item.getQuantity();
                     break;
                 }
             }
@@ -353,6 +391,17 @@ public class FarmingHelperOverlay extends Overlay {
 
                 if (itemId == BASE_SKILLS_NECKLACE_ID) {
                     inventoryCount = skillsNecklaceCount;
+                } else {
+                    for (Item item : items) {
+                        if (item != null && item.getId() == itemId) {
+                            inventoryCount = item.getQuantity();
+                            break;
+                        }
+                    }
+                }
+
+                if (itemId == BASE_DIGSITE_PENDANT_ID) {
+                    inventoryCount = digsitePendantCount;
                 } else {
                     for (Item item : items) {
                         if (item != null && item.getId() == itemId) {

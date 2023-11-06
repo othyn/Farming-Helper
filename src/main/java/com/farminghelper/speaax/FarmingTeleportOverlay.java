@@ -317,20 +317,36 @@ public class FarmingTeleportOverlay extends Overlay {
         }
     }
 
-    public void highlightNpc(Graphics2D graphics, String npcName) {
+    public void highlightNpc(Graphics2D graphics, Polygon tilePolygon)
+    {
+        if (tilePolygon != null) {
+            graphics.setColor(leftClickColorWithAlpha);
+            graphics.draw(tilePolygon);
+            graphics.fill(tilePolygon);
+        }
+    }
+
+    public void highlightNpc(Graphics2D graphics, String npcName)
+    {
         List<NPC> npcs = client.getNpcs();
 
         if (npcs != null) {
             for (NPC npc : npcs) {
                 if (npc != null && npc.getName() != null && npc.getName().equals(npcName)) {
-                    Polygon tilePolygon = npc.getCanvasTilePoly();
+                    highlightNpc(graphics, npc.getCanvasTilePoly());
+                }
+            }
+        }
+    }
 
-                    if (tilePolygon != null) {
-                        graphics.setColor(leftClickColorWithAlpha);
-                        graphics.draw(tilePolygon);
-                        //graphics.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue()));
-                        graphics.fill(tilePolygon);
-                    }
+    public void highlightNpc(Graphics2D graphics, Integer npcId)
+    {
+        List<NPC> npcs = client.getNpcs();
+
+        if (npcs != null) {
+            for (NPC npc : npcs) {
+                if (npc != null && npc.getId() == npcId) {
+                    highlightNpc(graphics, npc.getCanvasTilePoly());
                 }
             }
         }
@@ -389,7 +405,7 @@ public class FarmingTeleportOverlay extends Overlay {
                     highlightHerbPatches(graphics, highlightUseItemWithAlpha);
 
                 }
-                else if(subCase == 2) {
+                else if (subCase == 2) {
                     highlightFlowerPatches(graphics, highlightUseItemWithAlpha);
                 }
 
@@ -409,7 +425,7 @@ public class FarmingTeleportOverlay extends Overlay {
         }
     }
 
-    public void highlightFarmers(Graphics2D graphics, List<String> farmers)
+    public void highlightFarmersByName(Graphics2D graphics, List<String> farmers)
     {
         if (! isInterfaceOpen(219, 1)) {
             for (String farmer : farmers) {
@@ -421,9 +437,21 @@ public class FarmingTeleportOverlay extends Overlay {
         }
     }
 
+    public void highlightFarmersById(Graphics2D graphics, List<Integer> farmers)
+    {
+        if (! isInterfaceOpen(219, 1)) {
+            for (Integer farmer : farmers) {
+                highlightNpc(graphics, farmer);
+            }
+        } else {
+            Widget widget = client.getWidget(219, 1);
+            highlightDynamicComponent(graphics, widget, 1);
+        }
+    }
+
     public void highlightTreeFarmers(Graphics2D graphics)
     {
-        highlightFarmers(graphics, Arrays.asList(
+        highlightFarmersByName(graphics, Arrays.asList(
             "Alain",         // Taverly
             "Fayeth",        // Lumbridge
             "Heskel",        // Falador
@@ -431,11 +459,17 @@ public class FarmingTeleportOverlay extends Overlay {
             "Rosie",         // Farming Guild
             "Treznor"        // Varrock
         ));
+
+        highlightFarmersById(graphics, Arrays.asList(
+            7754, // Squirrel - East
+            7755, // Squirrel - South
+            7756  // Squirrel - West
+        ));
     }
 
     public void highlightFruitTreeFarmers(Graphics2D graphics)
     {
-        highlightFarmers(graphics, Arrays.asList(
+        highlightFarmersByName(graphics, Arrays.asList(
             "Bolongo", // Gnome Stronghold
             "Ellena",  // Catherby
             "Garth",   // Brimhaven
@@ -1050,6 +1084,38 @@ public class FarmingTeleportOverlay extends Overlay {
                                         }
                                     }
                                 }
+                                break;
+                        }
+                    case MOUNTED_DIGSITE:
+                        switch (currentTeleportCase) {
+                            case 1:
+                                gettingToHouse(graphics);
+                                break;
+                            case 2:
+                                List<Integer> digsitePendantIds = Arrays.asList(33416);
+
+                                if (!isInterfaceOpen(teleport.getInterfaceGroupId(), teleport.getInterfaceChildId())) {
+                                    for (int id : digsitePendantIds) {
+                                        Overlay decorativeObjectHighlight = decorativeObjectOverlay(id);
+
+                                        decorativeObjectHighlight.render(graphics);
+                                    }
+                                } else {
+                                    Widget widget = client.getWidget(teleport.getInterfaceGroupId(), teleport.getInterfaceChildId());
+
+                                    highlightDynamicComponent(graphics, widget, 1);
+
+                                    if (currentRegionId == teleport.getRegionId()) {
+                                        currentTeleportCase = 1;
+                                        isAtDestination = true;
+                                        startSubCases = true;
+
+                                        if (location.getFarmLimps()) {
+                                            farmLimps = true;
+                                        }
+                                    }
+                                }
+
                                 break;
                         }
                     case SPELLBOOK:
