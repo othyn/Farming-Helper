@@ -156,7 +156,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             10547,
             brimhavenFruitTreePatchPoint,
             getHouseTeleportItemRequirements()
-        ));
+        ).overrideLocationName("Ardougne"));
 
         brimhavenFruitTreeLocation.addTeleportOption(brimhavenFruitTreeLocation.new Teleport(
             "Ardougne_teleport",
@@ -218,7 +218,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
         catherbyFruitTreeLocation.addTeleportOption(catherbyFruitTreeLocation.new Teleport(
             "Portal_Nexus_Camelot",
             Location.TeleportCategory.PORTAL_NEXUS,
-            "Teleport to Camelot with Portal Nexus.",
+            "Teleport to Camelot with Portal Nexus and run to Catherby.",
             0,
             "null",
             17,
@@ -226,7 +226,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             11062,
             cathebyFruitTreePatchPoint,
             getHouseTeleportItemRequirements()
-        ));
+        ).overrideLocationName("Camelot"));
 
         locations.add(catherbyFruitTreeLocation);
     }

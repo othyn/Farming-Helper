@@ -348,7 +348,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
             11828,
             taverlyPatchPoint,
             getHouseTeleportItemRequirements()
-        ));
+        ).overrideLocationName("Falador"));
 
         taverleyTreeLocation.addTeleportOption(taverleyTreeLocation.new Teleport(
             "Falador_teleport",

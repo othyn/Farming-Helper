@@ -134,7 +134,7 @@ public class FarmingTeleportOverlay extends Overlay {
         };
     }
 
-    public int getChildIndex(String searchText, Widget parentWidget)
+    public int getChildIndex(Widget parentWidget, String searchText)
     {
         if (parentWidget == null) {
             return -1;
@@ -164,22 +164,6 @@ public class FarmingTeleportOverlay extends Overlay {
         }
 
         return -1; // Return -1 if the specified text is not found
-    }
-
-    public int getChildIndexPortalNexus(String searchText)
-    {
-        return getChildIndex(
-            searchText,
-            client.getWidget(17, 12)
-        );
-    }
-
-    public int getChildIndexSpiritTree(String searchText)
-    {
-        return getChildIndex(
-            searchText,
-            client.getWidget(187, 3)
-        );
     }
 
     public void highlightDynamicComponent(Graphics2D graphics, Widget widget, int dynamicChildIndex) {
@@ -961,23 +945,29 @@ public class FarmingTeleportOverlay extends Overlay {
                             case 2:
                                 if (!isInterfaceOpen(17, 0)) {
                                     List<Integer> portalNexusIds = getGameObjectIdsByName("Portal Nexus");
+
                                     for (Integer objectId : portalNexusIds) {
                                         gameObjectOverlay(objectId, leftClickColorWithAlpha).render(graphics);
                                     }
                                 } else {
-                                    // TODO: The location doesn't always align with the Teleport option, meaning it won't be highlighted, such as using the Camelot teleport for Catherby
                                     Widget widget = client.getWidget(17, 13);
-                                    int index = getChildIndexPortalNexus(location.getName());
-                                    highlightDynamicComponent(graphics, widget, index);
+
+                                    highlightDynamicComponent(graphics, widget, getChildIndex(
+                                        client.getWidget(17, 12),
+                                        teleport.overrideLocationName() == "" ? location.getName() : teleport.overrideLocationName()
+                                    ));
                                 }
+
                                 if (currentRegionId == teleport.getRegionId()) {
                                     currentTeleportCase = 1;
                                     isAtDestination = true;
                                     startSubCases = true;
+
                                     if (location.getFarmLimps()) {
                                         farmLimps = true;
                                     }
                                 }
+
                                 break;
                         }
                         break;
@@ -992,17 +982,14 @@ public class FarmingTeleportOverlay extends Overlay {
                             Widget widget = client.getWidget(187, 3);
 
                             switch (location.getName()) {
-                                case "Gnome Stronghold":
-                                    highlightDynamicComponent(graphics, widget, getChildIndexSpiritTree("Gnome Stronghold"));
-
-                                case "Tree Gnome Village":
-                                    highlightDynamicComponent(graphics, widget, getChildIndexSpiritTree("Tree Gnome Village"));
-
                                 case "Falador":
-                                    highlightDynamicComponent(graphics, widget, getChildIndexSpiritTree("Port Sarim"));
+                                    highlightDynamicComponent(graphics, widget, getChildIndex(widget, "Port Sarim"));
 
                                 case "Kourend":
-                                    highlightDynamicComponent(graphics, widget, getChildIndexSpiritTree("Hosidius"));
+                                    highlightDynamicComponent(graphics, widget, getChildIndex(widget, "Hosidius"));
+
+                                default:
+                                    highlightDynamicComponent(graphics, widget, getChildIndex(widget, location.getName()));
                             }
                         }
 
