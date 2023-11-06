@@ -78,15 +78,14 @@ public class FarmingTeleportOverlay extends Overlay {
 
 
 
-    public boolean isItComposted(String message) {
+    public boolean patchIsComposted() {
         String regexCompost1 = "You treat the (herb patch|flower patch|tree patch|fruit tree patch) with (compost|supercompost|ultracompost)\\.";
         String regexCompost2 = "This (herb patch|flower patch|tree patch|fruit tree patch) has already been treated with (compost|supercompost|ultracompost)\\.";
-        String combinedRegex = regexCompost1 + "|" + regexCompost2;
 
-        Pattern patternCompost = Pattern.compile(combinedRegex);
-        Matcher matcherCompost = patternCompost.matcher(plugin.getLastMessage());
-
-        return matcherCompost.matches();
+        return Pattern
+            .compile(regexCompost1 + "|" + regexCompost2)
+            .matcher(plugin.getLastMessage())
+            .matches();
     }
 
     public boolean patchIsProtected() {
@@ -555,14 +554,10 @@ public class FarmingTeleportOverlay extends Overlay {
                     break;
                 case GROWING:
                     plugin.addTextToInfoBox("Use Compost on patch.");
-                    if(isItemInInventory(selectedCompostID())) {
-                        highlightHerbPatches(graphics, highlightUseItemWithAlpha);
-                        itemHighlight(graphics, selectedCompostID(), highlightUseItemWithAlpha);
-                    }
-                    else {
-                        withdrawCompost(graphics);
-                    }
-                    if (isItComposted(plugin.getLastMessage())) {
+
+                    highlightCompost(graphics);
+
+                    if (patchIsComposted()) {
                         currentHerbCase = 1;
                         herbPatchDone = true;
                     }
@@ -606,15 +601,10 @@ public class FarmingTeleportOverlay extends Overlay {
                     break;
                 case GROWING:
                     plugin.addTextToInfoBox("Use Compost on patch.");
-                    if(isItemInInventory(selectedCompostID())) {
-                        highlightFlowerPatches(graphics, highlightUseItemWithAlpha);
-                        itemHighlight(graphics, selectedCompostID(), highlightUseItemWithAlpha);
-                    }
-                    else {
-                        withdrawCompost(graphics);
-                    }
 
-                    if (isItComposted(plugin.getLastMessage())) {
+                    highlightCompost(graphics);
+
+                    if (patchIsComposted()) {
                         currentHerbCase = 1;
                         flowerPatchDone = true;
                     }
@@ -628,7 +618,6 @@ public class FarmingTeleportOverlay extends Overlay {
     public Boolean treePatchDone = false;
     public Boolean treePatchComposted = false;
     public Boolean treePatchProtected = false;
-    public Boolean patchComposted = false;
 
     public void treeSteps(Graphics2D graphics, Location.Teleport teleport) {
         int currentRegionId = client.getLocalPlayer().getWorldLocation().getRegionID();
@@ -1155,7 +1144,6 @@ public class FarmingTeleportOverlay extends Overlay {
                     if (herbPatchDone) {
                         subCase = 2;
                         herbPatchDone = false;
-                        patchComposted = false;
                     }
                 } else if (subCase == 2) {
                     if (config.generalLimpwurt()) {
@@ -1167,7 +1155,6 @@ public class FarmingTeleportOverlay extends Overlay {
                             herbRunIndex++;
                             farmLimps = false;
                             flowerPatchDone = false;
-                            patchComposted = false;
 
                         }
                     } else {
@@ -1177,7 +1164,6 @@ public class FarmingTeleportOverlay extends Overlay {
                         herbRunIndex++;
                         farmLimps = false;
                         flowerPatchDone = false;
-                        patchComposted = false;
                     }
                 }
             }
@@ -1187,7 +1173,6 @@ public class FarmingTeleportOverlay extends Overlay {
                     startSubCases = false;
                     isAtDestination = false;
                     herbRunIndex++;
-                    patchComposted = false;
                     treePatchDone = false;
                     treePatchComposted = false;
                     treePatchProtected = false;
@@ -1199,7 +1184,6 @@ public class FarmingTeleportOverlay extends Overlay {
                     startSubCases = false;
                     isAtDestination = false;
                     herbRunIndex++;
-                    patchComposted = false;
                     fruitTreePatchDone = false;
                     fruitTreePatchComposted = false;
                     fruitTreePatchProtected = false;
