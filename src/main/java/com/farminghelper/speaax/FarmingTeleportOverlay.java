@@ -405,10 +405,18 @@ public class FarmingTeleportOverlay extends Overlay {
     public void highlightCompost(Graphics2D graphics)
     {
         if (isItemInInventory(selectedCompostID())) {
-            highlightHerbPatches(graphics);
-            highlightFlowerPatches(graphics);
-            highlightTreePatches(graphics);
-            highlightFruitTreePatches(graphics);
+            if (herbRun) {
+                highlightHerbPatches(graphics);
+            }
+
+            if (treeRun) {
+                highlightTreePatches(graphics);
+            }
+
+            if (fruitTreeRun) {
+                highlightFruitTreePatches(graphics);
+            }
+
             itemHighlight(graphics, selectedCompostID());
         } else {
             withdrawCompost(graphics);
@@ -609,7 +617,6 @@ public class FarmingTeleportOverlay extends Overlay {
         }
     }
 
-    //private int currentFlowerCase = 1;
     public static boolean flowerPatchDone = false;
 
     public void flowerSteps(Graphics2D graphics) {
