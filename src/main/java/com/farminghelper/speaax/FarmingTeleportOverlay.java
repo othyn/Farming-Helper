@@ -981,16 +981,10 @@ public class FarmingTeleportOverlay extends Overlay {
                         } else {
                             Widget widget = client.getWidget(187, 3);
 
-                            switch (location.getName()) {
-                                case "Falador":
-                                    highlightDynamicComponent(graphics, widget, getChildIndex(widget, "Port Sarim"));
-
-                                case "Kourend":
-                                    highlightDynamicComponent(graphics, widget, getChildIndex(widget, "Hosidius"));
-
-                                default:
-                                    highlightDynamicComponent(graphics, widget, getChildIndex(widget, location.getName()));
-                            }
+                            highlightDynamicComponent(graphics, widget, getChildIndex(
+                                widget,
+                                teleport.overrideLocationName() == "" ? location.getName() : teleport.overrideLocationName()
+                            ));
                         }
 
                         if (currentRegionId == teleport.getRegionId()) {
