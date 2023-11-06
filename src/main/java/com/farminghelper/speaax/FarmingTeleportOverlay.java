@@ -965,10 +965,11 @@ public class FarmingTeleportOverlay extends Overlay {
                                         gameObjectOverlay(objectId, leftClickColorWithAlpha).render(graphics);
                                     }
                                 } else {
-                                    // TODO: The location doesn't always align with the Teleport option, meaning it won't be highlighted, such as using the Camelot teleport for Catherby
                                     Widget widget = client.getWidget(17, 13);
-                                    int index = getChildIndexPortalNexus(location.getName());
-                                    highlightDynamicComponent(graphics, widget, index);
+
+                                    highlightDynamicComponent(graphics, widget, getChildIndexPortalNexus(
+                                        teleport.overrideLocationName() == "" ? location.getName() : teleport.overrideLocationName()
+                                    ));
                                 }
                                 if (currentRegionId == teleport.getRegionId()) {
                                     currentTeleportCase = 1;

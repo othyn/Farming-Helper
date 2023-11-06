@@ -72,6 +72,7 @@ public class Location {
         private String rightClickOption;
         private List<ItemRequirement> itemRequirements;
         private WorldPoint point;
+        private String overrideLocationName;
 
         public Teleport(String enumOption, TeleportCategory category, String description, int id, String rightClickOption, int interfaceGroupId, int interfaceChildId, int regionId, WorldPoint point, List<ItemRequirement> itemRequirements) {
             this.enumOption = enumOption;
@@ -84,6 +85,7 @@ public class Location {
             this.regionId = regionId;
             this.point = point;
             this.itemRequirements = itemRequirements;
+            this.overrideLocationName = "";
         }
 
         public Map<Integer, Integer> getItemRequirements() {
@@ -106,6 +108,18 @@ public class Location {
 
         public void updateTeleportItemId(int newItemId) {
             this.id = newItemId;
+        }
+
+        public Location.Teleport overrideLocationName(String overrideLocationName)
+        {
+            this.overrideLocationName = overrideLocationName;
+
+            return this;
+        }
+
+        public String overrideLocationName()
+        {
+            return this.overrideLocationName;
         }
 
         public TeleportCategory getCategory() {
