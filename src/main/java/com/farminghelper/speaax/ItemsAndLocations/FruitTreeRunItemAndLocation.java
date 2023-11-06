@@ -32,14 +32,14 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
         );
     }
 
-    public Map<Integer, Integer> getFruitTreeItems()
+    public Map<Integer, Map<Integer, Integer>> getFruitTreeItems()
     {
         return getAllItemRequirements(locations);
     }
 
-    public Map<Integer, Integer> getAllItemRequirements(List<Location> locations)
+    public Map<Integer, Map<Integer, Integer>> getAllItemRequirements(List<Location> locations)
     {
-        Map<Integer, Integer> allRequirements = new HashMap<>();
+        Map<Integer, Map<Integer, Integer>> allRequirements = new HashMap<>();
 
         setupLocations();
 

@@ -90,7 +90,7 @@ public class FarmingHelperPanel extends PluginPanel
             @Override
             public void actionPerformed(ActionEvent e) {
                 plugin.runOnClientThread(() -> {
-                    Map<Integer, Integer> herbItems = herbRunItemAndLocation.getHerbItems();
+                    Map<Integer, Map<Integer, Integer>> herbItems = herbRunItemAndLocation.getHerbItems();
                     plugin.updateHerbOverlay(herbItems);
                     plugin.setOverlayActive(!plugin.isOverlayActive());
 
@@ -111,7 +111,7 @@ public class FarmingHelperPanel extends PluginPanel
             @Override
             public void actionPerformed(ActionEvent e) {
                 plugin.runOnClientThread(() -> {
-                    Map<Integer, Integer> treeItems = treeRunItemAndLocation.getTreeItems();
+                    Map<Integer, Map<Integer, Integer>> treeItems = treeRunItemAndLocation.getTreeItems();
                     plugin.updateTreeOverlay(treeItems);
                     plugin.setOverlayActive(!plugin.isOverlayActive());
 
@@ -132,7 +132,7 @@ public class FarmingHelperPanel extends PluginPanel
             @Override
             public void actionPerformed(ActionEvent e) {
                 plugin.runOnClientThread(() -> {
-                    Map<Integer, Integer> fruitTreeItems = fruitTreeRunItemAndLocation.getFruitTreeItems();
+                    Map<Integer, Map<Integer, Integer>> fruitTreeItems = fruitTreeRunItemAndLocation.getFruitTreeItems();
                     plugin.updateFruitTreeOverlay(fruitTreeItems);
                     plugin.setOverlayActive(!plugin.isOverlayActive());
 

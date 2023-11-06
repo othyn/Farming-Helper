@@ -216,23 +216,27 @@ public class FarmingHelperOverlay extends Overlay {
         return 0;
     }
 
-    public Map<Integer, Integer> itemsToCheck;
     @Override
     public Dimension render(Graphics2D graphics) {
         if (plugin.isOverlayActive() && !plugin.areItemsCollected()) {
             if (!plugin.isOverlayActive()) {
                 return null;
             }
+
             plugin.addTextToInfoBox("Grab all the items needed");
+
             // List of items to check
-            Map<Integer, Integer> itemsToCheck = null;
-            if(plugin.getFarmingTeleportOverlay().herbRun) {
+            Map<Integer, Map<Integer, Integer>> itemsToCheck = null;
+
+            if (plugin.getFarmingTeleportOverlay().herbRun) {
                 itemsToCheck = herbRunItemAndLocation.getHerbItems();
             }
-            if(plugin.getFarmingTeleportOverlay().treeRun) {
+
+            if (plugin.getFarmingTeleportOverlay().treeRun) {
                 itemsToCheck = treeRunItemAndLocation.getTreeItems();
             }
-            if(plugin.getFarmingTeleportOverlay().fruitTreeRun) {
+
+            if (plugin.getFarmingTeleportOverlay().fruitTreeRun) {
                 itemsToCheck = fruitTreeRunItemAndLocation.getFruitTreeItems();
             }
 
@@ -241,9 +245,11 @@ public class FarmingHelperOverlay extends Overlay {
             }
 
             ItemContainer inventory = client.getItemContainer(InventoryID.INVENTORY);
+
             Map<Integer, Integer> runePouchContents = getRunePouchContentsVarbits();
 
             Item[] items;
+
             if (inventory == null || inventory.getItems() == null) {
                 items = new Item[0];
             } else {
@@ -251,13 +257,16 @@ public class FarmingHelperOverlay extends Overlay {
             }
 
             int teleportCrystalCount = 0;
+
             for (Item item : items) {
                 if (isTeleportCrystal(item.getId())) {
                     teleportCrystalCount += item.getQuantity();
                     break;
                 }
             }
+
             int skillsNecklaceCount = 0;
+
             for (Item item : items) {
                 if (isSkillsNecklace(item.getId())) {
                     skillsNecklaceCount += item.getQuantity();
@@ -266,21 +275,24 @@ public class FarmingHelperOverlay extends Overlay {
             }
 
             int totalSeeds = 0;
-            if(plugin.getFarmingTeleportOverlay().herbRun) {
+
+            if (plugin.getFarmingTeleportOverlay().herbRun) {
                 for (Item item : items) {
                     if (isHerbSeed(item.getId())) {
                         totalSeeds += item.getQuantity();
                     }
                 }
             }
-            if(plugin.getFarmingTeleportOverlay().treeRun) {
+
+            if (plugin.getFarmingTeleportOverlay().treeRun) {
                 for (Item item : items) {
                     if (isTreeSapling(item.getId())) {
                         totalSeeds += item.getQuantity();
                     }
                 }
             }
-            if(plugin.getFarmingTeleportOverlay().fruitTreeRun) {
+
+            if (plugin.getFarmingTeleportOverlay().fruitTreeRun) {
                 for (Item item : items) {
                     if (isFruitTreeSapling(item.getId())) {
                         totalSeeds += item.getQuantity();
@@ -289,16 +301,20 @@ public class FarmingHelperOverlay extends Overlay {
             }
 
             panelComponent.getChildren().clear();
+
             int yOffset = 0;
 
             List<AbstractMap.SimpleEntry<Integer, Integer>> missingItemsWithCounts = new ArrayList<>();
+
             boolean allItemsCollected = true;
-            for (Map.Entry<Integer, Integer> entry : itemsToCheck.entrySet()) {
+
+            for (Map.Entry<Integer, Map<Integer, Integer>> entry : itemsToCheck.entrySet()) {
                 int itemId = entry.getKey();
                 int count = entry.getValue();
 
                 int inventoryCount = 0;
-                if(plugin.getFarmingTeleportOverlay().herbRun) {
+
+                if (plugin.getFarmingTeleportOverlay().herbRun) {
                     if (itemId == BASE_SEED_ID) {
                         inventoryCount = totalSeeds;
                     } else {
@@ -310,12 +326,15 @@ public class FarmingHelperOverlay extends Overlay {
                         }
                     }
                 }
+
                 // Check if the item is stored at the Tool Lep NPC
                 int toolLepCount = checkToolLep(itemId);
+
                 if (toolLepCount > 0) {
                     inventoryCount += toolLepCount;
                 }
-                if(plugin.getFarmingTeleportOverlay().treeRun) {
+
+                if (plugin.getFarmingTeleportOverlay().treeRun) {
                     if (itemId == BASE_SAPLING_ID) {
                         inventoryCount = totalSeeds;
                     } else {
@@ -327,7 +346,8 @@ public class FarmingHelperOverlay extends Overlay {
                         }
                     }
                 }
-                if(plugin.getFarmingTeleportOverlay().fruitTreeRun) {
+
+                if (plugin.getFarmingTeleportOverlay().fruitTreeRun) {
                     if (itemId == BASE_FRUIT_SAPLING_ID) {
                         inventoryCount = totalSeeds;
                     } else {
@@ -389,11 +409,13 @@ public class FarmingHelperOverlay extends Overlay {
                     }
                 }
 
-
                 if (inventoryCount < count) {
                     allItemsCollected = false;
+
                     int missingCount = count - inventoryCount;
+
                     BufferedImage itemImage = itemManager.getImage(itemId);
+
                     if (itemImage != null) {
                         ImageComponent imageComponent = new ImageComponent(itemImage);
                         panelComponent.getChildren().add(imageComponent);
@@ -405,22 +427,28 @@ public class FarmingHelperOverlay extends Overlay {
                     }
                 }
             }
+
             plugin.setTeleportOverlayActive(allItemsCollected);
+
             Dimension panelSize = panelComponent.render(graphics);
 
             // Draw item count on top of the overlay
             yOffset = 0;
+
             for (AbstractMap.SimpleEntry<Integer, Integer> pair : missingItemsWithCounts) {
                 int itemId = pair.getKey();
                 int missingCount = pair.getValue();
 
                 BufferedImage itemImage = itemManager.getImage(itemId);
+
                 if (itemImage != null) {
                     // Draw item count
                     if (missingCount > 1) {
                         String countText = Integer.toString(missingCount);
+
                         int textX = 2; // Calculate X position for the count text
                         int textY = yOffset + 15; // Calculate Y position for the count text
+
                         graphics.setColor(Color.WHITE);
                         graphics.drawString(countText, textX, textY);
                     }
@@ -428,6 +456,7 @@ public class FarmingHelperOverlay extends Overlay {
                     yOffset += itemImage.getHeight() + 2; // Update yOffset for the next item
                 }
             }
+
             // Check if all items have been collected
             if (missingItemsWithCounts.isEmpty()) {
                 plugin.setItemsCollected(true);
@@ -437,6 +466,7 @@ public class FarmingHelperOverlay extends Overlay {
 
             return panelSize;
         }
+
         return null;
     }
 }

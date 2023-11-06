@@ -227,19 +227,20 @@ public class FarmingHelperPlugin extends Plugin
 	}
 
 	//update item list
-	private Map<Integer, Integer> herbItemsCache;
-	public void updateHerbOverlay(Map<Integer, Integer> herbItems)
+	private Map<Integer, Map<Integer, Integer>> herbItemsCache;
+	public void updateHerbOverlay(Map<Integer, Map<Integer, Integer>> herbItems)
 	{
 		this.herbItemsCache = herbItems;
 	}
-	private Map<Integer, Integer> treeItemsCache;
-	public void updateTreeOverlay(Map<Integer, Integer> treeItems)
+
+	private Map<Integer, Map<Integer, Integer>> treeItemsCache;
+	public void updateTreeOverlay(Map<Integer, Map<Integer, Integer>> treeItems)
 	{
 		this.treeItemsCache = treeItems;
 	}
 
-	private Map<Integer, Integer> fruitTreeItemsCache;
-	public void updateFruitTreeOverlay(Map<Integer, Integer> fruitTreeItems)
+	private Map<Integer, Map<Integer, Integer>> fruitTreeItemsCache;
+	public void updateFruitTreeOverlay(Map<Integer, Map<Integer, Integer>> fruitTreeItems)
 	{
 		this.fruitTreeItemsCache = fruitTreeItems;
 	}

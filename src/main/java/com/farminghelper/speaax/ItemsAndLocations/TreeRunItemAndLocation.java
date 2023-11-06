@@ -32,14 +32,14 @@ public class TreeRunItemAndLocation extends ItemAndLocation
         );
     }
 
-    public Map<Integer, Integer> getTreeItems()
+    public Map<Integer, Map<Integer, Integer>> getTreeItems()
     {
         return getAllItemRequirements(locations);
     }
 
-    public Map<Integer, Integer> getAllItemRequirements(List<Location> locations)
+    public Map<Integer, Map<Integer, Integer>> getAllItemRequirements(List<Location> locations)
     {
-        Map<Integer, Integer> allRequirements = new HashMap<>();
+        Map<Integer, Map<Integer, Integer>> allRequirements = new HashMap<>();
 
         setupLocations();
 

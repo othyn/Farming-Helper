@@ -35,14 +35,14 @@ public class HerbRunItemAndLocation extends ItemAndLocation
         );
     }
 
-    public Map<Integer, Integer> getHerbItems()
+    public Map<Integer, Map<Integer, Integer>> getHerbItems()
     {
         return getAllItemRequirements(locations);
     }
 
-    public Map<Integer, Integer> getAllItemRequirements(List<Location> locations)
+    public Map<Integer, Map<Integer, Integer>> getAllItemRequirements(List<Location> locations)
     {
-        Map<Integer, Integer> allRequirements = new HashMap<>();
+        Map<Integer, Map<Integer, Integer>> allRequirements = new HashMap<>();
 
         setupLocations();
 
@@ -52,7 +52,11 @@ public class HerbRunItemAndLocation extends ItemAndLocation
                 //ItemID.GUAM_SEED is default for herb seeds, code later will allow for any seed to be used, just needed a placeholder ID
                 allRequirements.merge(
                     ItemID.GUAM_SEED,
-                    1,
+                    // TODO: My idea is to define <quantity, item-set>, then in FarmingHelperOverlay.render() check for any item in the given set in the inventory
+                    // TODO: Problem is the merge method, no idea how I'm going to get that to work with the mixed type it presents
+                    new HashMap<Integer, Integer>() {{
+                        put(1, 0);
+                    }},
                     Integer::sum
                 );
 
