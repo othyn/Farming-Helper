@@ -134,13 +134,14 @@ public class FarmingTeleportOverlay extends Overlay {
         };
     }
 
-    public int getChildIndexPN(String searchText) {
-        Widget parentWidget = client.getWidget(17, 12);
+    public int getChildIndex(String searchText, Widget parentWidget)
+    {
         if (parentWidget == null) {
             return -1;
         }
 
         Widget[] children = parentWidget.getChildren();
+
         if (children == null) {
             return -1;
         }
@@ -148,47 +149,37 @@ public class FarmingTeleportOverlay extends Overlay {
         for (int index = 0; index < children.length; index++) {
             Widget child = children[index];
             String text = child.getText();
+
             if (text != null) {
                 int colonIndex = text.indexOf(':');
+
                 if (colonIndex != -1 && colonIndex + 1 < text.length()) {
                     String textAfterColon = text.substring(colonIndex + 1).trim();
+
                     if (textAfterColon.equals(searchText)) {
                         return index;
                     }
                 }
             }
         }
+
         return -1; // Return -1 if the specified text is not found
     }
 
-    public int getChildIndexST(String searchText) {
-        Widget parentWidget = client.getWidget(187, 3);
+    public int getChildIndexPortalNexus(String searchText)
+    {
+        return getChildIndex(
+            searchText,
+            client.getWidget(17, 12)
+        );
+    }
 
-        if (parentWidget == null) {
-            return -1;
-        }
-
-        Widget[] children = parentWidget.getChildren();
-
-        if (children == null) {
-            return -1;
-        }
-
-        for (int index = 0; index < children.length; index++) {
-            Widget child = children[index];
-            String text = child.getText();
-            if (text != null) {
-                int colonIndex = text.indexOf(':');
-                if (colonIndex != -1 && colonIndex + 1 < text.length()) {
-                    String textAfterColon = text.substring(colonIndex + 1).trim();
-                    if (textAfterColon.equals(searchText)) {
-                        return index;
-                    }
-                }
-            }
-        }
-
-        return -1; // Return -1 if the specified text is not found
+    public int getChildIndexSpiritTree(String searchText)
+    {
+        return getChildIndex(
+            searchText,
+            client.getWidget(187, 3)
+        );
     }
 
     public void highlightDynamicComponent(Graphics2D graphics, Widget widget, int dynamicChildIndex) {
@@ -976,7 +967,7 @@ public class FarmingTeleportOverlay extends Overlay {
                                 } else {
                                     // TODO: The location doesn't always align with the Teleport option, meaning it won't be highlighted, such as using the Camelot teleport for Catherby
                                     Widget widget = client.getWidget(17, 13);
-                                    int index = getChildIndexPN(location.getName());
+                                    int index = getChildIndexPortalNexus(location.getName());
                                     highlightDynamicComponent(graphics, widget, index);
                                 }
                                 if (currentRegionId == teleport.getRegionId()) {
@@ -991,48 +982,38 @@ public class FarmingTeleportOverlay extends Overlay {
                         }
                         break;
                     case SPIRIT_TREE:
-                        switch (currentTeleportCase) {
-                            case 1:
-                                gettingToHouse(graphics);
-                                break;
-                            case 2:
-                                if (!isInterfaceOpen(187, 3)) {
-                                    //Might be more
-                                    List<Integer> spiritTreeIds = Arrays.asList(1293, 1294, 1295, 8355, 29227, 29229, 37329, 40778);
-                                    for (Integer objectId : spiritTreeIds) {
-                                        gameObjectOverlay(objectId, leftClickColorWithAlpha).render(graphics);
-                                    }
-                                } else {
-                                    Widget widget = client.getWidget(187, 3);
-                                    int index = getChildIndexST(location.getName());
-                                    highlightDynamicComponent(graphics, widget, index);
-                                    if (Objects.equals(
-                                        location.getName(),
-                                        "Falador"
-                                    ))
-                                    {
-                                        int altIndex = getChildIndexST("Port Sarim");
-                                        highlightDynamicComponent(graphics, widget, altIndex);
-                                    }
-                                    if (Objects.equals(
-                                        location.getName(),
-                                        "Kourend"
-                                    ))
-                                    {
-                                        int altIndex = getChildIndexST("Hosidius");
-                                        highlightDynamicComponent(graphics, widget, altIndex);
-                                    }
+                        if (!isInterfaceOpen(187, 3)) {
+                            List<Integer> spiritTreeIds = Arrays.asList(1293, 1294, 1295, 8355, 29227, 29229, 37329, 40778);
 
-                                }
-                                if (currentRegionId == teleport.getRegionId()) {
-                                    currentTeleportCase = 1;
-                                    isAtDestination = true;
-                                    startSubCases = true;
-                                    if (location.getFarmLimps()) {
-                                        farmLimps = true;
-                                    }
-                                }
-                                break;
+                            for (Integer objectId : spiritTreeIds) {
+                                gameObjectOverlay(objectId, leftClickColorWithAlpha).render(graphics);
+                            }
+                        } else {
+                            Widget widget = client.getWidget(187, 3);
+
+                            switch (location.getName()) {
+                                case "Gnome Stronghold":
+                                    highlightDynamicComponent(graphics, widget, getChildIndexSpiritTree("Gnome Stronghold"));
+
+                                case "Tree Gnome Village":
+                                    highlightDynamicComponent(graphics, widget, getChildIndexSpiritTree("Tree Gnome Village"));
+
+                                case "Falador":
+                                    highlightDynamicComponent(graphics, widget, getChildIndexSpiritTree("Port Sarim"));
+
+                                case "Kourend":
+                                    highlightDynamicComponent(graphics, widget, getChildIndexSpiritTree("Hosidius"));
+                            }
+                        }
+
+                        if (currentRegionId == teleport.getRegionId()) {
+                            currentTeleportCase = 1;
+                            isAtDestination = true;
+                            startSubCases = true;
+
+                            if (location.getFarmLimps()) {
+                                farmLimps = true;
+                            }
                         }
                         break;
                     case JEWELLERY_BOX:
