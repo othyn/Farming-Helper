@@ -411,9 +411,44 @@ public class FarmingTeleportOverlay extends Overlay {
             withdrawCompost(graphics);
         }
     }
+
+    public void highlightFarmers(Graphics2D graphics, List<String> farmers)
+    {
+        if (! isInterfaceOpen(219, 1)) {
+            for (String farmer : farmers) {
+                highlightNpc(graphics, farmer);
+            }
+        } else {
+            Widget widget = client.getWidget(219, 1);
+            highlightDynamicComponent(graphics, widget, 1);
         }
     }
 
+    public void highlightTreeFarmers(Graphics2D graphics)
+    {
+        highlightFarmers(graphics, Arrays.asList(
+            "Alain",         // Taverly
+            "Fayeth",        // Lumbridge
+            "Heskel",        // Falador
+            "Prissy Scilla", // Gnome Stronghold
+            "Rosie",         // Farming Guild
+            "Treznor"        // Varrock
+        ));
+    }
+
+    public void highlightFruitTreeFarmers(Graphics2D graphics)
+    {
+        highlightFarmers(graphics, Arrays.asList(
+            "Bolongo", // Gnome Stronghold
+            "Ellena",  // Catherby
+            "Garth",   // Brimhaven
+            "Gileth",  // Tree Gnome Village
+            "Liliwen", // Lletya
+            "Nikkie"   // Farming Guild
+        ));
+    }
+
+    public void highlightHerbSeeds(Graphics2D graphics) {
         List<Integer> herbSeedIds = farmingHelperOverlay.getHerbSeedIds();
         for (Integer seedId : herbSeedIds) {
             itemHighlight(graphics, seedId);
@@ -618,8 +653,6 @@ public class FarmingTeleportOverlay extends Overlay {
     }
 
     public Boolean treePatchDone = false;
-    public Boolean treePatchComposted = false;
-    public Boolean treePatchProtected = false;
 
     public void treeSteps(Graphics2D graphics, Location.Teleport teleport) {
         int currentRegionId = client.getLocalPlayer().getWorldLocation().getRegionID();
@@ -661,64 +694,32 @@ public class FarmingTeleportOverlay extends Overlay {
                     break;
                 case REMOVE:
                     plugin.addTextToInfoBox("Pay to remove tree, or cut it down and clear the patch.");
-                    if(!isInterfaceOpen(219, 1)) {
-                        highlightNpc(graphics, "Heskel", leftClickColorWithAlpha); // Falador
-                        highlightNpc(graphics, "Rosie", leftClickColorWithAlpha); // Farming Guild
-                        highlightNpc(graphics, "Prissy Scilla", leftClickColorWithAlpha); // Gnome Stronghold
-                        highlightNpc(graphics, "Fayeth", leftClickColorWithAlpha); // Lumbridge
-                        highlightNpc(graphics, "Alain", leftClickColorWithAlpha); // Taverly
-                        highlightNpc(graphics, "Treznor", leftClickColorWithAlpha); // Varrock
-                    }
-                    else {
-                        Widget widget = client.getWidget(219, 1);
-                        highlightDynamicComponent(graphics, widget, 1, leftClickColorWithAlpha);
-                    }
+
+                    highlightTreeFarmers(graphics);
+
                     break;
                 case UNKNOWN:
                     plugin.addTextToInfoBox("UNKNOWN state: Try to do something with the tree patch to change its state.");
                     break;
                 case GROWING:
-                    if (!treePatchComposted) {
-                        plugin.addTextToInfoBox("Use Compost on patch.");
-
-                        if (isItemInInventory(selectedCompostID())) {
-                            highlightTreePatches(graphics, highlightUseItemWithAlpha);
-                            itemHighlight(graphics, selectedCompostID(), highlightUseItemWithAlpha);
-                        } else {
-                            withdrawCompost(graphics);
-                        }
-
-                        if (isItComposted(plugin.getLastMessage())) {
-                            treePatchComposted = true;
-                        } else {
-                            // If the patch is yet to be composted, only show the compost step at this time, until it has been composted
-                            break;
-                        }
-                    }
-
-                    if (config.payForProtection() && !treePatchProtected) {
+                    if (config.generalPayForProtection()) {
                         plugin.addTextToInfoBox("Pay to protect the patch.");
 
-                        if (! isInterfaceOpen(219, 1)) {
-                            highlightNpc(graphics, "Heskel", leftClickColorWithAlpha); // Falador
-                            highlightNpc(graphics, "Rosie", leftClickColorWithAlpha); // Farming Guild
-                            highlightNpc(graphics, "Prissy Scilla", leftClickColorWithAlpha); // Gnome Stronghold
-                            highlightNpc(graphics, "Fayeth", leftClickColorWithAlpha); // Lumbridge
-                            highlightNpc(graphics, "Alain", leftClickColorWithAlpha); // Taverly
-                            highlightNpc(graphics, "Treznor", leftClickColorWithAlpha); // Varrock
-                        } else {
-                            Widget widget = client.getWidget(219, 1);
-                            highlightDynamicComponent(graphics, widget, 1, leftClickColorWithAlpha);
-                        }
+                        highlightTreeFarmers(graphics);
 
                         if (patchIsProtected()) {
-                            treePatchProtected = true;
+                            currentHerbCase = 1;
+                            treePatchDone = true;
                         }
-                    }
+                    } else {
+                        plugin.addTextToInfoBox("Use Compost on patch.");
 
-                    if (treePatchComposted && (!config.payForProtection() || (config.payForProtection() && treePatchProtected))) {
-                        currentHerbCase = 1;
-                        treePatchDone = true;
+                        highlightCompost(graphics);
+
+                        if (patchIsComposted()) {
+                            currentHerbCase = 1;
+                            treePatchDone = true;
+                        }
                     }
 
                     break;
@@ -727,8 +728,6 @@ public class FarmingTeleportOverlay extends Overlay {
     }
 
     public Boolean fruitTreePatchDone = false;
-    public Boolean fruitTreePatchComposted = false;
-    public Boolean fruitTreePatchProtected = false;
 
     public void fruitTreeSteps(Graphics2D graphics, Location.Teleport teleport) {
         int currentRegionId = client.getLocalPlayer().getWorldLocation().getRegionID();
@@ -771,64 +770,32 @@ public class FarmingTeleportOverlay extends Overlay {
                     break;
                 case REMOVE:
                     plugin.addTextToInfoBox("Pay to remove fruit tree, or cut it down and clear the patch.");
-                    if(!isInterfaceOpen(219, 1)) {
-                        highlightNpc(graphics, "Garth", leftClickColorWithAlpha); // Brimhaven
-                        highlightNpc(graphics, "Ellena", leftClickColorWithAlpha); // Catherby
-                        highlightNpc(graphics, "Nikkie", leftClickColorWithAlpha); // Farming Guild
-                        highlightNpc(graphics, "Bolongo", leftClickColorWithAlpha); // Gnome Stronghold
-                        highlightNpc(graphics, "Liliwen", leftClickColorWithAlpha); // Lletya
-                        highlightNpc(graphics, "Gileth", leftClickColorWithAlpha); // Tree Gnome Village
-                    }
-                    else {
-                        Widget widget = client.getWidget(219, 1);
-                        highlightDynamicComponent(graphics, widget, 1, leftClickColorWithAlpha);
-                    }
+
+                    highlightFruitTreeFarmers(graphics);
+
                     break;
                 case UNKNOWN:
                     plugin.addTextToInfoBox("UNKNOWN state: Try to do something with the tree patch to change its state.");
                     break;
                 case GROWING:
-                    if (!fruitTreePatchComposted) {
-                        plugin.addTextToInfoBox("Use Compost on patch.");
-
-                        if (isItemInInventory(selectedCompostID())) {
-                            highlightFruitTreePatches(graphics, highlightUseItemWithAlpha);
-                            itemHighlight(graphics, selectedCompostID(), highlightUseItemWithAlpha);
-                        } else {
-                            withdrawCompost(graphics);
-                        }
-
-                        if (isItComposted(plugin.getLastMessage())) {
-                            fruitTreePatchComposted = true;
-                        } else {
-                            // If the patch is yet to be composted, only show the compost step at this time, until it has been composted
-                            break;
-                        }
-                    }
-
-                    if (config.payForProtection() && !fruitTreePatchProtected) {
+                    if (config.generalPayForProtection()) {
                         plugin.addTextToInfoBox("Pay to protect the patch.");
 
-                        if (! isInterfaceOpen(219, 1)) {
-                            highlightNpc(graphics, "Garth", leftClickColorWithAlpha); // Brimhaven
-                            highlightNpc(graphics, "Ellena", leftClickColorWithAlpha); // Catherby
-                            highlightNpc(graphics, "Nikkie", leftClickColorWithAlpha); // Farming Guild
-                            highlightNpc(graphics, "Bolongo", leftClickColorWithAlpha); // Gnome Stronghold
-                            highlightNpc(graphics, "Liliwen", leftClickColorWithAlpha); // Lletya
-                            highlightNpc(graphics, "Gileth", leftClickColorWithAlpha); // Tree Gnome Village
-                        } else {
-                            Widget widget = client.getWidget(219, 1);
-                            highlightDynamicComponent(graphics, widget, 1, leftClickColorWithAlpha);
-                        }
+                        highlightFruitTreeFarmers(graphics);
 
                         if (patchIsProtected()) {
-                            fruitTreePatchProtected = true;
+                            currentHerbCase = 1;
+                            fruitTreePatchDone = true;
                         }
-                    }
+                    } else {
+                        plugin.addTextToInfoBox("Use Compost on patch.");
 
-                    if (fruitTreePatchComposted && (!config.payForProtection() || (config.payForProtection() && fruitTreePatchProtected))) {
-                        currentHerbCase = 1;
-                        fruitTreePatchDone = true;
+                        highlightCompost(graphics);
+
+                        if (patchIsComposted()) {
+                            currentHerbCase = 1;
+                            fruitTreePatchDone = true;
+                        }
                     }
 
                     break;
@@ -1176,8 +1143,6 @@ public class FarmingTeleportOverlay extends Overlay {
                     isAtDestination = false;
                     herbRunIndex++;
                     treePatchDone = false;
-                    treePatchComposted = false;
-                    treePatchProtected = false;
                 }
             }
             if (fruitTreeRun) {
@@ -1187,8 +1152,6 @@ public class FarmingTeleportOverlay extends Overlay {
                     isAtDestination = false;
                     herbRunIndex++;
                     fruitTreePatchDone = false;
-                    fruitTreePatchComposted = false;
-                    fruitTreePatchProtected = false;
                 }
             }
         }

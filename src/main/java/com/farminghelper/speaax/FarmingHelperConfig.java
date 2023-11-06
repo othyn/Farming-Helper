@@ -117,7 +117,7 @@ public interface FarmingHelperConfig extends Config
 		position = 9,
 		section = generalList
 	)
-	default boolean payForProtection() { return false; }
+	default boolean generalPayForProtection() { return false; }
 
 
 	@ConfigSection(
