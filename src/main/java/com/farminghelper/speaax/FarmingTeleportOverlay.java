@@ -22,7 +22,6 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.util.*;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
@@ -89,8 +88,11 @@ public class FarmingTeleportOverlay extends Overlay {
     }
 
     public boolean patchIsProtected() {
+        String standardResponse = "You pay the gardener ([0-9A-Za-z\\ ]+) to protect the patch\\.";
+        String faladorEliteResponse = "The gardener protects your tree for you, free of charge, as a token of gratitude for completing the ([A-Za-z\\ ]+)\\.";
+
         return Pattern
-            .compile("You pay the gardener ([0-9A-Za-z\\ ]+) to protect the patch\\.")
+            .compile(standardResponse + "|" + faladorEliteResponse)
             .matcher(plugin.getLastMessage())
             .matches();
     }
