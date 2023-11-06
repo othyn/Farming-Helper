@@ -410,7 +410,14 @@ public class FarmingTeleportOverlay extends Overlay {
     {
         if (isItemInInventory(selectedCompostID())) {
             if (herbRun) {
-                highlightHerbPatches(graphics, highlightUseItemWithAlpha);
+                if (subCase == 1) {
+                    highlightHerbPatches(graphics, highlightUseItemWithAlpha);
+
+                }
+                else if(subCase == 2) {
+                    highlightFlowerPatches(graphics, highlightUseItemWithAlpha);
+                }
+
             }
 
             if (treeRun) {
@@ -984,34 +991,49 @@ public class FarmingTeleportOverlay extends Overlay {
                         }
                         break;
                     case SPIRIT_TREE:
-                        if (!isInterfaceOpen(187, 3)) {
-                            List<Integer> spiritTreeIds = Arrays.asList(1293, 1294, 1295, 8355, 29227, 29229, 37329, 40778);
+                        switch (currentTeleportCase) {
+                            case 1:
+                                gettingToHouse(graphics);
+                                break;
+                            case 2:
+                                if (!isInterfaceOpen(187, 3)) {
+                                    //Might be more
+                                    List<Integer> spiritTreeIds = Arrays.asList(1293, 1294, 1295, 8355, 29227, 29229, 37329, 40778);
+                                    for (Integer objectId : spiritTreeIds) {
+                                        gameObjectOverlay(objectId, leftClickColorWithAlpha).render(graphics);
+                                    }
+                                } else {
+                                    Widget widget = client.getWidget(187, 3);
+                                    int index = getChildIndexST(location.getName());
+                                    highlightDynamicComponent(graphics, widget, index);
+                                    if (Objects.equals(
+                                        location.getName(),
+                                        "Falador"
+                                    ))
+                                    {
+                                        int altIndex = getChildIndexST("Port Sarim");
+                                        highlightDynamicComponent(graphics, widget, altIndex);
+                                    }
+                                    if (Objects.equals(
+                                        location.getName(),
+                                        "Kourend"
+                                    ))
+                                    {
+                                        int altIndex = getChildIndexST("Hosidius");
+                                        highlightDynamicComponent(graphics, widget, altIndex);
+                                    }
 
-                            for (Integer objectId : spiritTreeIds) {
-                                gameObjectOverlay(objectId, leftClickColorWithAlpha).render(graphics);
-                            }
-                        } else {
-                            Widget widget = client.getWidget(187, 3);
-
-                            if (Objects.equals(location.getName(), "Gnome Stronghold")) {
-                                highlightDynamicComponent(graphics, widget, getChildIndexST("Gnome Stronghold"));
-                            }
-
-                            if (Objects.equals(location.getName(), "Tree Gnome Village")) {
-                                highlightDynamicComponent(graphics, widget, getChildIndexST("Tree Gnome Village"));
-                            }
+                                }
+                                if (currentRegionId == teleport.getRegionId()) {
+                                    currentTeleportCase = 1;
+                                    isAtDestination = true;
+                                    startSubCases = true;
+                                    if (location.getFarmLimps()) {
+                                        farmLimps = true;
+                                    }
+                                }
+                                break;
                         }
-
-                        if (currentRegionId == teleport.getRegionId()) {
-                            currentTeleportCase = 1;
-                            isAtDestination = true;
-                            startSubCases = true;
-
-                            if (location.getFarmLimps()) {
-                                farmLimps = true;
-                            }
-                        }
-
                         break;
                     case JEWELLERY_BOX:
                         switch (currentTeleportCase) {
