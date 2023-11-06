@@ -8,6 +8,7 @@ import net.runelite.api.Client;
 import net.runelite.api.ItemID;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ItemAndLocation
@@ -19,6 +20,32 @@ public class ItemAndLocation
     protected FarmingHelperPlugin plugin;
 
     public List<Location> locations = new ArrayList<>();
+
+    protected List<Integer> woodcuttingAxes = Arrays.asList(
+        ItemID.BRONZE_AXE,
+        ItemID.BRONZE_FELLING_AXE,
+        ItemID.IRON_AXE,
+        ItemID.IRON_FELLING_AXE,
+        ItemID.STEEL_AXE,
+        ItemID.STEEL_FELLING_AXE,
+        ItemID.BLACK_AXE,
+        ItemID.BLACK_FELLING_AXE,
+        ItemID.MITHRIL_AXE,
+        ItemID.MITHRIL_FELLING_AXE,
+        ItemID.ADAMANT_AXE,
+        ItemID.ADAMANT_FELLING_AXE,
+        ItemID.BLESSED_AXE,
+        ItemID.RUNE_AXE,
+        ItemID.RUNE_FELLING_AXE,
+        ItemID.GILDED_AXE,
+        ItemID.DRAGON_AXE,
+        ItemID.DRAGON_FELLING_AXE,
+        ItemID.INFERNAL_AXE,
+        // Third Age Axe doesn't appear in this enum yet...
+        // Third Age Felling Axe doesn't appear in this enum yet...
+        ItemID.CRYSTAL_AXE,
+        ItemID.CRYSTAL_FELLING_AXE
+    );
 
     public ItemAndLocation()
     {

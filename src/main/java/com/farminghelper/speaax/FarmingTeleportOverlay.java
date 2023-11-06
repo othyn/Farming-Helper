@@ -685,7 +685,11 @@ public class FarmingTeleportOverlay extends Overlay {
                 case REMOVE:
                     plugin.addTextToInfoBox("Pay to remove tree, or cut it down and clear the patch.");
 
-                    highlightTreeFarmers(graphics);
+                    if (config.generalPayToRemove()) {
+                        highlightTreeFarmers(graphics);
+                    } else {
+                        highlightTreePatches(graphics);
+                    }
 
                     break;
                 case UNKNOWN:
@@ -759,7 +763,11 @@ public class FarmingTeleportOverlay extends Overlay {
                 case REMOVE:
                     plugin.addTextToInfoBox("Pay to remove fruit tree, or cut it down and clear the patch.");
 
-                    highlightFruitTreeFarmers(graphics);
+                    if (config.generalPayToRemove()) {
+                        highlightFruitTreeFarmers(graphics);
+                    } else {
+                        highlightFruitTreePatches(graphics);
+                    }
 
                     break;
                 case UNKNOWN:

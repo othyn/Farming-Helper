@@ -54,11 +54,13 @@ public class TreeRunItemAndLocation extends ItemAndLocation
                     Integer::sum
                 );
 
-                allRequirements.merge(
-                    ItemID.COINS_995,
-                    200,
-                    Integer::sum
-                );
+                if (config.generalPayToRemove()) {
+                    allRequirements.merge(
+                        ItemID.COINS_995,
+                        200,
+                        Integer::sum
+                    );
+                }
 
                 Location.Teleport teleport = location.getSelectedTeleport();
 
@@ -113,6 +115,17 @@ public class TreeRunItemAndLocation extends ItemAndLocation
                 1,
                 Integer::sum
             );
+        }
+
+        // TODO: Issue, this needs to be OR not AND
+        if (! config.generalPayToRemove()) {
+            for (Integer axeItemID : woodcuttingAxes) {
+                allRequirements.merge(
+                    axeItemID,
+                    1,
+                    Integer::sum
+                );
+            }
         }
 
         return allRequirements;

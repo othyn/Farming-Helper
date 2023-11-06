@@ -28,7 +28,7 @@ public interface FarmingHelperConfig extends Config
 		String name();
 	}
 	@ConfigItem(
-			position = 10,
+			position = 11,
 			keyName = "enumConfigHouseTele",
 			name = "House teleport",
 			description = "Desired way to teleport to house",
@@ -111,10 +111,19 @@ public interface FarmingHelperConfig extends Config
 	default boolean generalAllotment() { return false; }
 
 	@ConfigItem(
+		keyName = "booleanConfigPayToRemove",
+		name = "Pay to remove",
+		description = "Want a reminder to pay to remove? If this option is left unchecked, then you'll be prompted to remove the patch manually (chop the tree, etc.).",
+		position = 9,
+		section = generalList
+	)
+	default boolean generalPayToRemove() { return false; }
+
+	@ConfigItem(
 		keyName = "booleanConfigPayForProtection",
 		name = "Pay for protection",
 		description = "Want a reminder to pay for protection? (This currently doesn't check for the required items, only prompts you to pay the farmer.)",
-		position = 9,
+		position = 10,
 		section = generalList
 	)
 	default boolean generalPayForProtection() { return false; }

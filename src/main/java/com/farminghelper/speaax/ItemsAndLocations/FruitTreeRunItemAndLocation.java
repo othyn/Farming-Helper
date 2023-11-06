@@ -54,11 +54,13 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
                     Integer::sum
                 );
 
-                allRequirements.merge(
-                    ItemID.COINS_995,
-                    200,
-                    Integer::sum
-                );
+                if (config.generalPayToRemove()) {
+                    allRequirements.merge(
+                        ItemID.COINS_995,
+                        200,
+                        Integer::sum
+                    );
+                }
 
                 Location.Teleport teleport = location.getSelectedTeleport();
 
@@ -88,7 +90,6 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             }
         }
 
-        //allRequirements.merge(ItemID.SEED_DIBBER, 1, Integer::sum);
         allRequirements.merge(
             ItemID.SPADE,
             1,
@@ -113,6 +114,17 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
                 1,
                 Integer::sum
             );
+        }
+
+        // TODO: Issue, this needs to be OR not AND
+        if (! config.generalPayToRemove()) {
+            for (Integer axeItemID : woodcuttingAxes) {
+                allRequirements.merge(
+                    axeItemID,
+                    1,
+                    Integer::sum
+                );
+            }
         }
 
         return allRequirements;
