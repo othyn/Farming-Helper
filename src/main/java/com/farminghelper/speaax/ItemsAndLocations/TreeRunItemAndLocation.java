@@ -259,8 +259,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
             3,
             9781,
             gnomeStrongholdTreePatchPoint,
-            // TODO: Change this to no requirements? House is handy for people with a tree in their home
-            getHouseTeleportItemRequirements()
+            Collections.<ItemRequirement> emptyList()
         ));
 
         locations.add(gnomeStrongholdTreeLocation);

@@ -303,8 +303,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             3,
             9781,
             gnomeStrongholdFruitTreePatchPoint,
-            // TODO: Change this to no requirements? House is handy for people with a tree in their home
-            getHouseTeleportItemRequirements()
+            Collections.<ItemRequirement> emptyList()
         ));
 
         locations.add(gnomeStrongholdFruitTreeLocation);
@@ -385,8 +384,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             3,
             10033,
             treeGnomeVillageFruitTreePatchPoint,
-            // TODO: Change this to no requirements? House is handy for people with a tree in their home
-            getHouseTeleportItemRequirements()
+            Collections.<ItemRequirement> emptyList()
         ));
 
         locations.add(treeGnomeVillageFruitTreeLocation);
