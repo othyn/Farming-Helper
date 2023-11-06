@@ -950,10 +950,10 @@ public class FarmingTeleportOverlay extends Overlay {
                                         gameObjectOverlay(objectId, leftClickColorWithAlpha).render(graphics);
                                     }
                                 } else {
-                                    Widget widget = client.getWidget(17, 12);
+                                    Widget widget = client.getWidget(17, 13);
 
                                     highlightDynamicComponent(graphics, widget, getChildIndex(
-                                        widget,
+                                        client.getWidget(17, 12),
                                         teleport.overrideLocationName() == "" ? location.getName() : teleport.overrideLocationName()
                                     ));
                                 }
