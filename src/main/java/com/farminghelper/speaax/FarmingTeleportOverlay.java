@@ -260,7 +260,7 @@ public class FarmingTeleportOverlay extends Overlay {
                 if (client != null) {
                     List<GameObject> gameObjects = findGameObjectsByID(objectId);
                     for (GameObject gameObject : gameObjects) {
-                        drawGameObjectClickbox(graphics, gameObject, highlightUseItemWithAlpha);
+                        drawGameObjectClickbox(graphics, gameObject, leftClickColorWithAlpha);
                     }
                 }
                 return null;
@@ -292,7 +292,7 @@ public class FarmingTeleportOverlay extends Overlay {
         return foundDecorativeObjects;
     }
 
-    public Overlay decorativeObjectOverlay(int objectId, Color color) {
+    public Overlay decorativeObjectOverlay(int objectId) {
         return new Overlay() {
             @Override
             public Dimension render(Graphics2D graphics) {
@@ -300,7 +300,7 @@ public class FarmingTeleportOverlay extends Overlay {
                 if (client != null) {
                     List<DecorativeObject> decorativeObjects = findDecorativeObjectsByID(objectId);
                     for (DecorativeObject decorativeObject : decorativeObjects) {
-                        drawDecorativeObjectClickbox(graphics, decorativeObject, color);
+                        drawDecorativeObjectClickbox(graphics, decorativeObject, leftClickColorWithAlpha);
                     }
                 }
                 return null;
@@ -1042,7 +1042,7 @@ public class FarmingTeleportOverlay extends Overlay {
 
                                 if (!isInterfaceOpen(teleport.getInterfaceGroupId(), teleport.getInterfaceChildId())) {
                                     for (int id : xericsTalismanIds) {
-                                        Overlay decorativeObjectHighlight = decorativeObjectOverlay(id, leftClickColorWithAlpha);
+                                        Overlay decorativeObjectHighlight = decorativeObjectOverlay(id);
                                         decorativeObjectHighlight.render(graphics);
                                     }
                                 } else {
