@@ -4,6 +4,8 @@ import java.util.stream.IntStream;
 
 public enum Crop
 {
+    // TODO: Herbs, Flowers, Trees, Hardwood Trees
+
     // ----- ----- ----- ----- ----- ----- -----
     // Fruit Trees
 

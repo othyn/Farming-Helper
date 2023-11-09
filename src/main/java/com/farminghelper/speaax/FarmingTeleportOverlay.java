@@ -720,6 +720,7 @@ public class FarmingTeleportOverlay extends Overlay {
     public Boolean fruitTreePatchDone = false;
 
     public void fruitTreeSteps(Graphics2D graphics, Location.Teleport teleport) {
+        // ABSTRACT: -- abstract this one level above and pass in the cropState
         CropState cropState;
 
         int currentRegionId = client.getLocalPlayer().getWorldLocation().getRegionID();
@@ -731,6 +732,7 @@ public class FarmingTeleportOverlay extends Overlay {
         } else {
             cropState = Patch.check(client, Varbits.FARMING_4771); // Varbits.FARMING_4771 brimhaven, catherby, lletya, tree gnome village
         }
+        // END ABSTRACT
 
         if (!areaCheck.isPlayerWithinArea(teleport.getPoint(), 15)) {
             //should be replaced with a pathing system, point arrow or something else eventually
