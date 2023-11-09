@@ -119,6 +119,15 @@ public interface FarmingHelperConfig extends Config
 	)
 	default boolean generalPayForProtection() { return false; }
 
+	@ConfigItem(
+		keyName = "booleanConfigPickFruit",
+		name = "Pick Fruit",
+		description = "Want a reminder to pick fruit before clearning fruit trees?",
+		position = 10,
+		section = generalList
+	)
+	default boolean generalPickFruit() { return false; }
+
 
 	@ConfigSection(
 		name = "Herbs",
