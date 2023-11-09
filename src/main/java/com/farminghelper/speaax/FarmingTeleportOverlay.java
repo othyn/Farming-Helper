@@ -3,6 +3,8 @@ package com.farminghelper.speaax;
 import java.awt.*;
 import javax.inject.Inject;
 
+import com.farminghelper.speaax.Patch.CropState;
+import com.farminghelper.speaax.Patch.Patch;
 import net.runelite.api.*;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
@@ -718,57 +720,37 @@ public class FarmingTeleportOverlay extends Overlay {
     public Boolean fruitTreePatchDone = false;
 
     public void fruitTreeSteps(Graphics2D graphics, Location.Teleport teleport) {
+        CropState cropState;
+
         int currentRegionId = client.getLocalPlayer().getWorldLocation().getRegionID();
-        FruitTreePatchChecker.PlantState plantState;
-        //Varbits.FARMING_4771 brimhaven, catherby, Lletya, tree gnome village
-        //Varbits.FARMING_7909 farming guild
-        //Varbits.FARMING_4772 gnome stronghold
+
         if (currentRegionId == 4922) {
-            plantState = FruitTreePatchChecker.checkFruitTreePatch(client, Varbits.FARMING_7909);
+            cropState = Patch.check(client, Varbits.FARMING_7909); // Varbits.FARMING_7909 farming guild
         } else if (currentRegionId == 9782 || currentRegionId == 9781) {
-            plantState = FruitTreePatchChecker.checkFruitTreePatch(client, Varbits.FARMING_4772);
+            cropState = Patch.check(client, Varbits.FARMING_4772); // Varbits.FARMING_4772 gnome stronghold
         } else {
-            plantState = FruitTreePatchChecker.checkFruitTreePatch(client, Varbits.FARMING_4771);
+            cropState = Patch.check(client, Varbits.FARMING_4771); // Varbits.FARMING_4771 brimhaven, catherby, lletya, tree gnome village
         }
+
         if (!areaCheck.isPlayerWithinArea(teleport.getPoint(), 15)) {
             //should be replaced with a pathing system, point arrow or something else eventually
             highlightFruitTreePatches(graphics, leftClickColorWithAlpha);
         } else {
-            switch (plantState) {
-                case HEALTHY:
-                    plugin.addTextToInfoBox("Check Fruit tree health.");
-                    highlightFruitTreePatches(graphics, leftClickColorWithAlpha);
-                    break;
+            switch (cropState) {
                 case WEEDS:
                     plugin.addTextToInfoBox("Rake the fruit tree patch.");
                     highlightFruitTreePatches(graphics, leftClickColorWithAlpha);
                     break;
-                case DEAD:
-                    plugin.addTextToInfoBox("Clear the dead fruit tree patch.");
-                    highlightFruitTreePatches(graphics, leftClickColorWithAlpha);
-                    break;
+
                 case PLANT:
                     plugin.addTextToInfoBox("Use Sapling on the patch.");
                     highlightFruitTreePatches(graphics, highlightUseItemWithAlpha);
                     highlightFruitTreeSapling(graphics);
                     break;
-                case DISEASED:
-                    plugin.addTextToInfoBox("Prune the fruit tree patch.");
-                    highlightFruitTreePatches(graphics, leftClickColorWithAlpha);
-                    break;
-                case REMOVE:
-                    plugin.addTextToInfoBox("Pay to remove fruit tree, or cut it down and clear the patch.");
 
-                    highlightFruitTreeFarmers(graphics);
-
-                    break;
-                case UNKNOWN:
-                    plugin.addTextToInfoBox("UNKNOWN state: Try to do something with the tree patch to change its state.");
-                    break;
                 case GROWING:
                     if (config.generalPayForProtection()) {
                         plugin.addTextToInfoBox("Pay to protect the patch.");
-
                         highlightFruitTreeFarmers(graphics);
 
                         if (patchIsProtected()) {
@@ -776,7 +758,6 @@ public class FarmingTeleportOverlay extends Overlay {
                         }
                     } else {
                         plugin.addTextToInfoBox("Use Compost on patch.");
-
                         highlightCompost(graphics);
 
                         if (patchIsComposted()) {
@@ -784,6 +765,31 @@ public class FarmingTeleportOverlay extends Overlay {
                         }
                     }
 
+                    break;
+
+                case DISEASED:
+                    plugin.addTextToInfoBox("Prune the fruit tree patch.");
+                    highlightFruitTreePatches(graphics, leftClickColorWithAlpha);
+                    break;
+
+                case DEAD:
+                    plugin.addTextToInfoBox("Clear the dead fruit tree patch.");
+                    highlightFruitTreePatches(graphics, leftClickColorWithAlpha);
+                    break;
+
+                case HARVESTABLE:
+                case REMOVE:
+                    plugin.addTextToInfoBox("Pay to remove fruit tree, or cut it down and clear the patch.");
+                    highlightFruitTreeFarmers(graphics);
+                    break;
+
+                case GROWN:
+                    plugin.addTextToInfoBox("Check Fruit tree health.");
+                    highlightFruitTreePatches(graphics, leftClickColorWithAlpha);
+                    break;
+
+                case UNKNOWN:
+                    plugin.addTextToInfoBox("UNKNOWN state: Try to do something with the tree patch to change its state.");
                     break;
             }
         }
