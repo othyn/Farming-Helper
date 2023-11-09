@@ -1156,7 +1156,7 @@ public class FarmingTeleportOverlay extends Overlay {
                 farming(graphics, teleport);
             }
         } else {
-            herbRunIndex++;
+            runIndex++;
         }
     }
     //}
@@ -1180,7 +1180,7 @@ public class FarmingTeleportOverlay extends Overlay {
                             subCase = 1;
                             startSubCases = false;
                             isAtDestination = false;
-                            herbRunIndex++;
+                            runIndex++;
                             farmLimps = false;
                             flowerPatchDone = false;
 
@@ -1189,7 +1189,7 @@ public class FarmingTeleportOverlay extends Overlay {
                         subCase = 1;
                         startSubCases = false;
                         isAtDestination = false;
-                        herbRunIndex++;
+                        runIndex++;
                         farmLimps = false;
                         flowerPatchDone = false;
                     }
@@ -1200,7 +1200,7 @@ public class FarmingTeleportOverlay extends Overlay {
                 if (treePatchDone) {
                     startSubCases = false;
                     isAtDestination = false;
-                    herbRunIndex++;
+                    runIndex++;
                     treePatchDone = false;
                 }
             }
@@ -1209,7 +1209,7 @@ public class FarmingTeleportOverlay extends Overlay {
                 if (fruitTreePatchDone) {
                     startSubCases = false;
                     isAtDestination = false;
-                    herbRunIndex++;
+                    runIndex++;
                     fruitTreePatchDone = false;
                 }
             }
@@ -1218,7 +1218,7 @@ public class FarmingTeleportOverlay extends Overlay {
 
     public static int subCase = 1;
     public static boolean startSubCases = false;
-    public static int herbRunIndex = 0;
+    public static int runIndex = 0;
 
     public void RemoveOverlay() {
         plugin.overlayManager.remove(farmingHelperOverlay);
@@ -1228,7 +1228,7 @@ public class FarmingTeleportOverlay extends Overlay {
         plugin.setOverlayActive(false);
         plugin.setTeleportOverlayActive(false);
 
-        herbRunIndex = 0;
+        runIndex = 0;
         currentTeleportCase = 1;
         subCase = 1;
         startSubCases = false;
@@ -1262,7 +1262,7 @@ public class FarmingTeleportOverlay extends Overlay {
         if (plugin.isTeleportOverlayActive()) {
             Client client = plugin.getClient();
             if (herbRun) {
-                switch (herbRunIndex) {
+                switch (runIndex) {
                     case 0:
                         gettingToLocation(graphics, plugin.getArdougneLocation());
                         break;
@@ -1299,7 +1299,7 @@ public class FarmingTeleportOverlay extends Overlay {
                         break;
                 }
             } else if (treeRun) {
-                switch (herbRunIndex) {
+                switch (runIndex) {
                     case 0:
                         gettingToLocation(graphics, plugin.getFaladorTreeLocation());
                         break;
@@ -1327,7 +1327,7 @@ public class FarmingTeleportOverlay extends Overlay {
                         break;
                 }
             } else if (fruitTreeRun) {
-                switch (herbRunIndex) {
+                switch (runIndex) {
                     case 0:
                         gettingToLocation(graphics, plugin.getBrimhavenFruitTreeLocation());
                         break;
