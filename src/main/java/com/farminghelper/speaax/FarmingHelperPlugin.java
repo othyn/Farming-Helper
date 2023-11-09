@@ -82,6 +82,18 @@ public class FarmingHelperPlugin extends Plugin
 	public Location getFarmingGuildTreeLocation() {
 		return treeRunItemAndLocation.farmingGuildTreeLocation;
 	}
+	public Location getFossilIslandEastTreeLocation()
+	{
+		return treeRunItemAndLocation.fossilIslandEastTreeLocation;
+	}
+	public Location getFossilIslandSouthTreeLocation()
+	{
+		return treeRunItemAndLocation.fossilIslandSouthTreeLocation;
+	}
+	public Location getFossilIslandWestTreeLocation()
+	{
+		return treeRunItemAndLocation.fossilIslandWestTreeLocation;
+	}
 	public Location getGnomeStrongholdTreeLocation() {return treeRunItemAndLocation.gnomeStrongholdTreeLocation;}
 	public Location getLumbridgeTreeLocation() {return treeRunItemAndLocation.lumbridgeTreeLocation;}
 	public Location getTaverleyTreeLocation() {

@@ -1319,6 +1319,15 @@ public class FarmingTeleportOverlay extends Overlay {
                         gettingToLocation(graphics, plugin.getVarrockTreeLocation());
                         break;
                     case 6:
+                        gettingToLocation(graphics, plugin.getFossilIslandEastTreeLocation());
+                        break;
+                    case 7:
+                        gettingToLocation(graphics, plugin.getFossilIslandSouthTreeLocation());
+                        break;
+                    case 8:
+                        gettingToLocation(graphics, plugin.getFossilIslandWestTreeLocation());
+                        break;
+                    case 9:
                         RemoveOverlay();
                         // add more cases for each location in the array
                     default:
