@@ -540,7 +540,7 @@ public class FarmingTeleportOverlay extends Overlay
 
         Item[] items;
 
-        if (inventory == null || inventory.getItems() == null) {
+        if (inventory == null) {
             items = new Item[0];
         } else {
             items = inventory.getItems();
