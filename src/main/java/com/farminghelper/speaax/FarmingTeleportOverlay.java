@@ -1024,9 +1024,7 @@ public class FarmingTeleportOverlay extends Overlay
                             }
 
                             if (currentRegionId == teleport.getRegionId()) {
-                                currentTeleportCase = 1;
-                                isAtDestination = true;
-                                startSubCases = true;
+                                destinationReached();
 
                                 if (location.getFarmLimps()) {
                                     farmLimpwurts = true;
@@ -1063,9 +1061,7 @@ public class FarmingTeleportOverlay extends Overlay
                             }
 
                             if (currentRegionId == teleport.getRegionId()) {
-                                currentTeleportCase = 1;
-                                isAtDestination = true;
-                                startSubCases = true;
+                                destinationReached();
 
                                 if (location.getFarmLimps()) {
                                     farmLimpwurts = true;
@@ -1102,9 +1098,7 @@ public class FarmingTeleportOverlay extends Overlay
                                 }
 
                                 if (currentRegionId == teleport.getRegionId()) {
-                                    currentTeleportCase = 1;
-                                    isAtDestination = true;
-                                    startSubCases = true;
+                                    destinationReached();
 
                                     if (location.getFarmLimps()) {
                                         farmLimpwurts = true;
@@ -1145,9 +1139,7 @@ public class FarmingTeleportOverlay extends Overlay
                         }
 
                         if (currentRegionId == teleport.getRegionId()) {
-                            currentTeleportCase = 1;
-                            isAtDestination = true;
-                            startSubCases = true;
+                            destinationReached();
 
                             if (location.getFarmLimps()) {
                                 farmLimpwurts = true;
@@ -1176,9 +1168,7 @@ public class FarmingTeleportOverlay extends Overlay
                                 }
 
                                 if (currentRegionId == teleport.getRegionId()) {
-                                    currentTeleportCase = 1;
-                                    isAtDestination = true;
-                                    startSubCases = true;
+                                    destinationReached();
 
                                     if (location.getFarmLimps()) {
                                         farmLimpwurts = true;
@@ -1213,9 +1203,7 @@ public class FarmingTeleportOverlay extends Overlay
                                     highlightDynamicComponent(graphics, widget, 1);
 
                                     if (currentRegionId == teleport.getRegionId()) {
-                                        currentTeleportCase = 1;
-                                        isAtDestination = true;
-                                        startSubCases = true;
+                                        destinationReached();
 
                                         if (location.getFarmLimps()) {
                                             farmLimpwurts = true;
@@ -1231,20 +1219,9 @@ public class FarmingTeleportOverlay extends Overlay
 
                         switch (tabState) {
                             case REST:
-                                if (currentRegionId == teleport.getRegionId()) {
-                                    currentTeleportCase = 1;
-                                    isAtDestination = true;
-                                    startSubCases = true;
-                                }
 
                             case INVENTORY:
                                 interfaceOverlay(161, 64).render(graphics);
-
-                                if (currentRegionId == teleport.getRegionId()) {
-                                    currentTeleportCase = 1;
-                                    isAtDestination = true;
-                                    startSubCases = true;
-                                }
 
                                 break;
 
@@ -1254,13 +1231,11 @@ public class FarmingTeleportOverlay extends Overlay
                                     teleport.getInterfaceChildId()
                                 ).render(graphics);
 
-                                if (currentRegionId == teleport.getRegionId()) {
-                                    currentTeleportCase = 1;
-                                    isAtDestination = true;
-                                    startSubCases = true;
-                                }
-
                                 break;
+                        }
+
+                        if (currentRegionId == teleport.getRegionId()) {
+                            destinationReached();
                         }
 
                         break;
@@ -1276,6 +1251,13 @@ public class FarmingTeleportOverlay extends Overlay
         } else {
             runIndex++;
         }
+    }
+
+    public void destinationReached()
+    {
+        currentTeleportCase = 1;
+        isAtDestination = true;
+        startSubCases = true;
     }
 
     public void nextPatch()
