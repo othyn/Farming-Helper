@@ -5,6 +5,7 @@ import javax.inject.Inject;
 
 import com.farminghelper.speaax.Patch.CropState;
 import com.farminghelper.speaax.Patch.Patch;
+
 import net.runelite.api.*;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
@@ -13,7 +14,6 @@ import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.api.Client;
 import net.runelite.api.GameObject;
-import net.runelite.client.ui.overlay.components.PanelComponent;
 import net.runelite.api.ItemID;
 import net.runelite.client.util.ColorUtil;
 import net.runelite.api.Tile;
@@ -29,21 +29,43 @@ import java.util.regex.Pattern;
 
 public class FarmingTeleportOverlay extends Overlay {
     private final Client client;
+
     private final FarmingHelperPlugin plugin;
-    private boolean clicked = false;
+
     @Inject
     private FarmingHelperConfig config;
+
     @Inject
     private FarmingHelperOverlay farmingHelperOverlay;
+
     @Inject
     private FarmingTeleportOverlay farmingTeleportOverlay;
+
     @Inject
     private FarmingHelperOverlayInfoBox farmingHelperOverlayInfoBox;
+
     @Inject
     private AreaCheck areaCheck;
 
-    private final PanelComponent panelComponent = new PanelComponent();
-    public boolean patchCleared = false;
+    public Boolean patchComplete = false;
+
+    public static int currentTeleportCase = 1;
+
+    public boolean isAtDestination = false;
+
+    public static boolean farmLimpwurts = false;
+
+    public static boolean checkForLimpwurts = false;
+
+    public static boolean startSubCases = false;
+
+    public static int runIndex = 0;
+
+    public Boolean herbRun = false;
+
+    public Boolean treeRun = false;
+
+    public Boolean fruitTreeRun = false;
 
     private Color leftClickColorWithAlpha;
     private Color rightClickColorWithAlpha;
@@ -69,15 +91,6 @@ public class FarmingTeleportOverlay extends Overlay {
                 config.highlightAlpha()
         );
     }
-
-
-    public Map<String, Boolean> herbConfigMap = new HashMap<>();
-
-
-    private int previousRegionId;
-    public int inventoryTabValue = 0;
-
-
 
     public boolean patchIsComposted() {
         String regexCompost1 = "You treat the (herb patch|flower patch|tree patch|fruit tree patch) with (compost|supercompost|ultracompost)\\.";
@@ -338,12 +351,10 @@ public class FarmingTeleportOverlay extends Overlay {
         }
     }
 
-
     private boolean isInterfaceOpen(int groupId, int childId) {
         Widget widget = client.getWidget(groupId, childId);
         return widget != null && !widget.isHidden();
     }
-
 
     private void printWidgetText(int groupId, int childId) {
         Widget widget = client.getWidget(groupId, childId);
@@ -387,11 +398,11 @@ public class FarmingTeleportOverlay extends Overlay {
     {
         if (isItemInInventory(selectedCompostID())) {
             if (herbRun) {
-                if (subCase == 1) {
+                if (!checkForLimpwurts) {
                     highlightHerbPatches(graphics, highlightUseItemWithAlpha);
 
                 }
-                else if(subCase == 2) {
+                else if (checkForLimpwurts) {
                     highlightFlowerPatches(graphics, highlightUseItemWithAlpha);
                 }
 
@@ -533,8 +544,6 @@ public class FarmingTeleportOverlay extends Overlay {
         }
     }
 
-    public Boolean herbPatchDone = false;
-
     public void herbSteps(Graphics2D graphics, Location.Teleport teleport) {
         int currentRegionId = client.getLocalPlayer().getWorldLocation().getRegionID();
         HerbPatchChecker.PlantState plantState;
@@ -590,7 +599,7 @@ public class FarmingTeleportOverlay extends Overlay {
                     highlightCompost(graphics);
 
                     if (patchIsComposted()) {
-                        herbPatchDone = true;
+                        patchComplete = true;
                     }
                     break;
                 case UNKNOWN:
@@ -600,10 +609,8 @@ public class FarmingTeleportOverlay extends Overlay {
         }
     }
 
-    public static boolean flowerPatchDone = false;
-
     public void flowerSteps(Graphics2D graphics) {
-        if (farmLimps) {
+        if (farmLimpwurts) {
             int currentRegionId = client.getLocalPlayer().getWorldLocation().getRegionID();
             FlowerPatchChecker.PlantState plantState;
             if (currentRegionId == 4922) {
@@ -635,16 +642,14 @@ public class FarmingTeleportOverlay extends Overlay {
                     highlightCompost(graphics);
 
                     if (patchIsComposted()) {
-                        flowerPatchDone = true;
+                        patchComplete = true;
                     }
                     break;
             }
         } else {
-            flowerPatchDone = true;
+            patchComplete = true;
         }
     }
-
-    public Boolean treePatchDone = false;
 
     public void treeSteps(Graphics2D graphics, Location.Teleport teleport) {
         int currentRegionId = client.getLocalPlayer().getWorldLocation().getRegionID();
@@ -700,7 +705,7 @@ public class FarmingTeleportOverlay extends Overlay {
                         highlightTreeFarmers(graphics);
 
                         if (patchIsProtected()) {
-                            treePatchDone = true;
+                            patchComplete = true;
                         }
                     } else {
                         plugin.addTextToInfoBox("Use Compost on patch.");
@@ -708,7 +713,7 @@ public class FarmingTeleportOverlay extends Overlay {
                         highlightCompost(graphics);
 
                         if (patchIsComposted()) {
-                            treePatchDone = true;
+                            patchComplete = true;
                         }
                     }
 
@@ -716,8 +721,6 @@ public class FarmingTeleportOverlay extends Overlay {
             }
         }
     }
-
-    public Boolean fruitTreePatchDone = false;
 
     public void fruitTreeSteps(Graphics2D graphics, Location.Teleport teleport) {
         // ABSTRACT: -- abstract this one level above and pass in the cropState
@@ -756,14 +759,14 @@ public class FarmingTeleportOverlay extends Overlay {
                         highlightFruitTreeFarmers(graphics);
 
                         if (patchIsProtected()) {
-                            fruitTreePatchDone = true;
+                            patchComplete = true;
                         }
                     } else {
                         plugin.addTextToInfoBox("Use Compost on patch.");
                         highlightCompost(graphics);
 
                         if (patchIsComposted()) {
-                            fruitTreePatchDone = true;
+                            patchComplete = true;
                         }
                     }
 
@@ -865,24 +868,25 @@ public class FarmingTeleportOverlay extends Overlay {
         }
     }
 
-    public static int currentTeleportCase = 1;
-
-    public boolean isAtDestination = false;
-
-
     public void gettingToLocation(Graphics2D graphics, Location location) {
         updateColors();
+
         Location.Teleport teleport = location.getSelectedTeleport();
+
         Boolean locationEnabledBool = false;
+
         if (plugin.getFarmingTeleportOverlay().herbRun) {
             locationEnabledBool = plugin.getHerbLocationEnabled(location.getName());
         }
+
         if (plugin.getFarmingTeleportOverlay().treeRun) {
             locationEnabledBool = plugin.getTreeLocationEnabled(location.getName());
         }
+
         if (plugin.getFarmingTeleportOverlay().fruitTreeRun) {
             locationEnabledBool = plugin.getFruitTreeLocationEnabled(location.getName());
         }
+
         if (locationEnabledBool) {
             if (!isAtDestination) {
                 int currentRegionId = client.getLocalPlayer().getWorldLocation().getRegionID();
@@ -904,7 +908,7 @@ public class FarmingTeleportOverlay extends Overlay {
                                 isAtDestination = true;
                                 startSubCases = true;
                                 if (location.getFarmLimps()) {
-                                    farmLimps = true;
+                                    farmLimpwurts = true;
                                 }
                             }
                         } else {
@@ -940,7 +944,7 @@ public class FarmingTeleportOverlay extends Overlay {
                                 isAtDestination = true;
                                 startSubCases = true;
                                 if (location.getFarmLimps()) {
-                                    farmLimps = true;
+                                    farmLimpwurts = true;
                                 }
                             }
                         }
@@ -972,7 +976,7 @@ public class FarmingTeleportOverlay extends Overlay {
                                     startSubCases = true;
 
                                     if (location.getFarmLimps()) {
-                                        farmLimps = true;
+                                        farmLimpwurts = true;
                                     }
                                 }
 
@@ -1001,7 +1005,7 @@ public class FarmingTeleportOverlay extends Overlay {
                             startSubCases = true;
 
                             if (location.getFarmLimps()) {
-                                farmLimps = true;
+                                farmLimpwurts = true;
                             }
                         }
                         break;
@@ -1027,7 +1031,7 @@ public class FarmingTeleportOverlay extends Overlay {
                                     isAtDestination = true;
                                     startSubCases = true;
                                     if (location.getFarmLimps()) {
-                                        farmLimps = true;
+                                        farmLimpwurts = true;
                                     }
                                 }
                                 break;
@@ -1054,7 +1058,7 @@ public class FarmingTeleportOverlay extends Overlay {
                                         isAtDestination = true;
                                         startSubCases = true;
                                         if (location.getFarmLimps()) {
-                                            farmLimps = true;
+                                            farmLimpwurts = true;
                                         }
                                     }
                                 }
@@ -1101,41 +1105,41 @@ public class FarmingTeleportOverlay extends Overlay {
             runIndex++;
         }
     }
-    //}
 
+    public void nextPatch()
+    {
+        patchComplete = false;
+        isAtDestination = false;
+        startSubCases = false;
+        farmLimpwurts = false;
 
-    public static boolean farmLimps = false;
+        runIndex++;
+    }
 
     public void farming(Graphics2D graphics, Location.Teleport teleport) {
         if (startSubCases) {
             if (herbRun) {
-                if (subCase == 1) {
+                if (!checkForLimpwurts) {
                     herbSteps(graphics, teleport);
 
-                    if (herbPatchDone) {
-                        subCase = 2;
-                        herbPatchDone = false;
+                    if (patchComplete) {
+                        checkForLimpwurts = true;
+                        patchComplete = false;
                     }
-                } else if (subCase == 2) {
+                }
+                else if (checkForLimpwurts) {
                     if (config.generalLimpwurt()) {
                         flowerSteps(graphics);
 
-                        if (flowerPatchDone) {
-                            subCase = 1;
-                            startSubCases = false;
-                            isAtDestination = false;
-                            runIndex++;
-                            farmLimps = false;
-                            flowerPatchDone = false;
+                        if (patchComplete) {
+                            checkForLimpwurts = false;
 
+                            nextPatch();
                         }
                     } else {
-                        subCase = 1;
-                        startSubCases = false;
-                        isAtDestination = false;
-                        runIndex++;
-                        farmLimps = false;
-                        flowerPatchDone = false;
+                        checkForLimpwurts = false;
+
+                        nextPatch();
                     }
                 }
             }
@@ -1143,30 +1147,20 @@ public class FarmingTeleportOverlay extends Overlay {
             if (treeRun) {
                 treeSteps(graphics, teleport);
 
-                if (treePatchDone) {
-                    startSubCases = false;
-                    isAtDestination = false;
-                    runIndex++;
-                    treePatchDone = false;
+                if (patchComplete) {
+                    nextPatch();
                 }
             }
 
             if (fruitTreeRun) {
                 fruitTreeSteps(graphics, teleport);
 
-                if (fruitTreePatchDone) {
-                    startSubCases = false;
-                    isAtDestination = false;
-                    runIndex++;
-                    fruitTreePatchDone = false;
+                if (patchComplete) {
+                    nextPatch();
                 }
             }
         }
     }
-
-    public static int subCase = 1;
-    public static boolean startSubCases = false;
-    public static int runIndex = 0;
 
     public void RemoveOverlay() {
         plugin.overlayManager.remove(farmingHelperOverlay);
@@ -1176,13 +1170,11 @@ public class FarmingTeleportOverlay extends Overlay {
         plugin.setOverlayActive(false);
         plugin.setTeleportOverlayActive(false);
 
+        nextPatch();
+
         runIndex = 0;
         currentTeleportCase = 1;
-        subCase = 1;
-        startSubCases = false;
-        isAtDestination = false;
-        farmLimps = false;
-        flowerPatchDone = false;
+        checkForLimpwurts = 1;
 
         plugin.setItemsCollected(false);
 
@@ -1198,12 +1190,6 @@ public class FarmingTeleportOverlay extends Overlay {
         plugin.panel.treeButton.setStartStopState(false);
         plugin.panel.fruitTreeButton.setStartStopState(false);
     }
-
-    public Boolean herbRun = false;
-
-    public Boolean treeRun = false;
-
-    public Boolean fruitTreeRun = false;
 
     @Override
     public Dimension render(Graphics2D graphics) {
