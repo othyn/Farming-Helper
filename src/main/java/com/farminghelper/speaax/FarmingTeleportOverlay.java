@@ -761,12 +761,14 @@ public class FarmingTeleportOverlay extends Overlay {
                     highlightFruitTreePatches(graphics, leftClickColorWithAlpha);
                     break;
                 case REMOVE:
-                    plugin.addTextToInfoBox("Pay to remove fruit tree, or cut it down and clear the patch.");
-
+                    // TODO: Restart this branch a fresh, manually re-implement the changes on top of refactor checkers
+                    // TODO: Mainly to fix the divergence problem and just start the implementation a fresh
                     if (config.generalPayToRemove()) {
+                        plugin.addTextToInfoBox("Pay to remove fruit tree.");
                         highlightFruitTreeFarmers(graphics);
                     } else {
-                        highlightFruitTreePatches(graphics);
+                        plugin.addTextToInfoBox("Cut the fruit tree down and clear the patch.");
+                        highlightFruitTreePatches(graphics, leftClickColorWithAlpha);
                     }
 
                     break;
