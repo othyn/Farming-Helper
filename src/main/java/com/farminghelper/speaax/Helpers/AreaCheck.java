@@ -5,15 +5,18 @@ import net.runelite.api.coords.WorldPoint;
 
 import javax.inject.Inject;
 
-public class AreaCheck {
+public class AreaCheck
+{
     private Client client;
 
     @Inject
-    public AreaCheck(Client client) {
+    public AreaCheck(Client client)
+    {
         this.client = client;
     }
 
-    public boolean isPlayerWithinArea(WorldPoint centerTile, int range) {
+    public boolean isPlayerWithinArea(WorldPoint centerTile, int range)
+    {
         WorldPoint playerLocation = client.getLocalPlayer().getWorldLocation();
 
         int minX = centerTile.getX() - range;
@@ -21,9 +24,9 @@ public class AreaCheck {
         int minY = centerTile.getY() - range;
         int maxY = centerTile.getY() + range;
 
-        return playerLocation.getX() >= minX &&
-                playerLocation.getX() <= maxX &&
-                playerLocation.getY() >= minY &&
-                playerLocation.getY() <= maxY;
+        return playerLocation.getX() >= minX
+            && playerLocation.getX() <= maxX
+            && playerLocation.getY() >= minY
+            && playerLocation.getY() <= maxY;
     }
 }
