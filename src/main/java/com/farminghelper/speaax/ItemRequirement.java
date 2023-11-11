@@ -1,6 +1,7 @@
 package com.farminghelper.speaax;
 public class ItemRequirement {
     private int itemId;
+
     private int quantity;
 
     public ItemRequirement(int itemId, int quantity) {

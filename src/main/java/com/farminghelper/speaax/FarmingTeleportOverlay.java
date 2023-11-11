@@ -1,6 +1,7 @@
 package com.farminghelper.speaax;
 
 import com.farminghelper.speaax.Helpers.AreaCheck;
+import com.farminghelper.speaax.Helpers.Inventory;
 import com.farminghelper.speaax.Patch.CropState;
 import com.farminghelper.speaax.Patch.PatchState;
 import net.runelite.api.*;
@@ -920,9 +921,9 @@ public class FarmingTeleportOverlay extends Overlay
 
         switch (teleportOption) {
             case Law_air_earth_runes:
-                InventoryTabChecker.TabState tabState = InventoryTabChecker.checkTab(client, VarClientInt.INVENTORY_TAB);
+                Inventory.Tab tab = Inventory.getCurrentTab(client);
 
-                switch (tabState) {
+                switch (tab) {
                     case INVENTORY:
                     case REST:
                         interfaceOverlay(161, 64).render(graphics);
@@ -1185,9 +1186,9 @@ public class FarmingTeleportOverlay extends Overlay
                         }
 
                     case SPELLBOOK:
-                        InventoryTabChecker.TabState tabState = InventoryTabChecker.checkTab(client, VarClientInt.INVENTORY_TAB);
+                        Inventory.Tab tab = Inventory.getCurrentTab(client);
 
-                        switch (tabState) {
+                        switch (tab) {
                             case REST:
 
                             case INVENTORY:
