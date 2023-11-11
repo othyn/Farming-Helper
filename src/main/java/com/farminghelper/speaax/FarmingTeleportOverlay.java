@@ -1,5 +1,6 @@
 package com.farminghelper.speaax;
 
+import com.farminghelper.speaax.Helpers.AreaCheck;
 import com.farminghelper.speaax.Patch.CropState;
 import com.farminghelper.speaax.Patch.PatchState;
 import net.runelite.api.*;

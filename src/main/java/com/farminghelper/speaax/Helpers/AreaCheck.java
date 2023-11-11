@@ -1,4 +1,4 @@
-package com.farminghelper.speaax;
+package com.farminghelper.speaax.Helpers;
 
 import net.runelite.api.Client;
 import net.runelite.api.coords.WorldPoint;
