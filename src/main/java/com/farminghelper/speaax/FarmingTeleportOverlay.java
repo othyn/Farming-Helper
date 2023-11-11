@@ -42,7 +42,7 @@ public class FarmingTeleportOverlay extends Overlay
 
     public Boolean patchComplete = false;
 
-    public static int currentTeleportCase = 1;
+    public static int teleportStep = 1;
 
     public boolean isAtDestination = false;
 
@@ -52,7 +52,7 @@ public class FarmingTeleportOverlay extends Overlay
 
     public static boolean startSubCases = false;
 
-    public static int step = 0;
+    public static int runStep = 0;
 
     public Boolean herbRun = false;
 
@@ -909,7 +909,7 @@ public class FarmingTeleportOverlay extends Overlay
     public void inHouseCheck()
     {
         if (getGameObjectIdsByName("Portal").contains(4525)) {
-            currentTeleportCase = 2;
+            teleportStep = 2;
         }
     }
 
@@ -1041,7 +1041,7 @@ public class FarmingTeleportOverlay extends Overlay
                         break;
 
                     case PORTAL_NEXUS:
-                        switch (currentTeleportCase) {
+                        switch (teleportStep) {
                             case 1:
                                 gettingToHouse(graphics);
                                 break;
@@ -1118,7 +1118,7 @@ public class FarmingTeleportOverlay extends Overlay
                         break;
 
                     case JEWELLERY_BOX:
-                        switch (currentTeleportCase) {
+                        switch (teleportStep) {
                             case 1:
                                 gettingToHouse(graphics);
                                 break;
@@ -1150,7 +1150,7 @@ public class FarmingTeleportOverlay extends Overlay
                         break;
 
                     case MOUNTED_XERICS:
-                        switch (currentTeleportCase) {
+                        switch (teleportStep) {
                             case 1:
                                 gettingToHouse(graphics);
                                 break;
@@ -1218,13 +1218,13 @@ public class FarmingTeleportOverlay extends Overlay
                 farming(graphics, teleport);
             }
         } else {
-            step++;
+            runStep++;
         }
     }
 
     public void destinationReached()
     {
-        currentTeleportCase = 1;
+        teleportStep = 1;
         isAtDestination = true;
         startSubCases = true;
     }
@@ -1236,7 +1236,7 @@ public class FarmingTeleportOverlay extends Overlay
         startSubCases = false;
         farmLimpwurts = false;
 
-        step++;
+        runStep++;
     }
 
     public void farming(Graphics2D graphics, Location.Teleport teleport)
@@ -1296,8 +1296,9 @@ public class FarmingTeleportOverlay extends Overlay
 
         nextPatch();
 
-        step = 0;
-        currentTeleportCase = 1;
+        runStep = 0;
+        teleportStep = 1;
+
         checkForLimpwurts = true;
 
         plugin.setItemsCollected(false);
@@ -1320,7 +1321,7 @@ public class FarmingTeleportOverlay extends Overlay
     {
         if (plugin.isTeleportOverlayActive()) {
             if (herbRun) {
-                switch (step) {
+                switch (runStep) {
                     case 0:
                         gettingToLocation(graphics, plugin.getArdougneLocation());
                         break;
@@ -1364,7 +1365,7 @@ public class FarmingTeleportOverlay extends Overlay
                         break;
                 }
             } else if (treeRun) {
-                switch (step) {
+                switch (runStep) {
                     case 0:
                         gettingToLocation(graphics, plugin.getFaladorTreeLocation());
                         break;
@@ -1396,7 +1397,7 @@ public class FarmingTeleportOverlay extends Overlay
                         break;
                 }
             } else if (fruitTreeRun) {
-                switch (step) {
+                switch (runStep) {
                     case 0:
                         gettingToLocation(graphics, plugin.getBrimhavenFruitTreeLocation());
                         break;
