@@ -4,7 +4,6 @@ import com.farminghelper.speaax.FarmingHelperConfig;
 import com.farminghelper.speaax.FarmingHelperPlugin;
 import com.farminghelper.speaax.ItemRequirement;
 import com.farminghelper.speaax.Location;
-import net.runelite.api.Client;
 import net.runelite.api.ItemID;
 
 import java.util.ArrayList;
@@ -14,16 +13,13 @@ public class ItemAndLocation
 {
     protected FarmingHelperConfig config;
 
-    protected Client client;
-
     protected FarmingHelperPlugin plugin;
 
     public List<Location> locations = new ArrayList<>();
 
-    public ItemAndLocation(FarmingHelperConfig config, Client client, FarmingHelperPlugin plugin)
+    public ItemAndLocation(FarmingHelperConfig config, FarmingHelperPlugin plugin)
     {
         this.config = config;
-        this.client = client;
         this.plugin = plugin;
     }
 

@@ -411,9 +411,9 @@ public class FarmingHelperPlugin extends Plugin
     @Override
     protected void startUp()
     {
-        herbRunItemAndLocation = new HerbRunItemAndLocation(config, client, this);
-        treeRunItemAndLocation = new TreeRunItemAndLocation(config, client, this);
-        fruitTreeRunItemAndLocation = new FruitTreeRunItemAndLocation(config, client, this);
+        herbRunItemAndLocation = new HerbRunItemAndLocation(config, this);
+        treeRunItemAndLocation = new TreeRunItemAndLocation(config, this);
+        fruitTreeRunItemAndLocation = new FruitTreeRunItemAndLocation(config, this);
 
         farmingHelperOverlay = new FarmingHelperOverlay(
             client,

@@ -4,7 +4,6 @@ import com.farminghelper.speaax.FarmingHelperConfig;
 import com.farminghelper.speaax.FarmingHelperPlugin;
 import com.farminghelper.speaax.ItemRequirement;
 import com.farminghelper.speaax.Location;
-import net.runelite.api.Client;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
 
@@ -19,13 +18,9 @@ public class TreeRunItemAndLocation extends ItemAndLocation
     public Location taverleyTreeLocation;
     public Location varrockTreeLocation;
 
-    public TreeRunItemAndLocation(FarmingHelperConfig config, Client client, FarmingHelperPlugin plugin)
+    public TreeRunItemAndLocation(FarmingHelperConfig config, FarmingHelperPlugin plugin)
     {
-        super(
-            config,
-            client,
-            plugin
-        );
+        super(config, plugin);
     }
 
     public Map<Integer, Integer> getTreeItems()

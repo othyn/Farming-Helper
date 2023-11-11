@@ -4,7 +4,6 @@ import com.farminghelper.speaax.FarmingHelperConfig;
 import com.farminghelper.speaax.FarmingHelperPlugin;
 import com.farminghelper.speaax.ItemRequirement;
 import com.farminghelper.speaax.Location;
-import net.runelite.api.Client;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
 
@@ -22,13 +21,9 @@ public class HerbRunItemAndLocation extends ItemAndLocation
     public Location trollStrongholdLocation;
     public Location weissLocation;
 
-    public HerbRunItemAndLocation(FarmingHelperConfig config, Client client, FarmingHelperPlugin plugin)
+    public HerbRunItemAndLocation(FarmingHelperConfig config, FarmingHelperPlugin plugin)
     {
-        super(
-            config,
-            client,
-            plugin
-        );
+        super(config, plugin);
     }
 
     public Map<Integer, Integer> getHerbItems()
