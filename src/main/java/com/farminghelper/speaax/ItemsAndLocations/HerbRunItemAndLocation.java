@@ -22,10 +22,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
     public Location trollStrongholdLocation;
     public Location weissLocation;
 
-    public HerbRunItemAndLocation()
-    {
-    }
-
     public HerbRunItemAndLocation(FarmingHelperConfig config, Client client, FarmingHelperPlugin plugin)
     {
         super(

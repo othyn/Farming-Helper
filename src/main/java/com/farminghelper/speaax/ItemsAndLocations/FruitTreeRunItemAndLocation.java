@@ -19,10 +19,6 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
     public Location lletyaFruitTreeLocation;
     public Location treeGnomeVillageFruitTreeLocation;
 
-    public FruitTreeRunItemAndLocation()
-    {
-    }
-
     public FruitTreeRunItemAndLocation(FarmingHelperConfig config, Client client, FarmingHelperPlugin plugin)
     {
         super(

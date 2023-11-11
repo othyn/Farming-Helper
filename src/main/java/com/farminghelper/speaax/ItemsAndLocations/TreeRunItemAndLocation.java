@@ -19,10 +19,6 @@ public class TreeRunItemAndLocation extends ItemAndLocation
     public Location taverleyTreeLocation;
     public Location varrockTreeLocation;
 
-    public TreeRunItemAndLocation()
-    {
-    }
-
     public TreeRunItemAndLocation(FarmingHelperConfig config, Client client, FarmingHelperPlugin plugin)
     {
         super(

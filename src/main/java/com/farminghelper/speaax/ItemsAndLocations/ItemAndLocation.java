@@ -20,10 +20,6 @@ public class ItemAndLocation
 
     public List<Location> locations = new ArrayList<>();
 
-    public ItemAndLocation()
-    {
-    }
-
     public ItemAndLocation(FarmingHelperConfig config, Client client, FarmingHelperPlugin plugin)
     {
         this.config = config;

@@ -414,6 +414,7 @@ public class FarmingHelperPlugin extends Plugin
         herbRunItemAndLocation = new HerbRunItemAndLocation(config, client, this);
         treeRunItemAndLocation = new TreeRunItemAndLocation(config, client, this);
         fruitTreeRunItemAndLocation = new FruitTreeRunItemAndLocation(config, client, this);
+
         farmingHelperOverlay = new FarmingHelperOverlay(
             client,
             this,
@@ -431,9 +432,11 @@ public class FarmingHelperPlugin extends Plugin
             treeRunItemAndLocation,
             fruitTreeRunItemAndLocation
         );
+
         final BufferedImage icon = ImageUtil.loadImageResource(getClass(), "/com/farminghelper/speaax/icon.png");
 
         navButton = NavigationButton.builder().tooltip("Lazy Farming").icon(icon).priority(6).panel(panel).build();
+
         clientToolbar.addNavigation(navButton);
 
         overlayManager.add(farmingHelperOverlay);
