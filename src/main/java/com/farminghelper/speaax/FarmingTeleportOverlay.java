@@ -5,6 +5,7 @@ import com.farminghelper.speaax.Helpers.Inventory;
 import com.farminghelper.speaax.Patch.CropState;
 import com.farminghelper.speaax.Patch.Location;
 import com.farminghelper.speaax.Patch.PatchState;
+import com.farminghelper.speaax.Patch.Teleport;
 import net.runelite.api.*;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
@@ -585,7 +586,7 @@ public class FarmingTeleportOverlay extends Overlay
         }
     }
 
-    public void herbSteps(Graphics2D graphics, Location.Teleport teleport)
+    public void herbSteps(Graphics2D graphics, Teleport teleport)
     {
         HerbPatchChecker.PlantState plantState;
 
@@ -713,7 +714,7 @@ public class FarmingTeleportOverlay extends Overlay
         }
     }
 
-    public void treeSteps(Graphics2D graphics, Location.Teleport teleport)
+    public void treeSteps(Graphics2D graphics, Teleport teleport)
     {
         TreePatchChecker.PlantState plantState;
 
@@ -792,7 +793,7 @@ public class FarmingTeleportOverlay extends Overlay
         }
     }
 
-    public void fruitTreeSteps(Graphics2D graphics, Location.Teleport teleport)
+    public void fruitTreeSteps(Graphics2D graphics, Teleport teleport)
     {
         // ABSTRACT: -- abstract this one level above and pass in the cropState
         CropState cropState;
@@ -962,7 +963,7 @@ public class FarmingTeleportOverlay extends Overlay
     {
         updateColors();
 
-        Location.Teleport teleport = location.getSelectedTeleport();
+        Teleport teleport = location.getSelectedTeleport();
 
         boolean locationEnabledBool = false;
 
@@ -1242,7 +1243,7 @@ public class FarmingTeleportOverlay extends Overlay
         runStep++;
     }
 
-    public void farming(Graphics2D graphics, Location.Teleport teleport)
+    public void farming(Graphics2D graphics, Teleport teleport)
     {
         if (startSubCases) {
             if (herbRun) {
