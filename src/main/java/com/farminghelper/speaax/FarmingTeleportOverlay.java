@@ -52,7 +52,7 @@ public class FarmingTeleportOverlay extends Overlay
 
     public static boolean startSubCases = false;
 
-    public static int runIndex = 0;
+    public static int step = 0;
 
     public Boolean herbRun = false;
 
@@ -1218,7 +1218,7 @@ public class FarmingTeleportOverlay extends Overlay
                 farming(graphics, teleport);
             }
         } else {
-            runIndex++;
+            step++;
         }
     }
 
@@ -1236,7 +1236,7 @@ public class FarmingTeleportOverlay extends Overlay
         startSubCases = false;
         farmLimpwurts = false;
 
-        runIndex++;
+        step++;
     }
 
     public void farming(Graphics2D graphics, Location.Teleport teleport)
@@ -1296,7 +1296,7 @@ public class FarmingTeleportOverlay extends Overlay
 
         nextPatch();
 
-        runIndex = 0;
+        step = 0;
         currentTeleportCase = 1;
         checkForLimpwurts = true;
 
@@ -1320,7 +1320,7 @@ public class FarmingTeleportOverlay extends Overlay
     {
         if (plugin.isTeleportOverlayActive()) {
             if (herbRun) {
-                switch (runIndex) {
+                switch (step) {
                     case 0:
                         gettingToLocation(graphics, plugin.getArdougneLocation());
                         break;
@@ -1364,7 +1364,7 @@ public class FarmingTeleportOverlay extends Overlay
                         break;
                 }
             } else if (treeRun) {
-                switch (runIndex) {
+                switch (step) {
                     case 0:
                         gettingToLocation(graphics, plugin.getFaladorTreeLocation());
                         break;
@@ -1396,7 +1396,7 @@ public class FarmingTeleportOverlay extends Overlay
                         break;
                 }
             } else if (fruitTreeRun) {
-                switch (runIndex) {
+                switch (step) {
                     case 0:
                         gettingToLocation(graphics, plugin.getBrimhavenFruitTreeLocation());
                         break;
