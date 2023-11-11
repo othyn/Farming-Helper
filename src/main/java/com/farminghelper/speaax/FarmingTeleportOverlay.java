@@ -1,7 +1,7 @@
 package com.farminghelper.speaax;
 
 import com.farminghelper.speaax.Patch.CropState;
-import com.farminghelper.speaax.Patch.Patch;
+import com.farminghelper.speaax.Patch.PatchState;
 import net.runelite.api.*;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
@@ -797,18 +797,18 @@ public class FarmingTeleportOverlay extends Overlay
         switch (client.getLocalPlayer().getWorldLocation().getRegionID()) {
             case 4922:
                 // Varbits.FARMING_7909 farming guild
-                cropState = Patch.check(client, Varbits.FARMING_7909);
+                cropState = PatchState.check(client, Varbits.FARMING_7909);
                 break;
 
             case 9781:
             case 9782:
                 // Varbits.FARMING_4772 gnome stronghold
-                cropState = Patch.check(client, Varbits.FARMING_4772);
+                cropState = PatchState.check(client, Varbits.FARMING_4772);
                 break;
 
             default:
                 // Varbits.FARMING_4771 brimhaven, catherby, lletya, tree gnome village
-                cropState = Patch.check(client, Varbits.FARMING_4771);
+                cropState = PatchState.check(client, Varbits.FARMING_4771);
                 break;
         }
         // END ABSTRACT

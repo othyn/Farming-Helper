@@ -1,13 +1,12 @@
 package com.farminghelper.speaax.Patch;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import net.runelite.api.Client;
 
-public class Patch
+public class PatchState
 {
     private static final List<Integer> weeds = Stream.of(Crop.values())
             .flatMap(crop -> crop.weeds.boxed())
