@@ -2,7 +2,6 @@ package com.farminghelper.speaax.ItemsAndLocations;
 
 import com.farminghelper.speaax.FarmingHelperConfig;
 import com.farminghelper.speaax.FarmingHelperPlugin;
-import com.farminghelper.speaax.ItemRequirement;
 import com.farminghelper.speaax.Location;
 import net.runelite.api.ItemID;
 

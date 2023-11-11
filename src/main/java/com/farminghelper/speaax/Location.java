@@ -1,5 +1,6 @@
 package com.farminghelper.speaax;
 
+import com.farminghelper.speaax.ItemsAndLocations.ItemRequirement;
 import net.runelite.api.coords.WorldPoint;
 
 import java.util.ArrayList;
