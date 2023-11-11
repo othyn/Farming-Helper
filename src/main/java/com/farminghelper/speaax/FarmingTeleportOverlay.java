@@ -3,6 +3,7 @@ package com.farminghelper.speaax;
 import com.farminghelper.speaax.Helpers.AreaCheck;
 import com.farminghelper.speaax.Helpers.Inventory;
 import com.farminghelper.speaax.Patch.CropState;
+import com.farminghelper.speaax.Patch.Location;
 import com.farminghelper.speaax.Patch.PatchState;
 import net.runelite.api.*;
 import net.runelite.api.widgets.Widget;

@@ -3,6 +3,7 @@ package com.farminghelper.speaax;
 import com.farminghelper.speaax.ItemsAndLocations.FruitTreeRunItemAndLocation;
 import com.farminghelper.speaax.ItemsAndLocations.HerbRunItemAndLocation;
 import com.farminghelper.speaax.ItemsAndLocations.TreeRunItemAndLocation;
+import com.farminghelper.speaax.Patch.Location;
 import com.google.inject.Provides;
 import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;

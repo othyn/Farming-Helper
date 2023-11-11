@@ -1,5 +1,6 @@
-package com.farminghelper.speaax;
+package com.farminghelper.speaax.Patch;
 
+import com.farminghelper.speaax.FarmingHelperConfig;
 import com.farminghelper.speaax.ItemsAndLocations.ItemRequirement;
 import net.runelite.api.coords.WorldPoint;
 

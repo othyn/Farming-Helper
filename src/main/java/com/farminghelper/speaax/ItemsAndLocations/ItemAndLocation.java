@@ -2,7 +2,7 @@ package com.farminghelper.speaax.ItemsAndLocations;
 
 import com.farminghelper.speaax.FarmingHelperConfig;
 import com.farminghelper.speaax.FarmingHelperPlugin;
-import com.farminghelper.speaax.Location;
+import com.farminghelper.speaax.Patch.Location;
 import net.runelite.api.ItemID;
 
 import java.util.ArrayList;
