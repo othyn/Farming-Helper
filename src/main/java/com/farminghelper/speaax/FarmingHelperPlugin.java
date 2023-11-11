@@ -445,9 +445,8 @@ public class FarmingHelperPlugin extends Plugin
 
         // set overlay to inactive
         isOverlayActive = false;
-        eventBus.register(this);
 
-        herbRunItemAndLocation.setupLocations();
+        eventBus.register(this);
     }
 
     @Override
