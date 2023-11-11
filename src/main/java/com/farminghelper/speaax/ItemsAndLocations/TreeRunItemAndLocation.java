@@ -123,6 +123,26 @@ public class TreeRunItemAndLocation extends ItemAndLocation
 
     private void setupFaladorLocation()
     {
+        // Location.FALADOR;
+
+        // Location takes in the teleports and stores them
+        // Also takes in teh world point
+        // Location becomes and enum with self declarations (FUCK. config is passed in... just get rid of it, pass it in)
+        // ... it can't tho, because locations are based on what TYPE they are under
+
+        // This is where the structure is all wrong, its currently:
+        //  Patch (Type) > Location > Teleport
+        // It needs to be:
+        //  Location > Teleport | Patch (Type)
+
+        // The Location should store the state on which patch types are enabled/disabled under one centralised Location
+        //  e.g. all 'Falador's' are merged
+
+        // Which solves the 'FarmingHelperConfig::enumTreeFaladorTeleport' problem stored at location level, as they can
+        //  be statically linked then to the flat definition of a Location and an 'enabled' state based on the patch
+        //  type.
+
+        // Location.FALADOR.patch.TREE.worldPoint
         WorldPoint faladorTreePatchPoint = new WorldPoint(
             3000,
             3373,
@@ -136,6 +156,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
             false
         );
 
+        // Location.FALADOR.addTeleportOption();
         faladorTreeLocation.addTeleportOption(new Teleport(
             "Portal_Nexus",
             Teleport.Category.PORTAL_NEXUS,
