@@ -12,7 +12,7 @@ public class StartStopJButton extends JButton
         super(text, null);
 
         this.originalText = text;
-        
+
         this.setStartStopState(false);
     }
 
