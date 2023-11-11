@@ -10,17 +10,7 @@ public class Location
 {
     private String name;
 
-    public String getName()
-    {
-        return name;
-    }
-
     private Boolean farmLimps;
-
-    public Boolean getFarmLimps()
-    {
-        return farmLimps;
-    }
 
     private List<Teleport> teleportOptions;
 
@@ -35,6 +25,16 @@ public class Location
         this.name = name;
         this.farmLimps = farmLimps;
         this.teleportOptions = new ArrayList<>();
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public Boolean getFarmLimps()
+    {
+        return farmLimps;
     }
 
     public void addTeleportOption(Teleport teleport)
