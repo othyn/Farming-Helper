@@ -9,7 +9,17 @@ import java.util.Map;
 
 public class Teleport
 {
-    private Location.TeleportCategory category;
+    public enum Category
+    {
+        ITEM,
+        PORTAL_NEXUS,
+        SPIRIT_TREE,
+        JEWELLERY_BOX,
+        MOUNTED_XERICS,
+        SPELLBOOK
+    }
+
+    private Category category;
 
     private String description;
 
@@ -31,7 +41,7 @@ public class Teleport
 
     private String overrideLocationName;
 
-    public Teleport(String enumOption, Location.TeleportCategory category, String description, int id, String rightClickOption, int interfaceGroupId, int interfaceChildId, int regionId, WorldPoint point, List<ItemRequirement> itemRequirements)
+    public Teleport(String enumOption, Category category, String description, int id, String rightClickOption, int interfaceGroupId, int interfaceChildId, int regionId, WorldPoint point, List<ItemRequirement> itemRequirements)
     {
         this.enumOption = enumOption;
         this.category = category;
@@ -74,7 +84,7 @@ public class Teleport
         return this.overrideLocationName;
     }
 
-    public Location.TeleportCategory getCategory()
+    public Category getCategory()
     {
         return category;
     }

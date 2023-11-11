@@ -168,7 +168,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         ardougneLocation.addTeleportOption(new Teleport(
             "Portal_Nexus",
-            Location.TeleportCategory.PORTAL_NEXUS,
+            Teleport.Category.PORTAL_NEXUS,
             "Teleport to Ardougne with Portal Nexus.",
             0,
             "null",
@@ -181,7 +181,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         ardougneLocation.addTeleportOption(new Teleport(
             "Ardougne_teleport",
-            Location.TeleportCategory.SPELLBOOK,
+            Teleport.Category.SPELLBOOK,
             "Teleport to Ardougne with standard spellbook, and run north.",
             0,
             "null",
@@ -203,7 +203,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         ardougneLocation.addTeleportOption(new Teleport(
             "Ardougne_Tele_Tab",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Ardougne with Ardougne tele tab, and run north.",
             ItemID.ARDOUGNE_TELEPORT,
             "null",
@@ -219,7 +219,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         ardougneLocation.addTeleportOption(new Teleport(
             "Ardy_Cloak_2",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Ardougne with Ardougne cloak.",
             ItemID.ARDOUGNE_CLOAK_2,
             "Farm Teleport",
@@ -235,7 +235,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         ardougneLocation.addTeleportOption(new Teleport(
             "Ardy_Cloak_3",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Ardougne with Ardougne cloak.",
             ItemID.ARDOUGNE_CLOAK_3,
             "Farm Teleport",
@@ -251,7 +251,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         ardougneLocation.addTeleportOption(new Teleport(
             "Ardy_Cloak_4",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Ardougne with Ardougne cloak.",
             ItemID.ARDOUGNE_CLOAK_4,
             "Farm Teleport",
@@ -267,7 +267,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         ardougneLocation.addTeleportOption(new Teleport(
             "Skills_Necklace",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Fishing guild with Skills necklace, and run east.",
             ItemID.SKILLS_NECKLACE1,
             "null",
@@ -301,7 +301,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         catherbyLocation.addTeleportOption(new Teleport(
             "Portal_Nexus_Catherby",
-            Location.TeleportCategory.PORTAL_NEXUS,
+            Teleport.Category.PORTAL_NEXUS,
             "Teleport to Catherby with Portal Nexus.",
             0,
             "null",
@@ -314,7 +314,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         catherbyLocation.addTeleportOption(new Teleport(
             "Portal_Nexus_Camelot",
-            Location.TeleportCategory.PORTAL_NEXUS,
+            Teleport.Category.PORTAL_NEXUS,
             "Teleport to Camelot with Portal Nexus and run to Catherby.",
             0,
             "null",
@@ -327,7 +327,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         catherbyLocation.addTeleportOption(new Teleport(
             "Camelot_Teleport",
-            Location.TeleportCategory.SPELLBOOK,
+            Teleport.Category.SPELLBOOK,
             "Teleport to Camelot using the standard spellbook, and run east. (If you have configured the teleport to seers you need to right click and teleport to Camelot)",
             0,
             "null",
@@ -349,7 +349,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         catherbyLocation.addTeleportOption(new Teleport(
             "Camelot_Tele_Tab",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Camelot using a Camelot tele tab, and run east.(If you have configured the teleport to seers you need to right click and teleport to Camelot)",
             ItemID.CAMELOT_TELEPORT,
             "null",
@@ -365,7 +365,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         catherbyLocation.addTeleportOption(new Teleport(
             "Catherby_Tele_Tab",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Catherby using Catherby teleport tab.",
             ItemID.CATHERBY_TELEPORT,
             "null",
@@ -399,7 +399,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         faladorLocation.addTeleportOption(new Teleport(
             "Portal_Nexus",
-            Location.TeleportCategory.PORTAL_NEXUS,
+            Teleport.Category.PORTAL_NEXUS,
             "Teleport to Falador with Portal Nexus.",
             0,
             "null",
@@ -412,7 +412,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         faladorLocation.addTeleportOption(new Teleport(
             "Explorers_ring_2",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Falador with Explorers ring.",
             ItemID.EXPLORERS_RING_2,
             "Teleport",
@@ -428,7 +428,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         faladorLocation.addTeleportOption(new Teleport(
             "Explorers_ring_3",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Falador with Explorers ring.",
             ItemID.EXPLORERS_RING_3,
             "Teleport",
@@ -444,7 +444,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         faladorLocation.addTeleportOption(new Teleport(
             "Explorers_ring_4",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Falador with Explorers ring.",
             ItemID.EXPLORERS_RING_4,
             "Teleport",
@@ -460,7 +460,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         faladorLocation.addTeleportOption(new Teleport(
             "Falador_Teleport",
-            Location.TeleportCategory.SPELLBOOK,
+            Teleport.Category.SPELLBOOK,
             "Teleport to Falador with standard spellbook, and run south-east.",
             0,
             "null",
@@ -486,7 +486,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         faladorLocation.addTeleportOption(new Teleport(
             "Falador_Tele_Tab",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Falador with Falador Tele Tab, and run south-east.",
             ItemID.FALADOR_TELEPORT,
             "null",
@@ -502,7 +502,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         faladorLocation.addTeleportOption(new Teleport(
             "Draynor_Tele_Tab",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Draynor Manor with Draynor Manor Tele Tab, and run south-west.",
             ItemID.DRAYNOR_MANOR_TELEPORT,
             "null",
@@ -536,7 +536,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         farmingGuildLocation.addTeleportOption(new Teleport(
             "Jewellery_box",
-            Location.TeleportCategory.JEWELLERY_BOX,
+            Teleport.Category.JEWELLERY_BOX,
             "Teleport to Farming guild with Jewellery box.",
             29155,
             "null",
@@ -549,7 +549,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         farmingGuildLocation.addTeleportOption(new Teleport(
             "Skills_Necklace",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Farming guild using Skills necklace.",
             ItemID.SKILLS_NECKLACE1,
             "null",
@@ -583,7 +583,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         harmonyLocation.addTeleportOption(new Teleport(
             "Portal_Nexus",
-            Location.TeleportCategory.PORTAL_NEXUS,
+            Teleport.Category.PORTAL_NEXUS,
             "Teleport to Harmony with Portal Nexus.",
             0,
             "null",
@@ -596,7 +596,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         harmonyLocation.addTeleportOption(new Teleport(
             "Harmony_Tele_Tab",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Harmony with Harmony Tele Tab.",
             ItemID.HARMONY_ISLAND_TELEPORT,
             "null",
@@ -630,7 +630,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         kourendLocation.addTeleportOption(new Teleport(
             "Xerics_Talisman",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Kourend with Xeric's Talisman.",
             ItemID.XERICS_TALISMAN,
             "Rub",
@@ -646,7 +646,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         kourendLocation.addTeleportOption(new Teleport(
             "Mounted_Xerics",
-            Location.TeleportCategory.MOUNTED_XERICS,
+            Teleport.Category.MOUNTED_XERICS,
             "Teleport to Kourend with Xeric's Talisman in PoH.",
             0,
             "null",
@@ -677,7 +677,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         morytaniaLocation.addTeleportOption(new Teleport(
             "Ectophial",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Morytania with Ectophial.",
             ItemID.ECTOPHIAL,
             "null",
@@ -711,7 +711,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         trollStrongholdLocation.addTeleportOption(new Teleport(
             "Stony_Basalt",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Troll Stronghold with Stony Basalt.",
             ItemID.STONY_BASALT,
             "null",
@@ -727,7 +727,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         trollStrongholdLocation.addTeleportOption(new Teleport(
             "Portal_Nexus",
-            Location.TeleportCategory.PORTAL_NEXUS,
+            Teleport.Category.PORTAL_NEXUS,
             "Teleport to Troll Stronghold with Portal Nexus.",
             0,
             "null",
@@ -758,7 +758,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         weissLocation.addTeleportOption(new Teleport(
             "Icy_Basalt",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Weiss with Icy Basalt.",
             ItemID.ICY_BASALT,
             "null",
@@ -774,7 +774,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         weissLocation.addTeleportOption(new Teleport(
             "Portal_Nexus",
-            Location.TeleportCategory.PORTAL_NEXUS,
+            Teleport.Category.PORTAL_NEXUS,
             "Teleport to Weiss with Portal Nexus.",
             0,
             "null",

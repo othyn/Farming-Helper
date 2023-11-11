@@ -138,7 +138,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
 
         faladorTreeLocation.addTeleportOption(new Teleport(
             "Portal_Nexus",
-            Location.TeleportCategory.PORTAL_NEXUS,
+            Teleport.Category.PORTAL_NEXUS,
             "Teleport to Falador with Portal Nexus.",
             0,
             "null",
@@ -151,7 +151,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
 
         faladorTreeLocation.addTeleportOption(new Teleport(
             "Falador_teleport",
-            Location.TeleportCategory.SPELLBOOK,
+            Teleport.Category.SPELLBOOK,
             "Teleport to Falador with Spellbook and run to Falador park.",
             0,
             "null",
@@ -195,7 +195,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
 
         farmingGuildTreeLocation.addTeleportOption(new Teleport(
             "Jewellery_box",
-            Location.TeleportCategory.JEWELLERY_BOX,
+            Teleport.Category.JEWELLERY_BOX,
             "Teleport to Farming Guild with Jewellery box.",
             0,
             "null",
@@ -226,7 +226,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
 
         gnomeStrongholdTreeLocation.addTeleportOption(new Teleport(
             "Royal_seed_pod",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Gnome Stronghold with Royal seed pod.",
             ItemID.ROYAL_SEED_POD,
             "null",
@@ -242,7 +242,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
 
         gnomeStrongholdTreeLocation.addTeleportOption(new Teleport(
             "Spirit_Tree",
-            Location.TeleportCategory.SPIRIT_TREE,
+            Teleport.Category.SPIRIT_TREE,
             "Teleport to Gnome Stronghold via a Spirit Tree.",
             0,
             "null",
@@ -273,7 +273,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
 
         lumbridgeTreeLocation.addTeleportOption(new Teleport(
             "Portal_Nexus",
-            Location.TeleportCategory.PORTAL_NEXUS,
+            Teleport.Category.PORTAL_NEXUS,
             "Teleport to Lumbridge with Portal Nexus.",
             0,
             "null",
@@ -286,7 +286,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
 
         lumbridgeTreeLocation.addTeleportOption(new Teleport(
             "Lumbridge_teleport",
-            Location.TeleportCategory.SPELLBOOK,
+            Teleport.Category.SPELLBOOK,
             "Teleport to Lumbridge with spellbook.",
             0,
             "null",
@@ -330,7 +330,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
 
         taverleyTreeLocation.addTeleportOption(new Teleport(
             "Portal_Nexus",
-            Location.TeleportCategory.PORTAL_NEXUS,
+            Teleport.Category.PORTAL_NEXUS,
             "Teleport to Falador with Portal Nexus and run to Taverly.",
             0,
             "null",
@@ -343,7 +343,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
 
         taverleyTreeLocation.addTeleportOption(new Teleport(
             "Falador_teleport",
-            Location.TeleportCategory.SPELLBOOK,
+            Teleport.Category.SPELLBOOK,
             "Teleport to Falador with spellbook and run to Taverly.",
             0,
             "null",
@@ -387,7 +387,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
 
         varrockTreeLocation.addTeleportOption(new Teleport(
             "Portal_Nexus",
-            Location.TeleportCategory.PORTAL_NEXUS,
+            Teleport.Category.PORTAL_NEXUS,
             "Teleport to Varrock with Portal Nexus.",
             0,
             "null",
@@ -400,7 +400,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
 
         varrockTreeLocation.addTeleportOption(new Teleport(
             "Varrock_teleport",
-            Location.TeleportCategory.SPELLBOOK,
+            Teleport.Category.SPELLBOOK,
             "Teleport to Varrock with spellbook.",
             0,
             "null",

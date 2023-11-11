@@ -8,16 +8,6 @@ import java.util.function.Function;
 
 public class Location
 {
-    public enum TeleportCategory
-    {
-        ITEM,
-        PORTAL_NEXUS,
-        SPIRIT_TREE,
-        JEWELLERY_BOX,
-        MOUNTED_XERICS,
-        SPELLBOOK
-    }
-
     private String name;
 
     public String getName()

@@ -138,7 +138,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
 
         brimhavenFruitTreeLocation.addTeleportOption(new Teleport(
             "Portal_Nexus",
-            Location.TeleportCategory.PORTAL_NEXUS,
+            Teleport.Category.PORTAL_NEXUS,
             "Teleport to Ardougne with Portal Nexus and take the boat to Brimhaven.",
             0,
             "null",
@@ -151,7 +151,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
 
         brimhavenFruitTreeLocation.addTeleportOption(new Teleport(
             "Ardougne_teleport",
-            Location.TeleportCategory.SPELLBOOK,
+            Teleport.Category.SPELLBOOK,
             "Teleport to Ardougne with Spellbook and take the boat to Brimhaven.",
             0,
             "null",
@@ -195,7 +195,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
 
         catherbyFruitTreeLocation.addTeleportOption(new Teleport(
             "Portal_Nexus_Catherby",
-            Location.TeleportCategory.PORTAL_NEXUS,
+            Teleport.Category.PORTAL_NEXUS,
             "Teleport to Catherby with Portal Nexus.",
             0,
             "null",
@@ -208,7 +208,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
 
         catherbyFruitTreeLocation.addTeleportOption(new Teleport(
             "Portal_Nexus_Camelot",
-            Location.TeleportCategory.PORTAL_NEXUS,
+            Teleport.Category.PORTAL_NEXUS,
             "Teleport to Camelot with Portal Nexus and run to Catherby.",
             0,
             "null",
@@ -239,7 +239,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
 
         farmingGuildFruitTreeLocation.addTeleportOption(new Teleport(
             "Jewellery_box",
-            Location.TeleportCategory.JEWELLERY_BOX,
+            Teleport.Category.JEWELLERY_BOX,
             "Teleport to Farming Guild with Jewellery box.",
             0,
             "null",
@@ -270,7 +270,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
 
         gnomeStrongholdFruitTreeLocation.addTeleportOption(new Teleport(
             "Royal_seed_pod",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Gnome Stronghold with Royal seed pod.",
             ItemID.ROYAL_SEED_POD,
             "null",
@@ -286,7 +286,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
 
         gnomeStrongholdFruitTreeLocation.addTeleportOption(new Teleport(
             "Spirit_Tree",
-            Location.TeleportCategory.SPIRIT_TREE,
+            Teleport.Category.SPIRIT_TREE,
             "Teleport to Gnome Stronghold via a Spirit Tree.",
             0,
             "null",
@@ -317,7 +317,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
 
         lletyaFruitTreeLocation.addTeleportOption(new Teleport(
             "Teleport_crystal",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Lletya with Teleport crystal.",
             ItemID.TELEPORT_CRYSTAL_1,
             "null",
@@ -351,7 +351,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
 
         treeGnomeVillageFruitTreeLocation.addTeleportOption(new Teleport(
             "Royal_seed_pod",
-            Location.TeleportCategory.ITEM,
+            Teleport.Category.ITEM,
             "Teleport to Tree Gnome Village with Royal seed pod and use Spirit tree to Tree Gnome Village.",
             ItemID.ROYAL_SEED_POD,
             "null",
@@ -367,7 +367,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
 
         treeGnomeVillageFruitTreeLocation.addTeleportOption(new Teleport(
             "Spirit_Tree",
-            Location.TeleportCategory.SPIRIT_TREE,
+            Teleport.Category.SPIRIT_TREE,
             "Teleport to Tree Gnome Village via a Spirit Tree.",
             0,
             "null",
