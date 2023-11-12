@@ -76,7 +76,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
                     }
                 }
 
-                if (location.shouldFarmLimpwurts(PatchType.HERB) && config.generalLimpwurt()) {
+                if (location.patch(PatchType.HERB).shouldFarmLimpwurts() && config.generalLimpwurt()) {
                     allRequirements.merge(
                         ItemID.LIMPWURT_SEED,
                         1,

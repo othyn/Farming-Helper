@@ -608,7 +608,7 @@ public class FarmingTeleportOverlay extends Overlay
                 break;
         }
 
-        if (! areaCheck.isPlayerWithinArea(location.patchWorldPoint(runPatchType), 15)) {
+        if (! areaCheck.isPlayerWithinArea(location.patch(runPatchType).worldPoint(), 15)) {
             //should be replaced with a pathing system, pointing arrow or something else eventually
             highlightHerbPatches(graphics, leftClickColorWithAlpha);
         } else {
@@ -723,8 +723,8 @@ public class FarmingTeleportOverlay extends Overlay
 
         System.out.println("Tree plant state: " + plantState);
 
-        if (! areaCheck.isPlayerWithinArea(location.patchWorldPoint(runPatchType), 15)) {
-            System.out.println("Not there yet! " + location.patchWorldPoint(runPatchType));
+        if (! areaCheck.isPlayerWithinArea(location.patch(runPatchType).worldPoint(), 15)) {
+            System.out.println("Not there yet! " + location.patch(runPatchType).worldPoint());
 
             //should be replaced with a pathing system, pointing arrow or something else eventually
             highlightTreePatches(graphics, leftClickColorWithAlpha);
@@ -817,7 +817,7 @@ public class FarmingTeleportOverlay extends Overlay
         }
         // END ABSTRACT
 
-        if (! areaCheck.isPlayerWithinArea(location.patchWorldPoint(runPatchType), 15)) {
+        if (! areaCheck.isPlayerWithinArea(location.patch(runPatchType).worldPoint(), 15)) {
             //should be replaced with a pathing system, point arrow or something else eventually
             highlightFruitTreePatches(graphics, leftClickColorWithAlpha);
         } else {
@@ -1042,7 +1042,7 @@ public class FarmingTeleportOverlay extends Overlay
                         if (currentRegionId == teleport.getRegionId()) {
                             destinationReached();
 
-                            if (location.shouldFarmLimpwurts(runPatchType)) {
+                            if (location.patch(runPatchType).shouldFarmLimpwurts()) {
                                 farmLimpwurts = true;
                             }
                         }
@@ -1078,7 +1078,7 @@ public class FarmingTeleportOverlay extends Overlay
                                 if (currentRegionId == teleport.getRegionId()) {
                                     destinationReached();
 
-                                    if (location.shouldFarmLimpwurts(runPatchType)) {
+                                    if (location.patch(runPatchType).shouldFarmLimpwurts()) {
                                         farmLimpwurts = true;
                                     }
                                 }
@@ -1119,7 +1119,7 @@ public class FarmingTeleportOverlay extends Overlay
                         if (currentRegionId == teleport.getRegionId()) {
                             destinationReached();
 
-                            if (location.shouldFarmLimpwurts(runPatchType)) {
+                            if (location.patch(runPatchType).shouldFarmLimpwurts()) {
                                 farmLimpwurts = true;
                             }
                         }
@@ -1148,7 +1148,7 @@ public class FarmingTeleportOverlay extends Overlay
                                 if (currentRegionId == teleport.getRegionId()) {
                                     destinationReached();
 
-                                    if (location.shouldFarmLimpwurts(runPatchType)) {
+                                    if (location.patch(runPatchType).shouldFarmLimpwurts()) {
                                         farmLimpwurts = true;
                                     }
                                 }
@@ -1183,7 +1183,7 @@ public class FarmingTeleportOverlay extends Overlay
                                     if (currentRegionId == teleport.getRegionId()) {
                                         destinationReached();
 
-                                        if (location.shouldFarmLimpwurts(runPatchType)) {
+                                        if (location.patch(runPatchType).shouldFarmLimpwurts()) {
                                             farmLimpwurts = true;
                                         }
                                     }
