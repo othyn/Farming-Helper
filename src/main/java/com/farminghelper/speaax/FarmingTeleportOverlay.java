@@ -964,11 +964,11 @@ public class FarmingTeleportOverlay extends Overlay
     {
         updateColors();
 
+        // TODO: Change herbRun/treeRun/fruitTreeRun to PatchType and pass it into getDesiredTeleport and shouldFarmLimpwurts
+
         Teleport teleport = location.getDesiredTeleport(config);
 
         boolean locationEnabledBool = false;
-
-        // TODO: Change herbRun/treeRun/fruitTreeRun to PatchType and pass it into shouldFarmLimpwurts
 
         if (plugin.getFarmingTeleportOverlay().herbRun) {
             locationEnabledBool = plugin.getHerbLocationEnabled(location.getName());

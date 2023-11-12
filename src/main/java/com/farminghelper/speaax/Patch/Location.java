@@ -12,105 +12,113 @@ public enum Location
     ARDOUGNE(
         "Ardougne",
         Map.of(PatchType.HERB, true),
-        FarmingHelperConfig::enumOptionEnumArdougneTeleport
+        Map.of(PatchType.HERB, FarmingHelperConfig::enumOptionEnumArdougneTeleport)
     ),
     BRIMHAVEN(
         "Brimhaven",
         null,
-        FarmingHelperConfig::enumFruitTreeBrimhavenTeleport
+        Map.of(PatchType.FRUIT_TREE, FarmingHelperConfig::enumFruitTreeBrimhavenTeleport)
     ),
     CATHERBY(
         "Catherby",
         Map.of(PatchType.HERB, true),
-        FarmingHelperConfig::enumOptionEnumCatherbyTeleport
-        // FarmingHelperConfig::enumFruitTreeCatherbyTeleport
+        Map.of(
+            PatchType.HERB,       FarmingHelperConfig::enumOptionEnumCatherbyTeleport,
+            PatchType.FRUIT_TREE, FarmingHelperConfig::enumFruitTreeCatherbyTeleport
+        )
     ),
     FALADOR(
         "Falador",
         Map.of(PatchType.HERB, true),
-        FarmingHelperConfig::enumTreeFaladorTeleport
-        // FarmingHelperConfig::enumOptionEnumFaladorTeleport
+        Map.of(
+            PatchType.HERB, FarmingHelperConfig::enumOptionEnumFaladorTeleport,
+            PatchType.TREE, FarmingHelperConfig::enumTreeFaladorTeleport
+        )
     ),
     FARMING_GUILD(
         "Farming Guild",
         Map.of(PatchType.HERB, true),
-        FarmingHelperConfig::enumTreeFarmingGuildTeleport
-        // FarmingHelperConfig::enumOptionEnumFarmingGuildTeleport
-        // FarmingHelperConfig::enumFruitTreeFarmingGuildTeleport
+        Map.of(
+            PatchType.HERB,       FarmingHelperConfig::enumOptionEnumFarmingGuildTeleport,
+            PatchType.TREE,       FarmingHelperConfig::enumTreeFarmingGuildTeleport,
+            PatchType.FRUIT_TREE, FarmingHelperConfig::enumFruitTreeFarmingGuildTeleport
+        )
     ),
     GNOME_STRONGHOLD(
         "Gnome Stronghold",
         null,
-        FarmingHelperConfig::enumTreeGnomeStrongoldTeleport
-        // FarmingHelperConfig::enumFruitTreeGnomeStrongholdTeleport
+        Map.of(
+            PatchType.TREE,       FarmingHelperConfig::enumTreeGnomeStrongoldTeleport,
+            PatchType.FRUIT_TREE, FarmingHelperConfig::enumFruitTreeGnomeStrongholdTeleport
+        )
     ),
     HARMONY_ISLAND(
         "Harmony Island",
         null,
-        FarmingHelperConfig::enumOptionEnumHarmonyTeleport
+        Map.of(PatchType.HERB, FarmingHelperConfig::enumOptionEnumHarmonyTeleport)
     ),
     KOUREND(
         "Kourend",
         Map.of(PatchType.HERB, true),
-        FarmingHelperConfig::enumOptionEnumKourendTeleport
+        Map.of(PatchType.HERB, FarmingHelperConfig::enumOptionEnumKourendTeleport)
     ),
     LLETYA(
         "Lletya",
         null,
-        FarmingHelperConfig::enumFruitTreeLletyaTeleport
+        Map.of(PatchType.FRUIT_TREE, FarmingHelperConfig::enumFruitTreeLletyaTeleport)
     ),
     LUMBRIDGE(
         "Lumbridge",
         null,
-        FarmingHelperConfig::enumTreeLumbridgeTeleport
+        Map.of(PatchType.TREE, FarmingHelperConfig::enumTreeLumbridgeTeleport)
     ),
     MORYTANIA(
         "Morytania",
         Map.of(PatchType.HERB, true),
-        FarmingHelperConfig::enumOptionEnumMorytaniaTeleport
+        Map.of(PatchType.HERB, FarmingHelperConfig::enumOptionEnumMorytaniaTeleport)
     ),
     TAVERLY(
         "Taverley",
         null,
-        FarmingHelperConfig::enumTreeTaverleyTeleport
+        Map.of(PatchType.TREE, FarmingHelperConfig::enumTreeTaverleyTeleport)
     ),
     TREE_GNOME_VILLAGE(
         "Tree Gnome Village",
         null,
-        FarmingHelperConfig::enumFruitTreeTreeGnomeVillageTeleport
+        Map.of(PatchType.FRUIT_TREE, FarmingHelperConfig::enumFruitTreeTreeGnomeVillageTeleport)
     ),
     TROLL_STRONGHOLD(
         "Troll Stronghold",
         null,
-        FarmingHelperConfig::enumOptionEnumTrollStrongholdTeleport
+        Map.of(PatchType.HERB, FarmingHelperConfig::enumOptionEnumTrollStrongholdTeleport)
     ),
     VARROCK(
         "Varrock",
         null,
-        FarmingHelperConfig::enumTreeVarrockTeleport
+        Map.of(PatchType.TREE, FarmingHelperConfig::enumTreeVarrockTeleport)
     ),
     WEISS(
         "Weiss",
         null,
-        FarmingHelperConfig::enumOptionEnumWeissTeleport
+        Map.of(PatchType.HERB, FarmingHelperConfig::enumOptionEnumWeissTeleport)
     );
 
     private String name;
 
     private Map<PatchType, Boolean> limpwurtRequirements;
 
-    private final Function<FarmingHelperConfig, FarmingHelperConfig.OptionEnumTeleport> selectedTeleportFunction;
+    private final Map<PatchType, Function<FarmingHelperConfig, FarmingHelperConfig.OptionEnumTeleport>> desiredTeleport;
 
     private List<Teleport> teleports = new ArrayList<>();
 
     Location(
         String name,
         Map<PatchType, Boolean> limpwurtRequirements,
-        Function<FarmingHelperConfig, FarmingHelperConfig.OptionEnumTeleport> selectedTeleportFunction
+        Map<PatchType, Function<FarmingHelperConfig, FarmingHelperConfig.OptionEnumTeleport>> desiredTeleport
     ) {
         this.name = name;
         this.limpwurtRequirements = limpwurtRequirements;
-        this.selectedTeleportFunction = selectedTeleportFunction;
+        this.desiredTeleport = desiredTeleport;
     }
 
     public String getName()
@@ -130,9 +138,15 @@ public enum Location
         teleports.add(teleport);
     }
 
-    public Teleport getDesiredTeleport(FarmingHelperConfig config)
+    public Teleport getDesiredTeleport(PatchType patchType, FarmingHelperConfig config)
     {
-        String selectedEnumOption = selectedTeleportFunction.apply(config).name();
+        if (desiredTeleport.get(patchType) == null) {
+            return teleports.isEmpty() ? null : teleports.get(0);
+        }
+
+        Function<FarmingHelperConfig, FarmingHelperConfig.OptionEnumTeleport> desiredTeleportFunction = desiredTeleport.get(patchType);
+
+        String selectedEnumOption = desiredTeleportFunction.apply(config).name();
 
         for (Teleport teleport : teleports) {
             if (teleport.getEnumOption().equalsIgnoreCase(selectedEnumOption)) {

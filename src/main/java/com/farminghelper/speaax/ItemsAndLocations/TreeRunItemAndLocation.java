@@ -3,6 +3,7 @@ package com.farminghelper.speaax.ItemsAndLocations;
 import com.farminghelper.speaax.FarmingHelperConfig;
 import com.farminghelper.speaax.FarmingHelperPlugin;
 import com.farminghelper.speaax.Patch.Location;
+import com.farminghelper.speaax.Patch.PatchType;
 import com.farminghelper.speaax.Patch.Teleport;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
@@ -51,7 +52,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
                     Integer::sum
                 );
 
-                Teleport teleport = location.getDesiredTeleport(config);
+                Teleport teleport = location.getDesiredTeleport(PatchType.TREE, config);
 
                 Map<Integer, Integer> locationRequirements = teleport.getItemRequirements();
 

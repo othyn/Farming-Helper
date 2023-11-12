@@ -56,7 +56,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
                     );
                 }
 
-                Teleport teleport = location.getDesiredTeleport(config);
+                Teleport teleport = location.getDesiredTeleport(PatchType.HERB, config);
 
                 Map<Integer, Integer> locationRequirements = teleport.getItemRequirements();
 
