@@ -12,13 +12,6 @@ import java.util.*;
 
 public class FruitTreeRunItemAndLocation extends ItemAndLocation
 {
-    public Location brimhavenFruitTreeLocation;
-    public Location catherbyFruitTreeLocation;
-    public Location farmingGuildFruitTreeLocation;
-    public Location gnomeStrongholdFruitTreeLocation;
-    public Location lletyaFruitTreeLocation;
-    public Location treeGnomeVillageFruitTreeLocation;
-
     public FruitTreeRunItemAndLocation(FarmingHelperConfig config, FarmingHelperPlugin plugin)
     {
         super(config, plugin);
@@ -130,9 +123,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        brimhavenFruitTreeLocation = Location.BRIMHAVEN;
-
-        brimhavenFruitTreeLocation.addTeleportOption(new Teleport(
+        Location.BRIMHAVEN.addTeleportOption(new Teleport(
             "Portal_Nexus",
             Teleport.Category.PORTAL_NEXUS,
             "Teleport to Ardougne with Portal Nexus and take the boat to Brimhaven.",
@@ -145,7 +136,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             getHouseTeleportItemRequirements()
         ).overrideLocationName("Ardougne"));
 
-        brimhavenFruitTreeLocation.addTeleportOption(new Teleport(
+        Location.BRIMHAVEN.addTeleportOption(new Teleport(
             "Ardougne_teleport",
             Teleport.Category.SPELLBOOK,
             "Teleport to Ardougne with Spellbook and take the boat to Brimhaven.",
@@ -171,7 +162,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             )
         ));
 
-        locations.add(brimhavenFruitTreeLocation);
+        locations.add(Location.BRIMHAVEN);
     }
 
     private void setupCatherbyLocations()
@@ -182,9 +173,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        catherbyFruitTreeLocation = Location.CATHERBY;
-
-        catherbyFruitTreeLocation.addTeleportOption(new Teleport(
+        Location.CATHERBY.addTeleportOption(new Teleport(
             "Portal_Nexus_Catherby",
             Teleport.Category.PORTAL_NEXUS,
             "Teleport to Catherby with Portal Nexus.",
@@ -197,7 +186,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             getHouseTeleportItemRequirements()
         ));
 
-        catherbyFruitTreeLocation.addTeleportOption(new Teleport(
+        Location.CATHERBY.addTeleportOption(new Teleport(
             "Portal_Nexus_Camelot",
             Teleport.Category.PORTAL_NEXUS,
             "Teleport to Camelot with Portal Nexus and run to Catherby.",
@@ -210,7 +199,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             getHouseTeleportItemRequirements()
         ).overrideLocationName("Camelot"));
 
-        locations.add(catherbyFruitTreeLocation);
+        locations.add(Location.CATHERBY);
     }
 
     private void setupFarmingGuildLocation()
@@ -221,9 +210,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        farmingGuildFruitTreeLocation = Location.FARMING_GUILD;
-
-        farmingGuildFruitTreeLocation.addTeleportOption(new Teleport(
+        Location.FARMING_GUILD.addTeleportOption(new Teleport(
             "Jewellery_box",
             Teleport.Category.JEWELLERY_BOX,
             "Teleport to Farming Guild with Jewellery box.",
@@ -236,7 +223,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             getHouseTeleportItemRequirements()
         ));
 
-        locations.add(farmingGuildFruitTreeLocation);
+        locations.add(Location.FARMING_GUILD);
     }
 
     private void setupGnomeStrongholdLocation()
@@ -247,9 +234,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        gnomeStrongholdFruitTreeLocation = Location.GNOME_STRONGHOLD;
-
-        gnomeStrongholdFruitTreeLocation.addTeleportOption(new Teleport(
+        Location.GNOME_STRONGHOLD.addTeleportOption(new Teleport(
             "Royal_seed_pod",
             Teleport.Category.ITEM,
             "Teleport to Gnome Stronghold with Royal seed pod.",
@@ -265,7 +250,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
-        gnomeStrongholdFruitTreeLocation.addTeleportOption(new Teleport(
+        Location.GNOME_STRONGHOLD.addTeleportOption(new Teleport(
             "Spirit_Tree",
             Teleport.Category.SPIRIT_TREE,
             "Teleport to Gnome Stronghold via a Spirit Tree.",
@@ -278,7 +263,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             Collections.<ItemRequirement> emptyList()
         ));
 
-        locations.add(gnomeStrongholdFruitTreeLocation);
+        locations.add(Location.GNOME_STRONGHOLD);
     }
 
     private void setupLletyaLocation()
@@ -289,9 +274,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        lletyaFruitTreeLocation = Location.LLETYA;
-
-        lletyaFruitTreeLocation.addTeleportOption(new Teleport(
+        Location.LLETYA.addTeleportOption(new Teleport(
             "Teleport_crystal",
             Teleport.Category.ITEM,
             "Teleport to Lletya with Teleport crystal.",
@@ -307,7 +290,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
-        locations.add(lletyaFruitTreeLocation);
+        locations.add(Location.LLETYA);
     }
 
     private void setupTreeGnomeVillage()
@@ -318,9 +301,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        treeGnomeVillageFruitTreeLocation = Location.TREE_GNOME_VILLAGE;
-
-        treeGnomeVillageFruitTreeLocation.addTeleportOption(new Teleport(
+        Location.TREE_GNOME_VILLAGE.addTeleportOption(new Teleport(
             "Royal_seed_pod",
             Teleport.Category.ITEM,
             "Teleport to Tree Gnome Village with Royal seed pod and use Spirit tree to Tree Gnome Village.",
@@ -336,7 +317,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
-        treeGnomeVillageFruitTreeLocation.addTeleportOption(new Teleport(
+        Location.TREE_GNOME_VILLAGE.addTeleportOption(new Teleport(
             "Spirit_Tree",
             Teleport.Category.SPIRIT_TREE,
             "Teleport to Tree Gnome Village via a Spirit Tree.",
@@ -349,6 +330,6 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             Collections.<ItemRequirement> emptyList()
         ));
 
-        locations.add(treeGnomeVillageFruitTreeLocation);
+        locations.add(Location.TREE_GNOME_VILLAGE);
     }
 }

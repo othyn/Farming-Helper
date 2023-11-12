@@ -12,16 +12,6 @@ import java.util.*;
 
 public class HerbRunItemAndLocation extends ItemAndLocation
 {
-    public Location ardougneLocation;
-    public Location catherbyLocation;
-    public Location faladorLocation;
-    public Location farmingGuildLocation;
-    public Location harmonyLocation;
-    public Location kourendLocation;
-    public Location morytaniaLocation;
-    public Location trollStrongholdLocation;
-    public Location weissLocation;
-
     public HerbRunItemAndLocation(FarmingHelperConfig config, FarmingHelperPlugin plugin)
     {
         super(config, plugin);
@@ -160,9 +150,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        ardougneLocation = Location.ARDOUGNE;
-
-        ardougneLocation.addTeleportOption(new Teleport(
+        Location.ARDOUGNE.addTeleportOption(new Teleport(
             "Portal_Nexus",
             Teleport.Category.PORTAL_NEXUS,
             "Teleport to Ardougne with Portal Nexus.",
@@ -175,7 +163,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             getHouseTeleportItemRequirements()
         ));
 
-        ardougneLocation.addTeleportOption(new Teleport(
+        Location.ARDOUGNE.addTeleportOption(new Teleport(
             "Ardougne_teleport",
             Teleport.Category.SPELLBOOK,
             "Teleport to Ardougne with standard spellbook, and run north.",
@@ -197,7 +185,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             )
         ));
 
-        ardougneLocation.addTeleportOption(new Teleport(
+        Location.ARDOUGNE.addTeleportOption(new Teleport(
             "Ardougne_Tele_Tab",
             Teleport.Category.ITEM,
             "Teleport to Ardougne with Ardougne tele tab, and run north.",
@@ -213,7 +201,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
-        ardougneLocation.addTeleportOption(new Teleport(
+        Location.ARDOUGNE.addTeleportOption(new Teleport(
             "Ardy_Cloak_2",
             Teleport.Category.ITEM,
             "Teleport to Ardougne with Ardougne cloak.",
@@ -229,7 +217,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
-        ardougneLocation.addTeleportOption(new Teleport(
+        Location.ARDOUGNE.addTeleportOption(new Teleport(
             "Ardy_Cloak_3",
             Teleport.Category.ITEM,
             "Teleport to Ardougne with Ardougne cloak.",
@@ -245,7 +233,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
-        ardougneLocation.addTeleportOption(new Teleport(
+        Location.ARDOUGNE.addTeleportOption(new Teleport(
             "Ardy_Cloak_4",
             Teleport.Category.ITEM,
             "Teleport to Ardougne with Ardougne cloak.",
@@ -261,7 +249,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
-        ardougneLocation.addTeleportOption(new Teleport(
+        Location.ARDOUGNE.addTeleportOption(new Teleport(
             "Skills_Necklace",
             Teleport.Category.ITEM,
             "Teleport to Fishing guild with Skills necklace, and run east.",
@@ -277,7 +265,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
-        locations.add(ardougneLocation);
+        locations.add(Location.ARDOUGNE);
     }
 
     private void setupCatherbyLocation()
@@ -288,9 +276,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        catherbyLocation = Location.CATHERBY;
-
-        catherbyLocation.addTeleportOption(new Teleport(
+        Location.CATHERBY.addTeleportOption(new Teleport(
             "Portal_Nexus_Catherby",
             Teleport.Category.PORTAL_NEXUS,
             "Teleport to Catherby with Portal Nexus.",
@@ -303,7 +289,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             getHouseTeleportItemRequirements()
         ));
 
-        catherbyLocation.addTeleportOption(new Teleport(
+        Location.CATHERBY.addTeleportOption(new Teleport(
             "Portal_Nexus_Camelot",
             Teleport.Category.PORTAL_NEXUS,
             "Teleport to Camelot with Portal Nexus and run to Catherby.",
@@ -316,7 +302,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             getHouseTeleportItemRequirements()
         ).overrideLocationName("Camelot"));
 
-        catherbyLocation.addTeleportOption(new Teleport(
+        Location.CATHERBY.addTeleportOption(new Teleport(
             "Camelot_Teleport",
             Teleport.Category.SPELLBOOK,
             "Teleport to Camelot using the standard spellbook, and run east. (If you have configured the teleport to seers you need to right click and teleport to Camelot)",
@@ -338,7 +324,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             )
         ));
 
-        catherbyLocation.addTeleportOption(new Teleport(
+        Location.CATHERBY.addTeleportOption(new Teleport(
             "Camelot_Tele_Tab",
             Teleport.Category.ITEM,
             "Teleport to Camelot using a Camelot tele tab, and run east.(If you have configured the teleport to seers you need to right click and teleport to Camelot)",
@@ -354,7 +340,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
-        catherbyLocation.addTeleportOption(new Teleport(
+        Location.CATHERBY.addTeleportOption(new Teleport(
             "Catherby_Tele_Tab",
             Teleport.Category.ITEM,
             "Teleport to Catherby using Catherby teleport tab.",
@@ -370,7 +356,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
-        locations.add(catherbyLocation);
+        locations.add(Location.CATHERBY);
     }
 
     private void setupFaladorLocation()
@@ -381,9 +367,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        faladorLocation = Location.FALADOR;
-
-        faladorLocation.addTeleportOption(new Teleport(
+        Location.FALADOR.addTeleportOption(new Teleport(
             "Portal_Nexus",
             Teleport.Category.PORTAL_NEXUS,
             "Teleport to Falador with Portal Nexus.",
@@ -396,7 +380,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             getHouseTeleportItemRequirements()
         ));
 
-        faladorLocation.addTeleportOption(new Teleport(
+        Location.FALADOR.addTeleportOption(new Teleport(
             "Explorers_ring_2",
             Teleport.Category.ITEM,
             "Teleport to Falador with Explorers ring.",
@@ -412,7 +396,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
-        faladorLocation.addTeleportOption(new Teleport(
+        Location.FALADOR.addTeleportOption(new Teleport(
             "Explorers_ring_3",
             Teleport.Category.ITEM,
             "Teleport to Falador with Explorers ring.",
@@ -428,7 +412,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
-        faladorLocation.addTeleportOption(new Teleport(
+        Location.FALADOR.addTeleportOption(new Teleport(
             "Explorers_ring_4",
             Teleport.Category.ITEM,
             "Teleport to Falador with Explorers ring.",
@@ -444,7 +428,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
-        faladorLocation.addTeleportOption(new Teleport(
+        Location.FALADOR.addTeleportOption(new Teleport(
             "Falador_Teleport",
             Teleport.Category.SPELLBOOK,
             "Teleport to Falador with standard spellbook, and run south-east.",
@@ -470,7 +454,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             )
         ));
 
-        faladorLocation.addTeleportOption(new Teleport(
+        Location.FALADOR.addTeleportOption(new Teleport(
             "Falador_Tele_Tab",
             Teleport.Category.ITEM,
             "Teleport to Falador with Falador Tele Tab, and run south-east.",
@@ -486,7 +470,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
-        faladorLocation.addTeleportOption(new Teleport(
+        Location.FALADOR.addTeleportOption(new Teleport(
             "Draynor_Tele_Tab",
             Teleport.Category.ITEM,
             "Teleport to Draynor Manor with Draynor Manor Tele Tab, and run south-west.",
@@ -502,7 +486,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
-        locations.add(faladorLocation);
+        locations.add(Location.FALADOR);
     }
 
     private void setupFarmingGuildLocation()
@@ -513,9 +497,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        farmingGuildLocation = Location.FARMING_GUILD;
-
-        farmingGuildLocation.addTeleportOption(new Teleport(
+        Location.FARMING_GUILD.addTeleportOption(new Teleport(
             "Jewellery_box",
             Teleport.Category.JEWELLERY_BOX,
             "Teleport to Farming guild with Jewellery box.",
@@ -528,7 +510,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             getHouseTeleportItemRequirements()
         ));
 
-        farmingGuildLocation.addTeleportOption(new Teleport(
+        Location.FARMING_GUILD.addTeleportOption(new Teleport(
             "Skills_Necklace",
             Teleport.Category.ITEM,
             "Teleport to Farming guild using Skills necklace.",
@@ -544,7 +526,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
-        locations.add(farmingGuildLocation);
+        locations.add(Location.FARMING_GUILD);
     }
 
     private void setupHarmonyLocation()
@@ -555,9 +537,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        harmonyLocation = Location.HARMONY_ISLAND;
-
-        harmonyLocation.addTeleportOption(new Teleport(
+        Location.HARMONY_ISLAND.addTeleportOption(new Teleport(
             "Portal_Nexus",
             Teleport.Category.PORTAL_NEXUS,
             "Teleport to Harmony with Portal Nexus.",
@@ -570,7 +550,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             getHouseTeleportItemRequirements()
         ));
 
-        harmonyLocation.addTeleportOption(new Teleport(
+        Location.HARMONY_ISLAND.addTeleportOption(new Teleport(
             "Harmony_Tele_Tab",
             Teleport.Category.ITEM,
             "Teleport to Harmony with Harmony Tele Tab.",
@@ -586,7 +566,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
-        locations.add(harmonyLocation);
+        locations.add(Location.HARMONY_ISLAND);
     }
 
     private void setupKourendLocation()
@@ -597,9 +577,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        kourendLocation = Location.KOUREND;
-
-        kourendLocation.addTeleportOption(new Teleport(
+        Location.KOUREND.addTeleportOption(new Teleport(
             "Xerics_Talisman",
             Teleport.Category.ITEM,
             "Teleport to Kourend with Xeric's Talisman.",
@@ -615,7 +593,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
-        kourendLocation.addTeleportOption(new Teleport(
+        Location.KOUREND.addTeleportOption(new Teleport(
             "Mounted_Xerics",
             Teleport.Category.MOUNTED_XERICS,
             "Teleport to Kourend with Xeric's Talisman in PoH.",
@@ -628,7 +606,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             getHouseTeleportItemRequirements()
         ));
 
-        locations.add(kourendLocation);
+        locations.add(Location.KOUREND);
     }
 
     private void setupMorytaniaLocation()
@@ -639,9 +617,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        morytaniaLocation = Location.MORYTANIA;
-
-        morytaniaLocation.addTeleportOption(new Teleport(
+        Location.MORYTANIA.addTeleportOption(new Teleport(
             "Ectophial",
             Teleport.Category.ITEM,
             "Teleport to Morytania with Ectophial.",
@@ -657,7 +633,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
-        locations.add(morytaniaLocation);
+        locations.add(Location.MORYTANIA);
     }
 
     private void setupTrollStrongholdLocation()
@@ -668,9 +644,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        trollStrongholdLocation = Location.TROLL_STRONGHOLD;
-
-        trollStrongholdLocation.addTeleportOption(new Teleport(
+        Location.TROLL_STRONGHOLD.addTeleportOption(new Teleport(
             "Stony_Basalt",
             Teleport.Category.ITEM,
             "Teleport to Troll Stronghold with Stony Basalt.",
@@ -686,7 +660,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
-        trollStrongholdLocation.addTeleportOption(new Teleport(
+        Location.TROLL_STRONGHOLD.addTeleportOption(new Teleport(
             "Portal_Nexus",
             Teleport.Category.PORTAL_NEXUS,
             "Teleport to Troll Stronghold with Portal Nexus.",
@@ -699,7 +673,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             getHouseTeleportItemRequirements()
         ));
 
-        locations.add(trollStrongholdLocation);
+        locations.add(Location.TROLL_STRONGHOLD);
     }
 
     private void setupWeissLocation()
@@ -710,9 +684,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        weissLocation = Location.WEISS;
-
-        weissLocation.addTeleportOption(new Teleport(
+        Location.WEISS.addTeleportOption(new Teleport(
             "Icy_Basalt",
             Teleport.Category.ITEM,
             "Teleport to Weiss with Icy Basalt.",
@@ -728,7 +700,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             ))
         ));
 
-        weissLocation.addTeleportOption(new Teleport(
+        Location.WEISS.addTeleportOption(new Teleport(
             "Portal_Nexus",
             Teleport.Category.PORTAL_NEXUS,
             "Teleport to Weiss with Portal Nexus.",
@@ -741,6 +713,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             getHouseTeleportItemRequirements()
         ));
 
-        locations.add(weissLocation);
+        locations.add(Location.WEISS);
     }
 }

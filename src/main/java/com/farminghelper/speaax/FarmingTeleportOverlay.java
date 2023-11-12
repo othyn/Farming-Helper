@@ -1325,39 +1325,39 @@ public class FarmingTeleportOverlay extends Overlay
             if (runPatchType == PatchType.HERB) {
                 switch (runStep) {
                     case 0:
-                        gettingToLocation(graphics, plugin.getArdougneLocation());
+                        gettingToLocation(graphics, Location.ARDOUGNE);
                         break;
 
                     case 1:
-                        gettingToLocation(graphics, plugin.getCatherbyLocation());
+                        gettingToLocation(graphics, Location.CATHERBY);
                         break;
 
                     case 2:
-                        gettingToLocation(graphics, plugin.getFaladorLocation());
+                        gettingToLocation(graphics, Location.FALADOR);
                         break;
 
                     case 3:
-                        gettingToLocation(graphics, plugin.getFarmingGuildLocation());
+                        gettingToLocation(graphics, Location.FARMING_GUILD);
                         break;
 
                     case 4:
-                        gettingToLocation(graphics, plugin.getHarmonyLocation());
+                        gettingToLocation(graphics, Location.HARMONY_ISLAND);
                         break;
 
                     case 5:
-                        gettingToLocation(graphics, plugin.getKourendLocation());
+                        gettingToLocation(graphics, Location.KOUREND);
                         break;
 
                     case 6:
-                        gettingToLocation(graphics, plugin.getMorytaniaLocation());
+                        gettingToLocation(graphics, Location.MORYTANIA);
                         break;
 
                     case 7:
-                        gettingToLocation(graphics, plugin.getTrollStrongholdLocation());
+                        gettingToLocation(graphics, Location.TROLL_STRONGHOLD);
                         break;
 
                     case 8:
-                        gettingToLocation(graphics, plugin.getWeissLocation());
+                        gettingToLocation(graphics, Location.WEISS);
                         break;
 
                     case 9:
@@ -1370,27 +1370,27 @@ public class FarmingTeleportOverlay extends Overlay
             else if (runPatchType == PatchType.TREE) {
                 switch (runStep) {
                     case 0:
-                        gettingToLocation(graphics, plugin.getFaladorTreeLocation());
+                        gettingToLocation(graphics, Location.FALADOR);
                         break;
 
                     case 1:
-                        gettingToLocation(graphics, plugin.getFarmingGuildTreeLocation());
+                        gettingToLocation(graphics, Location.FARMING_GUILD);
                         break;
 
                     case 2:
-                        gettingToLocation(graphics, plugin.getGnomeStrongholdTreeLocation());
+                        gettingToLocation(graphics, Location.GNOME_STRONGHOLD);
                         break;
 
                     case 3:
-                        gettingToLocation(graphics, plugin.getLumbridgeTreeLocation());
+                        gettingToLocation(graphics, Location.LUMBRIDGE);
                         break;
 
                     case 4:
-                        gettingToLocation(graphics, plugin.getTaverleyTreeLocation());
+                        gettingToLocation(graphics, Location.TAVERLY);
                         break;
 
                     case 5:
-                        gettingToLocation(graphics, plugin.getVarrockTreeLocation());
+                        gettingToLocation(graphics, Location.VARROCK);
                         break;
 
                     case 6:
@@ -1403,27 +1403,27 @@ public class FarmingTeleportOverlay extends Overlay
             else if (runPatchType == PatchType.FRUIT_TREE) {
                 switch (runStep) {
                     case 0:
-                        gettingToLocation(graphics, plugin.getBrimhavenFruitTreeLocation());
+                        gettingToLocation(graphics, Location.BRIMHAVEN);
                         break;
 
                     case 1:
-                        gettingToLocation(graphics, plugin.getCatherbyFruitTreeLocation());
+                        gettingToLocation(graphics, Location.CATHERBY);
                         break;
 
                     case 2:
-                        gettingToLocation(graphics, plugin.getFarmingGuildFruitTreeLocation());
+                        gettingToLocation(graphics, Location.FARMING_GUILD);
                         break;
 
                     case 3:
-                        gettingToLocation(graphics, plugin.getGnomeStrongholdFruitTreeLocation());
+                        gettingToLocation(graphics, Location.GNOME_STRONGHOLD);
                         break;
 
                     case 4:
-                        gettingToLocation(graphics, plugin.getLletyaFruitTreeLocation());
+                        gettingToLocation(graphics, Location.LLETYA);
                         break;
 
                     case 5:
-                        gettingToLocation(graphics, plugin.getTreeGnomeVillageTreeLocation());
+                        gettingToLocation(graphics, Location.TREE_GNOME_VILLAGE);
                         break;
 
                     case 6:
