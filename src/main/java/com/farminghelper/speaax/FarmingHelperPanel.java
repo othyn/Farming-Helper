@@ -1,5 +1,6 @@
 package com.farminghelper.speaax;
 
+import com.farminghelper.speaax.Patch.PatchType;
 import com.farminghelper.speaax.UI.StartStopJButton;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.overlay.OverlayManager;
@@ -182,7 +183,7 @@ public class FarmingHelperPanel extends PluginPanel
                     System.out.println("Remove overlay from button");
                 } else {
                     System.out.println("Add overlay from button");
-                    plugin.getFarmingTeleportOverlay().herbRun = true;
+                    plugin.getFarmingTeleportOverlay().runPatchType = PatchType.HERB;
                     overlayManager.add(overlay);
                     overlayManager.add(farmingTeleportOverlay);
                 }
@@ -204,7 +205,7 @@ public class FarmingHelperPanel extends PluginPanel
                     System.out.println("Remove overlay from button");
                 } else {
                     System.out.println("Add overlay from button");
-                    plugin.getFarmingTeleportOverlay().treeRun = true;
+                    plugin.getFarmingTeleportOverlay().runPatchType = PatchType.TREE;
                     overlayManager.add(overlay);
                     overlayManager.add(farmingTeleportOverlay);
                 }
@@ -225,7 +226,7 @@ public class FarmingHelperPanel extends PluginPanel
                     System.out.println("Remove overlay from button");
                 } else {
                     System.out.println("Add overlay from button");
-                    plugin.getFarmingTeleportOverlay().fruitTreeRun = true;
+                    plugin.getFarmingTeleportOverlay().runPatchType = PatchType.FRUIT_TREE;
                     overlayManager.add(overlay);
                     overlayManager.add(farmingTeleportOverlay);
                 }
