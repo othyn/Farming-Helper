@@ -51,7 +51,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
                     Integer::sum
                 );
 
-                Teleport teleport = location.getSelectedTeleport();
+                Teleport teleport = location.getDesiredTeleport(config);
 
                 Map<Integer, Integer> locationRequirements = teleport.getItemRequirements();
 
@@ -141,19 +141,13 @@ public class TreeRunItemAndLocation extends ItemAndLocation
         // Which solves the 'FarmingHelperConfig::enumTreeFaladorTeleport' problem stored at location level, as they can
         //  be statically linked then to the flat definition of a Location and an 'enabled' state based on the patch
         //  type.
+        faladorTreeLocation = Location.FALADOR;
 
         // Location.FALADOR.patch.TREE.worldPoint
         WorldPoint faladorTreePatchPoint = new WorldPoint(
             3000,
             3373,
             0
-        );
-
-        faladorTreeLocation = new Location(
-            FarmingHelperConfig::enumTreeFaladorTeleport,
-            config,
-            "Falador",
-            false
         );
 
         // Location.FALADOR.addTeleportOption();
@@ -207,12 +201,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        farmingGuildTreeLocation = new Location(
-            FarmingHelperConfig::enumTreeFarmingGuildTeleport,
-            config,
-            "Farming Guild",
-            false
-        );
+        farmingGuildTreeLocation = Location.FARMING_GUILD;
 
         farmingGuildTreeLocation.addTeleportOption(new Teleport(
             "Jewellery_box",
@@ -238,12 +227,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        gnomeStrongholdTreeLocation = new Location(
-            FarmingHelperConfig::enumTreeGnomeStrongoldTeleport,
-            config,
-            "Gnome Stronghold",
-            false
-        );
+        gnomeStrongholdTreeLocation = Location.GNOME_STRONGHOLD;
 
         gnomeStrongholdTreeLocation.addTeleportOption(new Teleport(
             "Royal_seed_pod",
@@ -285,12 +269,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        lumbridgeTreeLocation = new Location(
-            FarmingHelperConfig::enumTreeLumbridgeTeleport,
-            config,
-            "Lumbridge",
-            false
-        );
+        lumbridgeTreeLocation = Location.LUMBRIDGE;
 
         lumbridgeTreeLocation.addTeleportOption(new Teleport(
             "Portal_Nexus",
@@ -342,12 +321,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        taverleyTreeLocation = new Location(
-            FarmingHelperConfig::enumTreeTaverleyTeleport,
-            config,
-            "Taverley",
-            false
-        );
+        taverleyTreeLocation = Location.TAVERLY;
 
         taverleyTreeLocation.addTeleportOption(new Teleport(
             "Portal_Nexus",
@@ -399,12 +373,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        varrockTreeLocation = new Location(
-            FarmingHelperConfig::enumTreeVarrockTeleport,
-            config,
-            "Varrock",
-            false
-        );
+        varrockTreeLocation = Location.VARROCK;
 
         varrockTreeLocation.addTeleportOption(new Teleport(
             "Portal_Nexus",

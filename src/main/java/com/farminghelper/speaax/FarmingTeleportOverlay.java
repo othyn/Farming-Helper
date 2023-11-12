@@ -796,6 +796,7 @@ public class FarmingTeleportOverlay extends Overlay
     public void fruitTreeSteps(Graphics2D graphics, Teleport teleport)
     {
         // ABSTRACT: -- abstract this one level above and pass in the cropState
+        // TODO: Also apply the cropState change to Herbs, Flowers and Trees
         CropState cropState;
 
         switch (client.getLocalPlayer().getWorldLocation().getRegionID()) {
@@ -963,9 +964,11 @@ public class FarmingTeleportOverlay extends Overlay
     {
         updateColors();
 
-        Teleport teleport = location.getSelectedTeleport();
+        Teleport teleport = location.getDesiredTeleport(config);
 
         boolean locationEnabledBool = false;
+
+        // TODO: Change herbRun/treeRun/fruitTreeRun to PatchType and pass it into shouldFarmLimpwurts
 
         if (plugin.getFarmingTeleportOverlay().herbRun) {
             locationEnabledBool = plugin.getHerbLocationEnabled(location.getName());
@@ -1037,7 +1040,7 @@ public class FarmingTeleportOverlay extends Overlay
                         if (currentRegionId == teleport.getRegionId()) {
                             destinationReached();
 
-                            if (location.getFarmLimps()) {
+                            if (location.shouldFarmLimpwurts()) {
                                 farmLimpwurts = true;
                             }
                         }
@@ -1073,7 +1076,7 @@ public class FarmingTeleportOverlay extends Overlay
                                 if (currentRegionId == teleport.getRegionId()) {
                                     destinationReached();
 
-                                    if (location.getFarmLimps()) {
+                                    if (location.shouldFarmLimpwurts()) {
                                         farmLimpwurts = true;
                                     }
                                 }
@@ -1114,7 +1117,7 @@ public class FarmingTeleportOverlay extends Overlay
                         if (currentRegionId == teleport.getRegionId()) {
                             destinationReached();
 
-                            if (location.getFarmLimps()) {
+                            if (location.shouldFarmLimpwurts()) {
                                 farmLimpwurts = true;
                             }
                         }
@@ -1143,7 +1146,7 @@ public class FarmingTeleportOverlay extends Overlay
                                 if (currentRegionId == teleport.getRegionId()) {
                                     destinationReached();
 
-                                    if (location.getFarmLimps()) {
+                                    if (location.shouldFarmLimpwurts()) {
                                         farmLimpwurts = true;
                                     }
                                 }
@@ -1178,7 +1181,7 @@ public class FarmingTeleportOverlay extends Overlay
                                     if (currentRegionId == teleport.getRegionId()) {
                                         destinationReached();
 
-                                        if (location.getFarmLimps()) {
+                                        if (location.shouldFarmLimpwurts()) {
                                             farmLimpwurts = true;
                                         }
                                     }

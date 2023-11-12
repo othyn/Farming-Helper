@@ -4,27 +4,113 @@ import com.farminghelper.speaax.FarmingHelperConfig;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
-public class Location
+public enum Location
 {
+    ARDOUGNE(
+        "Ardougne",
+        Map.of(PatchType.HERB, true),
+        FarmingHelperConfig::enumOptionEnumArdougneTeleport
+    ),
+    BRIMHAVEN(
+        "Brimhaven",
+        null,
+        FarmingHelperConfig::enumFruitTreeBrimhavenTeleport
+    ),
+    CATHERBY(
+        "Catherby",
+        Map.of(PatchType.HERB, true),
+        FarmingHelperConfig::enumOptionEnumCatherbyTeleport
+        // FarmingHelperConfig::enumFruitTreeCatherbyTeleport
+    ),
+    FALADOR(
+        "Falador",
+        Map.of(PatchType.HERB, true),
+        FarmingHelperConfig::enumTreeFaladorTeleport
+        // FarmingHelperConfig::enumOptionEnumFaladorTeleport
+    ),
+    FARMING_GUILD(
+        "Farming Guild",
+        Map.of(PatchType.HERB, true),
+        FarmingHelperConfig::enumTreeFarmingGuildTeleport
+        // FarmingHelperConfig::enumOptionEnumFarmingGuildTeleport
+        // FarmingHelperConfig::enumFruitTreeFarmingGuildTeleport
+    ),
+    GNOME_STRONGHOLD(
+        "Gnome Stronghold",
+        null,
+        FarmingHelperConfig::enumTreeGnomeStrongoldTeleport
+        // FarmingHelperConfig::enumFruitTreeGnomeStrongholdTeleport
+    ),
+    HARMONY_ISLAND(
+        "Harmony Island",
+        null,
+        FarmingHelperConfig::enumOptionEnumHarmonyTeleport
+    ),
+    KOUREND(
+        "Kourend",
+        Map.of(PatchType.HERB, true),
+        FarmingHelperConfig::enumOptionEnumKourendTeleport
+    ),
+    LLETYA(
+        "Lletya",
+        null,
+        FarmingHelperConfig::enumFruitTreeLletyaTeleport
+    ),
+    LUMBRIDGE(
+        "Lumbridge",
+        null,
+        FarmingHelperConfig::enumTreeLumbridgeTeleport
+    ),
+    MORYTANIA(
+        "Morytania",
+        Map.of(PatchType.HERB, true),
+        FarmingHelperConfig::enumOptionEnumMorytaniaTeleport
+    ),
+    TAVERLY(
+        "Taverley",
+        null,
+        FarmingHelperConfig::enumTreeTaverleyTeleport
+    ),
+    TREE_GNOME_VILLAGE(
+        "Tree Gnome Village",
+        null,
+        FarmingHelperConfig::enumFruitTreeTreeGnomeVillageTeleport
+    ),
+    TROLL_STRONGHOLD(
+        "Troll Stronghold",
+        null,
+        FarmingHelperConfig::enumOptionEnumTrollStrongholdTeleport
+    ),
+    VARROCK(
+        "Varrock",
+        null,
+        FarmingHelperConfig::enumTreeVarrockTeleport
+    ),
+    WEISS(
+        "Weiss",
+        null,
+        FarmingHelperConfig::enumOptionEnumWeissTeleport
+    );
+
     private String name;
 
-    private Boolean farmLimps;
-
-    private List<Teleport> teleportOptions;
-
-    private FarmingHelperConfig config;
+    private Map<PatchType, Boolean> limpwurtRequirements;
 
     private final Function<FarmingHelperConfig, FarmingHelperConfig.OptionEnumTeleport> selectedTeleportFunction;
 
-    public Location(Function<FarmingHelperConfig, FarmingHelperConfig.OptionEnumTeleport> selectedTeleportFunction, FarmingHelperConfig config, String name, Boolean farmLimps)
-    {
-        this.config = config;
-        this.selectedTeleportFunction = selectedTeleportFunction;
+    private List<Teleport> teleports = new ArrayList<>();
+
+    Location(
+        String name,
+        Map<PatchType, Boolean> limpwurtRequirements,
+        Function<FarmingHelperConfig, FarmingHelperConfig.OptionEnumTeleport> selectedTeleportFunction
+    ) {
         this.name = name;
-        this.farmLimps = farmLimps;
-        this.teleportOptions = new ArrayList<>();
+        this.limpwurtRequirements = limpwurtRequirements;
+        this.selectedTeleportFunction = selectedTeleportFunction;
     }
 
     public String getName()
@@ -32,26 +118,28 @@ public class Location
         return name;
     }
 
-    public Boolean getFarmLimps()
+    public Boolean shouldFarmLimpwurts(PatchType patchType)
     {
-        return farmLimps;
+        return limpwurtRequirements != null && limpwurtRequirements.get(patchType) != null
+            ? limpwurtRequirements.get(patchType)
+            : false;
     }
 
     public void addTeleportOption(Teleport teleport)
     {
-        teleportOptions.add(teleport);
+        teleports.add(teleport);
     }
 
-    public Teleport getSelectedTeleport()
+    public Teleport getDesiredTeleport(FarmingHelperConfig config)
     {
         String selectedEnumOption = selectedTeleportFunction.apply(config).name();
 
-        for (Teleport teleport : teleportOptions) {
+        for (Teleport teleport : teleports) {
             if (teleport.getEnumOption().equalsIgnoreCase(selectedEnumOption)) {
                 return teleport;
             }
         }
 
-        return teleportOptions.isEmpty() ? null : teleportOptions.get(0);
+        return teleports.isEmpty() ? null : teleports.get(0);
     }
 }

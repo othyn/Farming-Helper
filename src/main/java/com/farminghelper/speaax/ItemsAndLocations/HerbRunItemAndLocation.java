@@ -3,6 +3,7 @@ package com.farminghelper.speaax.ItemsAndLocations;
 import com.farminghelper.speaax.FarmingHelperConfig;
 import com.farminghelper.speaax.FarmingHelperPlugin;
 import com.farminghelper.speaax.Patch.Location;
+import com.farminghelper.speaax.Patch.PatchType;
 import com.farminghelper.speaax.Patch.Teleport;
 import net.runelite.api.ItemID;
 import net.runelite.api.coords.WorldPoint;
@@ -55,7 +56,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
                     );
                 }
 
-                Teleport teleport = location.getSelectedTeleport();
+                Teleport teleport = location.getDesiredTeleport(config);
 
                 Map<Integer, Integer> locationRequirements = teleport.getItemRequirements();
 
@@ -81,7 +82,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
                     }
                 }
 
-                if (location.getFarmLimps() && config.generalLimpwurt()) {
+                if (location.shouldFarmLimpwurts(PatchType.HERB) && config.generalLimpwurt()) {
                     allRequirements.merge(
                         ItemID.LIMPWURT_SEED,
                         1,
@@ -159,12 +160,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        ardougneLocation = new Location(
-            FarmingHelperConfig::enumOptionEnumArdougneTeleport,
-            config,
-            "Ardougne",
-            true
-        );
+        ardougneLocation = Location.ARDOUGNE;
 
         ardougneLocation.addTeleportOption(new Teleport(
             "Portal_Nexus",
@@ -292,12 +288,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        catherbyLocation = new Location(
-            FarmingHelperConfig::enumOptionEnumCatherbyTeleport,
-            config,
-            "Catherby",
-            true
-        );
+        catherbyLocation = Location.CATHERBY;
 
         catherbyLocation.addTeleportOption(new Teleport(
             "Portal_Nexus_Catherby",
@@ -390,12 +381,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        faladorLocation = new Location(
-            FarmingHelperConfig::enumOptionEnumFaladorTeleport,
-            config,
-            "Falador",
-            true
-        );
+        faladorLocation = Location.FALADOR;
 
         faladorLocation.addTeleportOption(new Teleport(
             "Portal_Nexus",
@@ -527,12 +513,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        farmingGuildLocation = new Location(
-            FarmingHelperConfig::enumOptionEnumFarmingGuildTeleport,
-            config,
-            "Farming Guild",
-            true
-        );
+        farmingGuildLocation = Location.FARMING_GUILD;
 
         farmingGuildLocation.addTeleportOption(new Teleport(
             "Jewellery_box",
@@ -574,12 +555,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        harmonyLocation = new Location(
-            FarmingHelperConfig::enumOptionEnumHarmonyTeleport,
-            config,
-            "Harmony Island",
-            false
-        );
+        harmonyLocation = Location.HARMONY_ISLAND;
 
         harmonyLocation.addTeleportOption(new Teleport(
             "Portal_Nexus",
@@ -621,12 +597,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        kourendLocation = new Location(
-            FarmingHelperConfig::enumOptionEnumKourendTeleport,
-            config,
-            "Kourend",
-            true
-        );
+        kourendLocation = Location.KOUREND;
 
         kourendLocation.addTeleportOption(new Teleport(
             "Xerics_Talisman",
@@ -668,12 +639,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        morytaniaLocation = new Location(
-            FarmingHelperConfig::enumOptionEnumMorytaniaTeleport,
-            config,
-            "Morytania",
-            true
-        );
+        morytaniaLocation = Location.MORYTANIA;
 
         morytaniaLocation.addTeleportOption(new Teleport(
             "Ectophial",
@@ -702,12 +668,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        trollStrongholdLocation = new Location(
-            FarmingHelperConfig::enumOptionEnumTrollStrongholdTeleport,
-            config,
-            "Troll Stronghold",
-            false
-        );
+        trollStrongholdLocation = Location.TROLL_STRONGHOLD;
 
         trollStrongholdLocation.addTeleportOption(new Teleport(
             "Stony_Basalt",
@@ -749,12 +710,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        weissLocation = new Location(
-            FarmingHelperConfig::enumOptionEnumWeissTeleport,
-            config,
-            "Weiss",
-            false
-        );
+        weissLocation = Location.WEISS;
 
         weissLocation.addTeleportOption(new Teleport(
             "Icy_Basalt",

@@ -51,7 +51,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
                     Integer::sum
                 );
 
-                Teleport teleport = location.getSelectedTeleport();
+                Teleport teleport = location.getDesiredTeleport(config);
 
                 Map<Integer, Integer> locationRequirements = teleport.getItemRequirements();
 
@@ -129,12 +129,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        brimhavenFruitTreeLocation = new Location(
-            FarmingHelperConfig::enumFruitTreeBrimhavenTeleport,
-            config,
-            "Brimhaven",
-            false
-        );
+        brimhavenFruitTreeLocation = Location.BRIMHAVEN;
 
         brimhavenFruitTreeLocation.addTeleportOption(new Teleport(
             "Portal_Nexus",
@@ -186,12 +181,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        catherbyFruitTreeLocation = new Location(
-            FarmingHelperConfig::enumFruitTreeCatherbyTeleport,
-            config,
-            "Catherby",
-            false
-        );
+        catherbyFruitTreeLocation = Location.CATHERBY;
 
         catherbyFruitTreeLocation.addTeleportOption(new Teleport(
             "Portal_Nexus_Catherby",
@@ -230,12 +220,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        farmingGuildFruitTreeLocation = new Location(
-            FarmingHelperConfig::enumFruitTreeFarmingGuildTeleport,
-            config,
-            "Farming Guild",
-            false
-        );
+        farmingGuildFruitTreeLocation = Location.FARMING_GUILD;
 
         farmingGuildFruitTreeLocation.addTeleportOption(new Teleport(
             "Jewellery_box",
@@ -261,12 +246,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        gnomeStrongholdFruitTreeLocation = new Location(
-            FarmingHelperConfig::enumFruitTreeGnomeStrongholdTeleport,
-            config,
-            "Gnome Stronghold",
-            false
-        );
+        gnomeStrongholdFruitTreeLocation = Location.GNOME_STRONGHOLD;
 
         gnomeStrongholdFruitTreeLocation.addTeleportOption(new Teleport(
             "Royal_seed_pod",
@@ -308,12 +288,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        lletyaFruitTreeLocation = new Location(
-            FarmingHelperConfig::enumFruitTreeLletyaTeleport,
-            config,
-            "Lletya",
-            false
-        );
+        lletyaFruitTreeLocation = Location.LLETYA;
 
         lletyaFruitTreeLocation.addTeleportOption(new Teleport(
             "Teleport_crystal",
@@ -342,12 +317,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             0
         );
 
-        treeGnomeVillageFruitTreeLocation = new Location(
-            FarmingHelperConfig::enumFruitTreeTreeGnomeVillageTeleport,
-            config,
-            "Tree Gnome Village",
-            false
-        );
+        treeGnomeVillageFruitTreeLocation = Location.TREE_GNOME_VILLAGE;
 
         treeGnomeVillageFruitTreeLocation.addTeleportOption(new Teleport(
             "Royal_seed_pod",
