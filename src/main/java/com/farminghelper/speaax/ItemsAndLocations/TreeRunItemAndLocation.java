@@ -12,6 +12,10 @@ import java.util.*;
 
 public class TreeRunItemAndLocation extends ItemAndLocation
 {
+    public TreeRunItemAndLocation()
+    {
+    }
+
     public TreeRunItemAndLocation(FarmingHelperConfig config, FarmingHelperPlugin plugin)
     {
         super(config, plugin);

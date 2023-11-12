@@ -12,6 +12,10 @@ import java.util.*;
 
 public class FruitTreeRunItemAndLocation extends ItemAndLocation
 {
+    public FruitTreeRunItemAndLocation()
+    {
+    }
+
     public FruitTreeRunItemAndLocation(FarmingHelperConfig config, FarmingHelperPlugin plugin)
     {
         super(config, plugin);

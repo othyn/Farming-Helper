@@ -12,6 +12,10 @@ import java.util.*;
 
 public class HerbRunItemAndLocation extends ItemAndLocation
 {
+    public HerbRunItemAndLocation()
+    {
+    }
+
     public HerbRunItemAndLocation(FarmingHelperConfig config, FarmingHelperPlugin plugin)
     {
         super(config, plugin);
