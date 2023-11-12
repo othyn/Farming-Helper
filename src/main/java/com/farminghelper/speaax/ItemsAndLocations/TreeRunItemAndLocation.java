@@ -6,7 +6,6 @@ import com.farminghelper.speaax.Patch.Location;
 import com.farminghelper.speaax.Patch.PatchType;
 import com.farminghelper.speaax.Patch.Teleport;
 import net.runelite.api.ItemID;
-import net.runelite.api.coords.WorldPoint;
 
 import java.util.*;
 
@@ -49,7 +48,7 @@ public class TreeRunItemAndLocation extends ItemAndLocation
                     Integer::sum
                 );
 
-                Teleport teleport = location.getDesiredTeleport(PatchType.TREE, config);
+                Teleport teleport = location.desiredTeleport(PatchType.TREE, config);
 
                 Map<Integer, Integer> locationRequirements = teleport.getItemRequirements();
 
@@ -142,13 +141,6 @@ public class TreeRunItemAndLocation extends ItemAndLocation
 
         // TODO: MOVE all Teleport declarations into the Enum singleton at Location init
 
-        // Location.FALADOR.patch.TREE.worldPoint
-        WorldPoint faladorTreePatchPoint = new WorldPoint(
-            3000,
-            3373,
-            0
-        );
-
         Location.FALADOR.addTeleportOption(new Teleport(
             "Portal_Nexus",
             Teleport.Category.PORTAL_NEXUS,
@@ -158,7 +150,6 @@ public class TreeRunItemAndLocation extends ItemAndLocation
             17,
             13,
             11828,
-            faladorTreePatchPoint,
             getHouseTeleportItemRequirements()
         ));
 
@@ -171,7 +162,6 @@ public class TreeRunItemAndLocation extends ItemAndLocation
             218,
             27,
             11828,
-            faladorTreePatchPoint,
             Arrays.asList(
                 new ItemRequirement(
                     ItemID.AIR_RUNE,
@@ -193,12 +183,6 @@ public class TreeRunItemAndLocation extends ItemAndLocation
 
     private void setupFarmingGuildLocation()
     {
-        WorldPoint farmingGuildTreePatchPoint = new WorldPoint(
-            1232,
-            3736,
-            0
-        );
-
         Location.FARMING_GUILD.addTeleportOption(new Teleport(
             "Jewellery_box",
             Teleport.Category.JEWELLERY_BOX,
@@ -208,7 +192,6 @@ public class TreeRunItemAndLocation extends ItemAndLocation
             0,
             0,
             4922,
-            farmingGuildTreePatchPoint,
             getHouseTeleportItemRequirements()
         ));
 
@@ -217,12 +200,6 @@ public class TreeRunItemAndLocation extends ItemAndLocation
 
     private void setupGnomeStrongholdLocation()
     {
-        WorldPoint gnomeStrongholdTreePatchPoint = new WorldPoint(
-            2436,
-            3415,
-            0
-        );
-
         Location.GNOME_STRONGHOLD.addTeleportOption(new Teleport(
             "Royal_seed_pod",
             Teleport.Category.ITEM,
@@ -232,7 +209,6 @@ public class TreeRunItemAndLocation extends ItemAndLocation
             0,
             0,
             9782,
-            gnomeStrongholdTreePatchPoint,
             Collections.singletonList(new ItemRequirement(
                 ItemID.ROYAL_SEED_POD,
                 1
@@ -248,7 +224,6 @@ public class TreeRunItemAndLocation extends ItemAndLocation
             187,
             3,
             9781,
-            gnomeStrongholdTreePatchPoint,
             Collections.<ItemRequirement> emptyList()
         ));
 
@@ -257,12 +232,6 @@ public class TreeRunItemAndLocation extends ItemAndLocation
 
     private void setupLumbridgeLocation()
     {
-        WorldPoint lumbridgeTreePatchPoint = new WorldPoint(
-            3193,
-            3231,
-            0
-        );
-
         Location.LUMBRIDGE.addTeleportOption(new Teleport(
             "Portal_Nexus",
             Teleport.Category.PORTAL_NEXUS,
@@ -272,7 +241,6 @@ public class TreeRunItemAndLocation extends ItemAndLocation
             17,
             13,
             12850,
-            lumbridgeTreePatchPoint,
             getHouseTeleportItemRequirements()
         ));
 
@@ -285,7 +253,6 @@ public class TreeRunItemAndLocation extends ItemAndLocation
             218,
             24,
             12850,
-            lumbridgeTreePatchPoint,
             Arrays.asList(
                 new ItemRequirement(
                     ItemID.AIR_RUNE,
@@ -307,12 +274,6 @@ public class TreeRunItemAndLocation extends ItemAndLocation
 
     private void setupTaverleyLocation()
     {
-        WorldPoint taverlyPatchPoint = new WorldPoint(
-            2936,
-            3438,
-            0
-        );
-
         Location.TAVERLY.addTeleportOption(new Teleport(
             "Portal_Nexus",
             Teleport.Category.PORTAL_NEXUS,
@@ -322,7 +283,6 @@ public class TreeRunItemAndLocation extends ItemAndLocation
             17,
             13,
             11828,
-            taverlyPatchPoint,
             getHouseTeleportItemRequirements()
         ).overrideLocationName("Falador"));
 
@@ -335,7 +295,6 @@ public class TreeRunItemAndLocation extends ItemAndLocation
             218,
             27,
             11828,
-            taverlyPatchPoint,
             Arrays.asList(
                 new ItemRequirement(
                     ItemID.AIR_RUNE,
@@ -357,12 +316,6 @@ public class TreeRunItemAndLocation extends ItemAndLocation
 
     private void setupVarrockLocation()
     {
-        WorldPoint varrockTreePatchPoint = new WorldPoint(
-            3229,
-            3459,
-            0
-        );
-
         Location.VARROCK.addTeleportOption(new Teleport(
             "Portal_Nexus",
             Teleport.Category.PORTAL_NEXUS,
@@ -372,7 +325,6 @@ public class TreeRunItemAndLocation extends ItemAndLocation
             17,
             13,
             12853,
-            varrockTreePatchPoint,
             getHouseTeleportItemRequirements()
         ));
 
@@ -385,7 +337,6 @@ public class TreeRunItemAndLocation extends ItemAndLocation
             218,
             21,
             12853,
-            varrockTreePatchPoint,
             Arrays.asList(
                 new ItemRequirement(
                     ItemID.AIR_RUNE,

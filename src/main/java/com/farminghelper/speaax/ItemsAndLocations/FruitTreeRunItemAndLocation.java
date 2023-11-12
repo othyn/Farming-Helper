@@ -49,7 +49,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
                     Integer::sum
                 );
 
-                Teleport teleport = location.getDesiredTeleport(PatchType.FRUIT_TREE, config);
+                Teleport teleport = location.desiredTeleport(PatchType.FRUIT_TREE, config);
 
                 Map<Integer, Integer> locationRequirements = teleport.getItemRequirements();
 
@@ -121,12 +121,6 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
 
     private void setupBrimhavenLocations()
     {
-        WorldPoint brimhavenFruitTreePatchPoint = new WorldPoint(
-            2764,
-            3212,
-            0
-        );
-
         Location.BRIMHAVEN.addTeleportOption(new Teleport(
             "Portal_Nexus",
             Teleport.Category.PORTAL_NEXUS,
@@ -135,9 +129,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             "null",
             17,
             13,
-            10547,
-            brimhavenFruitTreePatchPoint,
-            getHouseTeleportItemRequirements()
+            10547, getHouseTeleportItemRequirements()
         ).overrideLocationName("Ardougne"));
 
         Location.BRIMHAVEN.addTeleportOption(new Teleport(
@@ -148,9 +140,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             "null",
             218,
             38,
-            10547,
-            brimhavenFruitTreePatchPoint,
-            Arrays.asList(
+            10547, Arrays.asList(
                 new ItemRequirement(
                     ItemID.COINS_995,
                     30
@@ -171,12 +161,6 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
 
     private void setupCatherbyLocations()
     {
-        WorldPoint cathebyFruitTreePatchPoint = new WorldPoint(
-            2860,
-            3433,
-            0
-        );
-
         Location.CATHERBY.addTeleportOption(new Teleport(
             "Portal_Nexus_Catherby",
             Teleport.Category.PORTAL_NEXUS,
@@ -185,9 +169,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             "null",
             17,
             13,
-            11061,
-            cathebyFruitTreePatchPoint,
-            getHouseTeleportItemRequirements()
+            11061, getHouseTeleportItemRequirements()
         ));
 
         Location.CATHERBY.addTeleportOption(new Teleport(
@@ -198,9 +180,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             "null",
             17,
             13,
-            11062,
-            cathebyFruitTreePatchPoint,
-            getHouseTeleportItemRequirements()
+            11062, getHouseTeleportItemRequirements()
         ).overrideLocationName("Camelot"));
 
         locations.add(Location.CATHERBY);
@@ -208,12 +188,6 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
 
     private void setupFarmingGuildLocation()
     {
-        WorldPoint farmingGuildFruitTreePatchPoint = new WorldPoint(
-            1243,
-            3759,
-            0
-        );
-
         Location.FARMING_GUILD.addTeleportOption(new Teleport(
             "Jewellery_box",
             Teleport.Category.JEWELLERY_BOX,
@@ -222,9 +196,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             "null",
             17,
             13,
-            4922,
-            farmingGuildFruitTreePatchPoint,
-            getHouseTeleportItemRequirements()
+            4922, getHouseTeleportItemRequirements()
         ));
 
         locations.add(Location.FARMING_GUILD);
@@ -232,12 +204,6 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
 
     private void setupGnomeStrongholdLocation()
     {
-        WorldPoint gnomeStrongholdFruitTreePatchPoint = new WorldPoint(
-            2475,
-            3446,
-            0
-        );
-
         Location.GNOME_STRONGHOLD.addTeleportOption(new Teleport(
             "Royal_seed_pod",
             Teleport.Category.ITEM,
@@ -246,9 +212,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             "null",
             0,
             0,
-            9782,
-            gnomeStrongholdFruitTreePatchPoint,
-            Collections.singletonList(new ItemRequirement(
+            9782, Collections.singletonList(new ItemRequirement(
                 ItemID.ROYAL_SEED_POD,
                 1
             ))
@@ -262,9 +226,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             "null",
             187,
             3,
-            9781,
-            gnomeStrongholdFruitTreePatchPoint,
-            Collections.<ItemRequirement> emptyList()
+            9781, Collections.<ItemRequirement> emptyList()
         ));
 
         locations.add(Location.GNOME_STRONGHOLD);
@@ -272,12 +234,6 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
 
     private void setupLletyaLocation()
     {
-        WorldPoint lletyaFruitTreePatchPoint = new WorldPoint(
-            2346,
-            3162,
-            0
-        );
-
         Location.LLETYA.addTeleportOption(new Teleport(
             "Teleport_crystal",
             Teleport.Category.ITEM,
@@ -286,9 +242,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             "null",
             0,
             0,
-            9265,
-            lletyaFruitTreePatchPoint,
-            Collections.singletonList(new ItemRequirement(
+            9265, Collections.singletonList(new ItemRequirement(
                 ItemID.TELEPORT_CRYSTAL_1,
                 1
             ))
@@ -299,12 +253,6 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
 
     private void setupTreeGnomeVillage()
     {
-        WorldPoint treeGnomeVillageFruitTreePatchPoint = new WorldPoint(
-            2490,
-            3180,
-            0
-        );
-
         Location.TREE_GNOME_VILLAGE.addTeleportOption(new Teleport(
             "Royal_seed_pod",
             Teleport.Category.ITEM,
@@ -313,9 +261,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             "null",
             0,
             0,
-            9782,
-            treeGnomeVillageFruitTreePatchPoint,
-            Collections.singletonList(new ItemRequirement(
+            9782, Collections.singletonList(new ItemRequirement(
                 ItemID.ROYAL_SEED_POD,
                 1
             ))
@@ -329,9 +275,7 @@ public class FruitTreeRunItemAndLocation extends ItemAndLocation
             "null",
             187,
             3,
-            10033,
-            treeGnomeVillageFruitTreePatchPoint,
-            Collections.<ItemRequirement> emptyList()
+            10033, Collections.<ItemRequirement> emptyList()
         ));
 
         locations.add(Location.TREE_GNOME_VILLAGE);

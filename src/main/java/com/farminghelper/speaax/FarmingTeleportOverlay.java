@@ -581,7 +581,7 @@ public class FarmingTeleportOverlay extends Overlay
         }
     }
 
-    public void herbSteps(Graphics2D graphics, Teleport teleport)
+    public void herbSteps(Graphics2D graphics, Location location)
     {
         HerbPatchChecker.PlantState plantState;
 
@@ -608,7 +608,7 @@ public class FarmingTeleportOverlay extends Overlay
                 break;
         }
 
-        if (! areaCheck.isPlayerWithinArea(teleport.getPoint(), 15)) {
+        if (! areaCheck.isPlayerWithinArea(location.patchWorldPoint(runPatchType), 15)) {
             //should be replaced with a pathing system, pointing arrow or something else eventually
             highlightHerbPatches(graphics, leftClickColorWithAlpha);
         } else {
@@ -709,7 +709,7 @@ public class FarmingTeleportOverlay extends Overlay
         }
     }
 
-    public void treeSteps(Graphics2D graphics, Teleport teleport)
+    public void treeSteps(Graphics2D graphics, Location location)
     {
         TreePatchChecker.PlantState plantState;
 
@@ -721,10 +721,16 @@ public class FarmingTeleportOverlay extends Overlay
             plantState = TreePatchChecker.checkTreePatch(client, Varbits.FARMING_4771);
         }
 
-        if (! areaCheck.isPlayerWithinArea(teleport.getPoint(), 15)) {
+        System.out.println("Tree plant state: " + plantState);
+
+        if (! areaCheck.isPlayerWithinArea(location.patchWorldPoint(runPatchType), 15)) {
+            System.out.println("Not there yet! " + location.patchWorldPoint(runPatchType));
+
             //should be replaced with a pathing system, pointing arrow or something else eventually
             highlightTreePatches(graphics, leftClickColorWithAlpha);
         } else {
+            System.out.println("Arrived! Tree plant state: " + plantState);
+
             switch (plantState) {
                 case HEALTHY:
                     plugin.addTextToInfoBox("Check tree health.");
@@ -754,9 +760,7 @@ public class FarmingTeleportOverlay extends Overlay
 
                 case REMOVE:
                     plugin.addTextToInfoBox("Pay to remove tree, or cut it down and clear the patch.");
-
                     highlightTreeFarmers(graphics);
-
                     break;
 
                 case UNKNOWN:
@@ -788,7 +792,7 @@ public class FarmingTeleportOverlay extends Overlay
         }
     }
 
-    public void fruitTreeSteps(Graphics2D graphics, Teleport teleport)
+    public void fruitTreeSteps(Graphics2D graphics, Location location)
     {
         // ABSTRACT: -- abstract this one level above and pass in the cropState
         // TODO: Also apply the cropState change to Herbs, Flowers and Trees
@@ -813,7 +817,7 @@ public class FarmingTeleportOverlay extends Overlay
         }
         // END ABSTRACT
 
-        if (! areaCheck.isPlayerWithinArea(teleport.getPoint(), 15)) {
+        if (! areaCheck.isPlayerWithinArea(location.patchWorldPoint(runPatchType), 15)) {
             //should be replaced with a pathing system, point arrow or something else eventually
             highlightFruitTreePatches(graphics, leftClickColorWithAlpha);
         } else {
@@ -962,7 +966,7 @@ public class FarmingTeleportOverlay extends Overlay
 
         // TODO: Change herbRun/treeRun/fruitTreeRun to PatchType and pass it into getDesiredTeleport and shouldFarmLimpwurts
 
-        Teleport teleport = location.getDesiredTeleport(runPatchType, config);
+        Teleport teleport = location.desiredTeleport(runPatchType, config);
 
         boolean locationEnabledBool = false;
 
@@ -1220,7 +1224,7 @@ public class FarmingTeleportOverlay extends Overlay
                 }
 
             } else {
-                farming(graphics, teleport);
+                farming(graphics, location);
             }
         } else {
             runStep++;
@@ -1244,7 +1248,7 @@ public class FarmingTeleportOverlay extends Overlay
         runStep++;
     }
 
-    public void farming(Graphics2D graphics, Teleport teleport)
+    public void farming(Graphics2D graphics, Location location)
     {
         if (startSubCases) {
             switch (runPatchType) {
@@ -1264,7 +1268,7 @@ public class FarmingTeleportOverlay extends Overlay
                             nextPatch();
                         }
                     } else {
-                        herbSteps(graphics, teleport);
+                        herbSteps(graphics, location);
 
                         if (patchComplete) {
                             checkForLimpwurts = true;
@@ -1274,7 +1278,7 @@ public class FarmingTeleportOverlay extends Overlay
                     break;
 
                 case TREE:
-                    treeSteps(graphics, teleport);
+                    treeSteps(graphics, location);
 
                     if (patchComplete) {
                         nextPatch();
@@ -1282,7 +1286,7 @@ public class FarmingTeleportOverlay extends Overlay
                     break;
 
                 case FRUIT_TREE:
-                    fruitTreeSteps(graphics, teleport);
+                    fruitTreeSteps(graphics, location);
 
                     if (patchComplete) {
                         nextPatch();

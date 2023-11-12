@@ -1,7 +1,6 @@
 package com.farminghelper.speaax.Patch;
 
 import com.farminghelper.speaax.ItemsAndLocations.ItemRequirement;
-import net.runelite.api.coords.WorldPoint;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,11 +36,9 @@ public class Teleport
 
     private List<ItemRequirement> itemRequirements;
 
-    private WorldPoint point;
-
     private String overrideLocationName;
 
-    public Teleport(String enumOption, Category category, String description, int id, String rightClickOption, int interfaceGroupId, int interfaceChildId, int regionId, WorldPoint point, List<ItemRequirement> itemRequirements)
+    public Teleport(String enumOption, Category category, String description, int id, String rightClickOption, int interfaceGroupId, int interfaceChildId, int regionId, List<ItemRequirement> itemRequirements)
     {
         this.enumOption = enumOption;
         this.category = category;
@@ -51,7 +48,6 @@ public class Teleport
         this.interfaceGroupId = interfaceGroupId;
         this.interfaceChildId = interfaceChildId;
         this.regionId = regionId;
-        this.point = point;
         this.itemRequirements = itemRequirements;
         this.overrideLocationName = "";
     }
@@ -65,11 +61,6 @@ public class Teleport
         }
 
         return requirements;
-    }
-
-    public WorldPoint getPoint()
-    {
-        return point;
     }
 
     public Teleport overrideLocationName(String overrideLocationName)

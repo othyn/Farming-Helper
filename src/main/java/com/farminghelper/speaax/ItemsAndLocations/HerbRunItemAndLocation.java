@@ -50,7 +50,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
                     );
                 }
 
-                Teleport teleport = location.getDesiredTeleport(PatchType.HERB, config);
+                Teleport teleport = location.desiredTeleport(PatchType.HERB, config);
 
                 Map<Integer, Integer> locationRequirements = teleport.getItemRequirements();
 
@@ -148,12 +148,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
     private void setupArdougneLocation()
     {
-        WorldPoint ardougneHerbPatchPoint = new WorldPoint(
-            2670,
-            3374,
-            0
-        );
-
         Location.ARDOUGNE.addTeleportOption(new Teleport(
             "Portal_Nexus",
             Teleport.Category.PORTAL_NEXUS,
@@ -163,7 +157,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             17,
             13,
             10547,
-            ardougneHerbPatchPoint,
             getHouseTeleportItemRequirements()
         ));
 
@@ -176,7 +169,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             218,
             38,
             10547,
-            ardougneHerbPatchPoint,
             Arrays.asList(
                 new ItemRequirement(
                     ItemID.LAW_RUNE,
@@ -198,7 +190,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0,
             0,
             10547,
-            ardougneHerbPatchPoint,
             Collections.singletonList(new ItemRequirement(
                 ItemID.ARDOUGNE_TELEPORT,
                 1
@@ -214,7 +205,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0,
             0,
             10548,
-            ardougneHerbPatchPoint,
             Collections.singletonList(new ItemRequirement(
                 ItemID.ARDOUGNE_CLOAK_2,
                 1
@@ -230,7 +220,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0,
             0,
             10548,
-            ardougneHerbPatchPoint,
             Collections.singletonList(new ItemRequirement(
                 ItemID.ARDOUGNE_CLOAK_3,
                 1
@@ -246,7 +235,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0,
             0,
             10548,
-            ardougneHerbPatchPoint,
             Collections.singletonList(new ItemRequirement(
                 ItemID.ARDOUGNE_CLOAK_4,
                 1
@@ -262,7 +250,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0,
             0,
             10292,
-            ardougneHerbPatchPoint,
             Collections.singletonList(new ItemRequirement(
                 ItemID.SKILLS_NECKLACE1,
                 1
@@ -274,12 +261,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
     private void setupCatherbyLocation()
     {
-        WorldPoint catherbyHerbPatchPoint = new WorldPoint(
-            2813,
-            3463,
-            0
-        );
-
         Location.CATHERBY.addTeleportOption(new Teleport(
             "Portal_Nexus_Catherby",
             Teleport.Category.PORTAL_NEXUS,
@@ -289,7 +270,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             17,
             13,
             11061,
-            catherbyHerbPatchPoint,
             getHouseTeleportItemRequirements()
         ));
 
@@ -302,7 +282,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             17,
             13,
             11062,
-            catherbyHerbPatchPoint,
             getHouseTeleportItemRequirements()
         ).overrideLocationName("Camelot"));
 
@@ -315,7 +294,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             218,
             32,
             11062,
-            catherbyHerbPatchPoint,
             Arrays.asList(
                 new ItemRequirement(
                     ItemID.AIR_RUNE,
@@ -337,7 +315,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0,
             0,
             11062,
-            catherbyHerbPatchPoint,
             Collections.singletonList(new ItemRequirement(
                 ItemID.CAMELOT_TELEPORT,
                 1
@@ -353,7 +330,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             0,
             0,
             11061,
-            catherbyHerbPatchPoint,
             Collections.singletonList(new ItemRequirement(
                 ItemID.CATHERBY_TELEPORT,
                 1
@@ -365,12 +341,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
     private void setupFaladorLocation()
     {
-        WorldPoint faladorHerbPatchPoint = new WorldPoint(
-            3058,
-            3307,
-            0
-        );
-
         Location.FALADOR.addTeleportOption(new Teleport(
             "Portal_Nexus",
             Teleport.Category.PORTAL_NEXUS,
@@ -379,9 +349,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             "null",
             17,
             13,
-            11828,
-            faladorHerbPatchPoint,
-            getHouseTeleportItemRequirements()
+            11828, getHouseTeleportItemRequirements()
         ));
 
         Location.FALADOR.addTeleportOption(new Teleport(
@@ -392,9 +360,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             "Teleport",
             0,
             0,
-            12083,
-            faladorHerbPatchPoint,
-            Collections.singletonList(new ItemRequirement(
+            12083, Collections.singletonList(new ItemRequirement(
                 ItemID.EXPLORERS_RING_2,
                 1
             ))
@@ -408,9 +374,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             "Teleport",
             0,
             0,
-            12083,
-            faladorHerbPatchPoint,
-            Collections.singletonList(new ItemRequirement(
+            12083, Collections.singletonList(new ItemRequirement(
                 ItemID.EXPLORERS_RING_3,
                 1
             ))
@@ -424,9 +388,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             "Teleport",
             0,
             0,
-            12083,
-            faladorHerbPatchPoint,
-            Collections.singletonList(new ItemRequirement(
+            12083, Collections.singletonList(new ItemRequirement(
                 ItemID.EXPLORERS_RING_4,
                 1
             ))
@@ -440,9 +402,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             "null",
             218,
             27,
-            11828,
-            faladorHerbPatchPoint,
-            Arrays.asList(
+            11828, Arrays.asList(
                 new ItemRequirement(
                     ItemID.AIR_RUNE,
                     3
@@ -466,9 +426,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             "null",
             0,
             0,
-            11828,
-            faladorHerbPatchPoint,
-            Collections.singletonList(new ItemRequirement(
+            11828, Collections.singletonList(new ItemRequirement(
                 ItemID.FALADOR_TELEPORT,
                 1
             ))
@@ -482,9 +440,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             "null",
             0,
             0,
-            12340,
-            faladorHerbPatchPoint,
-            Collections.singletonList(new ItemRequirement(
+            12340, Collections.singletonList(new ItemRequirement(
                 ItemID.DRAYNOR_MANOR_TELEPORT,
                 1
             ))
@@ -495,12 +451,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
     private void setupFarmingGuildLocation()
     {
-        WorldPoint farmingGuildHerbPatchPoint = new WorldPoint(
-            1238,
-            3726,
-            0
-        );
-
         Location.FARMING_GUILD.addTeleportOption(new Teleport(
             "Jewellery_box",
             Teleport.Category.JEWELLERY_BOX,
@@ -509,9 +459,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             "null",
             0,
             0,
-            4922,
-            farmingGuildHerbPatchPoint,
-            getHouseTeleportItemRequirements()
+            4922, getHouseTeleportItemRequirements()
         ));
 
         Location.FARMING_GUILD.addTeleportOption(new Teleport(
@@ -522,9 +470,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             "null",
             0,
             0,
-            4922,
-            farmingGuildHerbPatchPoint,
-            Collections.singletonList(new ItemRequirement(
+            4922, Collections.singletonList(new ItemRequirement(
                 ItemID.SKILLS_NECKLACE1,
                 1
             ))
@@ -535,12 +481,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
     private void setupHarmonyLocation()
     {
-        WorldPoint harmonyHerbPatchPoint = new WorldPoint(
-            3789,
-            2837,
-            0
-        );
-
         Location.HARMONY_ISLAND.addTeleportOption(new Teleport(
             "Portal_Nexus",
             Teleport.Category.PORTAL_NEXUS,
@@ -549,9 +489,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             "null",
             17,
             13,
-            15148,
-            harmonyHerbPatchPoint,
-            getHouseTeleportItemRequirements()
+            15148, getHouseTeleportItemRequirements()
         ));
 
         Location.HARMONY_ISLAND.addTeleportOption(new Teleport(
@@ -562,9 +500,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             "null",
             0,
             0,
-            15148,
-            harmonyHerbPatchPoint,
-            Collections.singletonList(new ItemRequirement(
+            15148, Collections.singletonList(new ItemRequirement(
                 ItemID.HARMONY_ISLAND_TELEPORT,
                 1
             ))
@@ -575,12 +511,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
     private void setupKourendLocation()
     {
-        WorldPoint kourendHerbPatchPoint = new WorldPoint(
-            1738,
-            3550,
-            0
-        );
-
         Location.KOUREND.addTeleportOption(new Teleport(
             "Xerics_Talisman",
             Teleport.Category.ITEM,
@@ -589,9 +519,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             "Rub",
             187,
             3,
-            6967,
-            kourendHerbPatchPoint,
-            Collections.singletonList(new ItemRequirement(
+            6967, Collections.singletonList(new ItemRequirement(
                 ItemID.XERICS_TALISMAN,
                 1
             ))
@@ -605,9 +533,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             "null",
             187,
             3,
-            6967,
-            kourendHerbPatchPoint,
-            getHouseTeleportItemRequirements()
+            6967, getHouseTeleportItemRequirements()
         ));
 
         locations.add(Location.KOUREND);
@@ -615,12 +541,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
     private void setupMorytaniaLocation()
     {
-        WorldPoint morytaniaHerbPatchPoint = new WorldPoint(
-            3601,
-            3525,
-            0
-        );
-
         Location.MORYTANIA.addTeleportOption(new Teleport(
             "Ectophial",
             Teleport.Category.ITEM,
@@ -629,9 +549,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             "null",
             0,
             0,
-            14647,
-            morytaniaHerbPatchPoint,
-            Collections.singletonList(new ItemRequirement(
+            14647, Collections.singletonList(new ItemRequirement(
                 ItemID.ECTOPHIAL,
                 1
             ))
@@ -642,12 +560,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
     private void setupTrollStrongholdLocation()
     {
-        WorldPoint trollStrongholdHerbPatchPoint = new WorldPoint(
-            2824,
-            3696,
-            0
-        );
-
         Location.TROLL_STRONGHOLD.addTeleportOption(new Teleport(
             "Stony_Basalt",
             Teleport.Category.ITEM,
@@ -656,9 +568,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             "null",
             0,
             0,
-            11321,
-            trollStrongholdHerbPatchPoint,
-            Collections.singletonList(new ItemRequirement(
+            11321, Collections.singletonList(new ItemRequirement(
                 ItemID.STONY_BASALT,
                 1
             ))
@@ -672,9 +582,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             "null",
             17,
             13,
-            11321,
-            trollStrongholdHerbPatchPoint,
-            getHouseTeleportItemRequirements()
+            11321, getHouseTeleportItemRequirements()
         ));
 
         locations.add(Location.TROLL_STRONGHOLD);
@@ -682,12 +590,6 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
     private void setupWeissLocation()
     {
-        WorldPoint weissHerbPatchPoint = new WorldPoint(
-            2847,
-            3931,
-            0
-        );
-
         Location.WEISS.addTeleportOption(new Teleport(
             "Icy_Basalt",
             Teleport.Category.ITEM,
@@ -696,9 +598,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             "null",
             0,
             0,
-            11325,
-            weissHerbPatchPoint,
-            Collections.singletonList(new ItemRequirement(
+            11325, Collections.singletonList(new ItemRequirement(
                 ItemID.ICY_BASALT,
                 1
             ))
@@ -712,9 +612,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
             "null",
             17,
             13,
-            11325,
-            weissHerbPatchPoint,
-            getHouseTeleportItemRequirements()
+            11325, getHouseTeleportItemRequirements()
         ));
 
         locations.add(Location.WEISS);
