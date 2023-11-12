@@ -955,6 +955,7 @@ public class FarmingTeleportOverlay extends Overlay
         }
     }
 
+    // TODO: Migrate this method to Location.<LOCATION>.navigate(...) ???
     public void gettingToLocation(Graphics2D graphics, Location location)
     {
         updateColors();
