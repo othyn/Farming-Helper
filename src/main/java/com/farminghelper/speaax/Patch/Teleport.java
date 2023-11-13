@@ -1,7 +1,5 @@
 package com.farminghelper.speaax.Patch;
 
-import com.farminghelper.speaax.ItemsAndLocations.ItemRequirement;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

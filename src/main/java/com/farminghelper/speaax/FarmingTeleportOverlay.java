@@ -4,6 +4,7 @@ import com.farminghelper.speaax.Helpers.AreaCheck;
 import com.farminghelper.speaax.Helpers.Inventory;
 import com.farminghelper.speaax.Patch.*;
 import net.runelite.api.*;
+import net.runelite.api.Item;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.ui.overlay.Overlay;

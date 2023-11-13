@@ -1,4 +1,4 @@
-package com.farminghelper.speaax.ItemsAndLocations;
+package com.farminghelper.speaax.Patch;
 
 public class ItemRequirement
 {

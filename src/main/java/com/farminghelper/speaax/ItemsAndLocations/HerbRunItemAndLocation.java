@@ -2,11 +2,11 @@ package com.farminghelper.speaax.ItemsAndLocations;
 
 import com.farminghelper.speaax.FarmingHelperConfig;
 import com.farminghelper.speaax.FarmingHelperPlugin;
+import com.farminghelper.speaax.Patch.ItemRequirement;
 import com.farminghelper.speaax.Patch.Location;
 import com.farminghelper.speaax.Patch.PatchType;
 import com.farminghelper.speaax.Patch.Teleport;
 import net.runelite.api.ItemID;
-import net.runelite.api.coords.WorldPoint;
 
 import java.util.*;
 
