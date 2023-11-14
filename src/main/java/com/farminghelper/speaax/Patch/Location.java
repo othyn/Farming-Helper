@@ -45,7 +45,6 @@ public enum Location
             )
         )
     ),
-    // TODO: Bugged on Tree run, gets stuck on teleport to Falador step
     FALADOR(
         "Falador",
         Map.of(
@@ -81,7 +80,6 @@ public enum Location
             )
         )
     ),
-    // TODO: Bugged on Fruit Tree run, gets stuck on teleport to Gnome Stronghold step
     GNOME_STRONGHOLD(
         "Gnome Stronghold",
         Map.of(

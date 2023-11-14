@@ -1311,7 +1311,7 @@ public class FarmingTeleportOverlay extends Overlay
         runStep = 0;
         teleportStep = 1;
 
-        checkForLimpwurts = true;
+        checkForLimpwurts = false;
 
         plugin.setItemsCollected(false);
 
