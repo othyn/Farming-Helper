@@ -969,23 +969,23 @@ public class FarmingTeleportOverlay extends Overlay
 
         Teleport teleport = location.desiredTeleport(runPatchType, config);
 
-        boolean locationEnabledBool = false;
+        boolean locationEnabled = false;
 
         switch (runPatchType) {
             case HERB:
-                locationEnabledBool = plugin.getHerbLocationEnabled(location.getName());
+                locationEnabled = plugin.getHerbLocationEnabled(location.getName());
                 break;
 
             case TREE:
-                locationEnabledBool = plugin.getTreeLocationEnabled(location.getName());
+                locationEnabled = plugin.getTreeLocationEnabled(location.getName());
                 break;
 
             case FRUIT_TREE:
-                locationEnabledBool = plugin.getFruitTreeLocationEnabled(location.getName());
+                locationEnabled = plugin.getFruitTreeLocationEnabled(location.getName());
                 break;
         }
 
-        if (locationEnabledBool) {
+        if (locationEnabled) {
             if (! isAtDestination) {
                 int currentRegionId = client.getLocalPlayer().getWorldLocation().getRegionID();
 
