@@ -18,12 +18,14 @@ import java.awt.Color;
 import com.farminghelper.speaax.ItemsAndLocations.HerbRunItemAndLocation;
 import com.farminghelper.speaax.ItemsAndLocations.TreeRunItemAndLocation;
 import com.farminghelper.speaax.ItemsAndLocations.FruitTreeRunItemAndLocation;
+import com.farminghelper.speaax.ItemsAndLocations.HardwoodRunItemAndLocation;
 
 public class FarmingHelperOverlay extends Overlay {
 
     private HerbRunItemAndLocation herbRunItemAndLocation;
     private TreeRunItemAndLocation treeRunItemAndLocation;
     private FruitTreeRunItemAndLocation fruitTreeRunItemAndLocation;
+    private HardwoodRunItemAndLocation hardwoodRunItemAndLocation;
     private final Client client;
     private final FarmingHelperPlugin plugin;
     private final PanelComponent panelComponent = new PanelComponent();
@@ -121,6 +123,16 @@ public class FarmingHelperOverlay extends Overlay {
     private boolean isFruitTreeSapling(int itemId) {return FRUIT_TREE_SAPLING_IDS.contains(itemId);}
 
 
+    public static final List<Integer> HARDWOOD_PATCH_IDS = Arrays.asList(30480, 30481, 30482);
+    public List<Integer> getHardwoodPatchIds() {
+        return HARDWOOD_PATCH_IDS;
+    }
+    private static final List<Integer> HARDWOOD_SAPLING_IDS = Arrays.asList(ItemID.TEAK_SAPLING, ItemID.MAHOGANY_SAPLING);
+    private static final int BASE_HARDWOOD_SAPLING_ID = ItemID.TEAK_SAPLING;
+    public List<Integer> getHardwoodSaplingIds() {return HARDWOOD_SAPLING_IDS;}
+    private boolean isHardwoodSapling(int itemId) {return HARDWOOD_SAPLING_IDS.contains(itemId);}
+
+
     public static final List<Integer> RUNE_POUCH_ID = Arrays.asList(ItemID.RUNE_POUCH, ItemID.DIVINE_RUNE_POUCH);
     public static final List<Integer> RUNE_POUCH_AMOUNT_VARBITS = Arrays.asList(Varbits.RUNE_POUCH_AMOUNT1, Varbits.RUNE_POUCH_AMOUNT2, Varbits.RUNE_POUCH_AMOUNT3, Varbits.RUNE_POUCH_AMOUNT4);
 
@@ -206,13 +218,14 @@ public class FarmingHelperOverlay extends Overlay {
     }
 
     @Inject
-    public FarmingHelperOverlay(Client client, FarmingHelperPlugin plugin, ItemManager itemManager, HerbRunItemAndLocation herbRunItemAndLocation, TreeRunItemAndLocation treeRunItemAndLocation, FruitTreeRunItemAndLocation fruitTreeRunItemAndLocation) {
+    public FarmingHelperOverlay(Client client, FarmingHelperPlugin plugin, ItemManager itemManager, HerbRunItemAndLocation herbRunItemAndLocation, TreeRunItemAndLocation treeRunItemAndLocation, FruitTreeRunItemAndLocation fruitTreeRunItemAndLocation, HardwoodRunItemAndLocation hardwoodRunItemAndLocation) {
         this.client = client;
         this.plugin = plugin;
         this.itemManager = itemManager;
         this.herbRunItemAndLocation = herbRunItemAndLocation;
         this.treeRunItemAndLocation = treeRunItemAndLocation;
         this.fruitTreeRunItemAndLocation = fruitTreeRunItemAndLocation;
+        this.hardwoodRunItemAndLocation = hardwoodRunItemAndLocation;
         setPosition(OverlayPosition.BOTTOM_RIGHT);
         setLayer(OverlayLayer.ABOVE_SCENE);
     }
@@ -263,6 +276,9 @@ public class FarmingHelperOverlay extends Overlay {
             }
             if(plugin.getFarmingTeleportOverlay().fruitTreeRun) {
                 itemsToCheck = fruitTreeRunItemAndLocation.getFruitTreeItems();
+            }
+            if(plugin.getFarmingTeleportOverlay().hardwoodRun) {
+                itemsToCheck = hardwoodRunItemAndLocation.getHardwoodItems();
             }
 
             if (itemsToCheck == null || itemsToCheck.isEmpty()) {
@@ -325,6 +341,13 @@ public class FarmingHelperOverlay extends Overlay {
                     }
                 }
             }
+            if(plugin.getFarmingTeleportOverlay().hardwoodRun) {
+                for (Item item : items) {
+                    if (isHardwoodSapling(item.getId())) {
+                        totalSeeds += item.getQuantity();
+                    }
+                }
+            }
 
             panelComponent.getChildren().clear();
             int yOffset = 0;
@@ -367,6 +390,19 @@ public class FarmingHelperOverlay extends Overlay {
                 }
                 if(plugin.getFarmingTeleportOverlay().fruitTreeRun) {
                     if (itemId == BASE_FRUIT_SAPLING_ID) {
+                        inventoryCount = totalSeeds;
+                    } else {
+                        for (Item item : items) {
+                            if (item != null && item.getId() == itemId) {
+                                inventoryCount = item.getQuantity();
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if(plugin.getFarmingTeleportOverlay().hardwoodRun) {
+                    if (itemId == BASE_HARDWOOD_SAPLING_ID) {
                         inventoryCount = totalSeeds;
                     } else {
                         for (Item item : items) {

@@ -1,5 +1,6 @@
 package com.farminghelper.speaax;
 
+import com.farminghelper.speaax.ItemsAndLocations.HardwoodRunItemAndLocation;
 import com.farminghelper.speaax.ItemsAndLocations.HerbRunItemAndLocation;
 import com.farminghelper.speaax.ItemsAndLocations.TreeRunItemAndLocation;
 import com.farminghelper.speaax.ItemsAndLocations.FruitTreeRunItemAndLocation;
@@ -39,6 +40,7 @@ public class FarmingHelperPlugin extends Plugin
 	private HerbRunItemAndLocation herbRunItemAndLocation;
 	private TreeRunItemAndLocation treeRunItemAndLocation;
 	private FruitTreeRunItemAndLocation fruitTreeRunItemAndLocation;
+	private HardwoodRunItemAndLocation hardwoodRunItemAndLocation;
 
 
 	@Inject
@@ -110,6 +112,9 @@ public class FarmingHelperPlugin extends Plugin
 	public Location getGnomeStrongholdFruitTreeLocation() {return fruitTreeRunItemAndLocation.gnomeStrongholdFruitTreeLocation;}
 	public Location getLletyaFruitTreeLocation() {return fruitTreeRunItemAndLocation.lletyaFruitTreeLocation;}
 	public Location getTreeGnomeVillageTreeLocation() {return fruitTreeRunItemAndLocation.treeGnomeVillageFruitTreeLocation;}
+
+	//get hardwood locations
+	public Location getHardwoodFossilIslandLocation() {return hardwoodRunItemAndLocation.hardwoodFossilIsland;}
 
 	private boolean isTeleportOverlayActive = false;
 	public boolean isTeleportOverlayActive() {
@@ -340,15 +345,26 @@ public class FarmingHelperPlugin extends Plugin
 		}
 	}
 
+	public boolean getHardwoodLocationEnabled(String locationName) {
+		switch (locationName) {
+			case "Fossil Island":
+				return config.fossilIslandHardwood();
+			// Add cases for other locations as needed
+			default:
+				return false;
+		}
+	}
+
 	@Override
 	protected void startUp()
 	{
 		herbRunItemAndLocation = new HerbRunItemAndLocation(config, client, this);
 		treeRunItemAndLocation = new TreeRunItemAndLocation(config, client, this);
 		fruitTreeRunItemAndLocation = new FruitTreeRunItemAndLocation(config, client, this);
-		farmingHelperOverlay = new FarmingHelperOverlay(client, this, itemManager, herbRunItemAndLocation, treeRunItemAndLocation, fruitTreeRunItemAndLocation);
+		hardwoodRunItemAndLocation = new HardwoodRunItemAndLocation(config, client, this);
+		farmingHelperOverlay = new FarmingHelperOverlay(client, this, itemManager, herbRunItemAndLocation, treeRunItemAndLocation, fruitTreeRunItemAndLocation, hardwoodRunItemAndLocation);
 
-		panel = new FarmingHelperPanel(this, overlayManager, farmingTeleportOverlay, herbRunItemAndLocation, treeRunItemAndLocation, fruitTreeRunItemAndLocation);
+		panel = new FarmingHelperPanel(this, overlayManager, farmingTeleportOverlay, herbRunItemAndLocation, treeRunItemAndLocation, fruitTreeRunItemAndLocation, hardwoodRunItemAndLocation);
 		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), "/com/farminghelper/speaax/icon.png");
 
 		navButton = NavigationButton.builder()

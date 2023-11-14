@@ -232,33 +232,6 @@ public interface FarmingHelperConfig extends Config
 		section = treeList
 	)
 	default boolean farmingGuildTree() { return false; }
-
-	@ConfigItem(
-		position = 12,
-		keyName = "booleanConfigFossilIslandEastTree",
-		name = "Fossil Island - East",
-		description = "Include Fossil Island - East? (Requires completion of the Bone Voyage quest)",
-		section = treeList
-	)
-	default boolean fossilIslandEastTree() { return false; }
-
-	@ConfigItem(
-		position = 13,
-		keyName = "booleanConfigFossilIslandSouthTree",
-		name = "Fossil Island - South",
-		description = "Include Fossil Island - South? (Requires completion of the Bone Voyage quest)",
-		section = treeList
-	)
-	default boolean fossilIslandSouthTree() { return false; }
-
-	@ConfigItem(
-		position = 14,
-		keyName = "booleanConfigFossilIslandWestTree",
-		name = "Fossil Island - West",
-		description = "Include Fossil Island - West? (Requires completion of the Bone Voyage quest)",
-		section = treeList
-	)
-	default boolean fossilIslandWestTree() { return false; }
 	
 	@ConfigItem(
 		position = 15,
@@ -541,48 +514,6 @@ public interface FarmingHelperConfig extends Config
 	)
 	default TreeOptionEnumFarmingGuildTeleport enumTreeFarmingGuildTeleport() { return TreeOptionEnumFarmingGuildTeleport.Jewellery_box; }
 
-	enum OptionEnumFossilIslandTeleport implements OptionEnumTeleport
-	{
-		Digsite_pendant,
-		Mounted_Digsite_pendant
-	}
-
-	@ConfigItem(
-		position = 3,
-		keyName = "enumOptionFossilIslandEastTree",
-		name = "Fossil Island - East",
-		description = "Desired way to teleport to Fossil Island - East",
-		section = treeTeleportOptionList
-	)
-	default OptionEnumFossilIslandTeleport optionEnumFossilIslandEastTeleport()
-	{
-		return OptionEnumFossilIslandTeleport.Digsite_pendant;
-	}
-
-	@ConfigItem(
-		position = 4,
-		keyName = "enumOptionFossilIslandSouthTree",
-		name = "Fossil Island - South",
-		description = "Desired way to teleport to Fossil Island - South",
-		section = treeTeleportOptionList
-	)
-	default OptionEnumFossilIslandTeleport optionEnumFossilIslandSouthTeleport()
-	{
-		return OptionEnumFossilIslandTeleport.Digsite_pendant;
-	}
-
-	@ConfigItem(
-		position = 5,
-		keyName = "enumOptionFossilIslandWestTree",
-		name = "Fossil Island - West",
-		description = "Desired way to teleport to Fossil Island - West",
-		section = treeTeleportOptionList
-	)
-	default OptionEnumFossilIslandTeleport optionEnumFossilIslandWestTeleport()
-	{
-		return OptionEnumFossilIslandTeleport.Digsite_pendant;
-	}
-
 	enum TreeOptionEnumGnomeStrongholdTeleport implements OptionEnumTeleport
 	{
 		Royal_seed_pod,
@@ -728,4 +659,44 @@ public interface FarmingHelperConfig extends Config
 			section = fruitTreeTeleportOptionList
 	)
 	default FruitTreeOptionEnumTreeGnomeVillageTeleport enumFruitTreeTreeGnomeVillageTeleport() { return FruitTreeOptionEnumTreeGnomeVillageTeleport.Royal_seed_pod; }
+	@ConfigSection(
+		name = "Hardwood",
+		description = "The highlighted and hidden item lists",
+		position = 7
+	)
+	String hardwoodList = "hardwoodList";
+
+	@ConfigItem(
+		position = 1,
+		keyName = "booleanConfigFossilIslandTree",
+		name = "Fossil Island",
+		description = "Include Fossil Island? (Requires completion of the Bone Voyage quest)",
+		section = hardwoodList
+	)
+	default boolean fossilIslandHardwood() { return false; }
+
+	@ConfigSection(
+		name = "Hardwood teleport options",
+		description = "Choose what teleport to use for each Herb patch",
+		position = 8
+	)
+	String hardwoodTeleportOptionList = "hardwoodTeleportOptionList";
+
+	enum OptionEnumFossilIslandTeleport implements OptionEnumTeleport
+	{
+		Digsite_pendant,
+		Mounted_Digsite_pendant
+	}
+
+	@ConfigItem(
+		position = 1,
+		keyName = "enumOptionFossilIslandTree",
+		name = "Fossil Island",
+		description = "Desired way to teleport to Fossil Island",
+		section = hardwoodTeleportOptionList
+	)
+	default OptionEnumFossilIslandTeleport optionEnumFossilIslandEastTeleport()
+	{
+		return OptionEnumFossilIslandTeleport.Digsite_pendant;
+	}
 }
