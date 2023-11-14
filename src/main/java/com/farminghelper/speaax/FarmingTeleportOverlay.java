@@ -965,8 +965,6 @@ public class FarmingTeleportOverlay extends Overlay
     {
         updateColors();
 
-        // TODO: Change herbRun/treeRun/fruitTreeRun to PatchType and pass it into getDesiredTeleport and shouldFarmLimpwurts
-
         Teleport teleport = location.desiredTeleport(runPatchType, config);
 
         boolean locationEnabled = false;
