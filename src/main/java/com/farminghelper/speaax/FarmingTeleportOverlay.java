@@ -683,11 +683,13 @@ public class FarmingTeleportOverlay extends Overlay {
                     highlightTreePatches(graphics, highlightUseItemWithAlpha);
                     break;
                 case REMOVE:
-                    plugin.addTextToInfoBox("Pay to remove tree, or cut it down and clear the patch.");
-
+                    // TODO: Restart this branch a fresh, manually re-implement the changes on top of refactor checkers
+                    // TODO: Mainly to fix the divergence problem and just start the implementation a fresh
                     if (config.generalPayToRemove()) {
+                        plugin.addTextToInfoBox("Pay to remove the tree.");
                         highlightTreeFarmers(graphics);
                     } else {
+                        plugin.addTextToInfoBox("Cut the tree down and clear the patch.");
                         highlightTreePatches(graphics);
                     }
 
@@ -764,7 +766,7 @@ public class FarmingTeleportOverlay extends Overlay {
                     // TODO: Restart this branch a fresh, manually re-implement the changes on top of refactor checkers
                     // TODO: Mainly to fix the divergence problem and just start the implementation a fresh
                     if (config.generalPayToRemove()) {
-                        plugin.addTextToInfoBox("Pay to remove fruit tree.");
+                        plugin.addTextToInfoBox("Pay to remove the fruit tree.");
                         highlightFruitTreeFarmers(graphics);
                     } else {
                         plugin.addTextToInfoBox("Cut the fruit tree down and clear the patch.");
