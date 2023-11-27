@@ -6,4 +6,9 @@ public enum PatchType
     FLOWER,
     TREE,
     FRUIT_TREE;
+
+//    public List<ItemRequirement> requiredItems()
+//    {
+//        return;
+//    }
 }
