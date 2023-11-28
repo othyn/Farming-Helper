@@ -864,6 +864,15 @@ public class FarmingTeleportOverlay extends Overlay
                     break;
 
                 case HARVESTABLE:
+                    if (config.generalPickFruit()) {
+                        plugin.addTextToInfoBox("Pick the produce from the fruit tree.");
+                        highlightFruitTreePatches(graphics, leftClickColorWithAlpha);
+                    } else {
+                        plugin.addTextToInfoBox("Pay to remove fruit tree, or cut it down and clear the patch.");
+                        highlightFruitTreeFarmers(graphics);
+                    }
+                    break;
+
                 case REMOVE:
                     plugin.addTextToInfoBox("Pay to remove fruit tree, or cut it down and clear the patch.");
                     highlightFruitTreeFarmers(graphics);
