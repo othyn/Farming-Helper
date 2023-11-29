@@ -20,6 +20,10 @@ public class PatchState
             .flatMap(crop -> crop.growing.boxed())
             .collect(Collectors.toList());
 
+    private static final List<Integer> harvested = Stream.of(Crop.values())
+            .flatMap(crop -> crop.harvested.boxed())
+            .collect(Collectors.toList());
+
     private static final List<Integer> harvestable = Stream.of(Crop.values())
             .flatMap(crop -> crop.harvestable.boxed())
             .collect(Collectors.toList());
@@ -51,6 +55,9 @@ public class PatchState
         }
         else if (growing.contains(varbitValue)) {
             return CropState.GROWING;
+        }
+        else if (harvested.contains(varbitValue)) {
+            return CropState.HARVESTED;
         }
         else if (harvestable.contains(varbitValue)) {
             return CropState.HARVESTABLE;

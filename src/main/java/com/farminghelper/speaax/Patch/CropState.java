@@ -5,6 +5,7 @@ public enum CropState
     WEEDS,
     PLANT,
     GROWING,
+    HARVESTED,
     HARVESTABLE,
     DISEASED,
     DEAD,

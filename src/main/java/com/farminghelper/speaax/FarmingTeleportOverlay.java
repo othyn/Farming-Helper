@@ -873,6 +873,7 @@ public class FarmingTeleportOverlay extends Overlay
                     }
                     break;
 
+                case HARVESTED:
                 case REMOVE:
                     plugin.addTextToInfoBox("Pay to remove fruit tree, or cut it down and clear the patch.");
                     highlightFruitTreeFarmers(graphics);
