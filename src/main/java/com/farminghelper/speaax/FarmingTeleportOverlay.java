@@ -1388,7 +1388,7 @@ public class FarmingTeleportOverlay extends Overlay
                         break;
 
                     case 1:
-                        gettingToLocation(graphics, Location.FARMING_GUILD);
+                        gettingToLocation(graphics, Location.TAVERLY);
                         break;
 
                     case 2:
@@ -1400,11 +1400,11 @@ public class FarmingTeleportOverlay extends Overlay
                         break;
 
                     case 4:
-                        gettingToLocation(graphics, Location.TAVERLY);
+                        gettingToLocation(graphics, Location.VARROCK);
                         break;
 
                     case 5:
-                        gettingToLocation(graphics, Location.VARROCK);
+                        gettingToLocation(graphics, Location.FARMING_GUILD);
                         break;
 
                     case 6:
