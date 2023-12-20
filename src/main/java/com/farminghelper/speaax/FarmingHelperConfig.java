@@ -553,7 +553,8 @@ public interface FarmingHelperConfig extends Config
 	enum TreeOptionEnumTaverleyTeleport implements OptionEnumTeleport
 	{
 		Portal_Nexus,
-		Falador_teleport
+		Falador_teleport,
+		Teleport_to_house
 	}
 	@ConfigItem(
 			position = 4,

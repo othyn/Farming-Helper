@@ -721,6 +721,22 @@ public enum Location
                         1
                     )
                 )
+            ),
+            new Teleport(
+                "Teleport_to_house",
+                Teleport.Category.ITEM,
+                "Teleport to Taverly with the House Tele Tab's 'Outside' right click option, then run east to the tree patch.",
+                ItemID.TELEPORT_TO_HOUSE,
+                "Outside",
+                0,
+                0,
+                11574,
+                Arrays.asList(
+                    new ItemRequirement(
+                        ItemID.TELEPORT_TO_HOUSE,
+                        1
+                    )
+                )
             )
         )
     ),
