@@ -1312,6 +1312,7 @@ public class FarmingTeleportOverlay extends Overlay
         runPatchType = null;
 
         plugin.panel.runStartStopButton.setStartStopState(false);
+        plugin.panel.runSelector.setEnabled(true);
     }
 
     @Override

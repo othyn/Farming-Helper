@@ -36,7 +36,7 @@ public class FarmingHelperPanel extends PluginPanel
 
     public Map<PatchType, Map<Location, Boolean>> runLocationsPanelCheckboxStates = new HashMap<>();
 
-    private JComboBox<PatchType> runSelector;
+    public JComboBox<PatchType> runSelector;
     private JPanel runLocationsPanel;
     public StartStopJButton runStartStopButton;
 
