@@ -4,6 +4,7 @@ import com.farminghelper.speaax.ItemsAndLocations.FruitTreeRunItemAndLocation;
 import com.farminghelper.speaax.ItemsAndLocations.HerbRunItemAndLocation;
 import com.farminghelper.speaax.ItemsAndLocations.TreeRunItemAndLocation;
 import com.farminghelper.speaax.Patch.Location;
+import com.farminghelper.speaax.Patch.PatchType;
 import com.google.inject.Provides;
 import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
@@ -25,6 +26,7 @@ import net.runelite.client.util.ImageUtil;
 
 import javax.inject.Inject;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -235,73 +237,19 @@ public class FarmingHelperPlugin extends Plugin
         farmingHelperOverlayInfoBox.setText(text);
     }
 
-    public boolean getHerbLocationEnabled(String locationName)
+    public boolean getLocationEnabled(PatchType run, Location location)
     {
-        switch (locationName) {
-            case "Ardougne":
-                return config.ardougneHerb();
-            case "Catherby":
-                return config.catherbyHerb();
-            case "Falador":
-                return config.faladorHerb();
-            case "Farming Guild":
-                return config.farmingGuildHerb();
-            case "Harmony Island":
-                return config.harmonyHerb();
-            case "Kourend":
-                return config.kourendHerb();
-            case "Morytania":
-                return config.morytaniaHerb();
-            case "Troll Stronghold":
-                return config.trollStrongholdHerb();
-            case "Weiss":
-                return config.weissHerb();
-            // Add cases for other locations as needed
-            default:
-                return false;
+        if (!this.panel.runLocationsPanelCheckboxStates.containsKey(run)) {
+            return this.panel.runLocationsPanelCheckboxDefaultState;
         }
-    }
 
-    public boolean getTreeLocationEnabled(String locationName)
-    {
-        switch (locationName) {
-            case "Falador":
-                return config.faladorTree();
-            case "Farming Guild":
-                return config.farmingGuildTree();
-            case "Gnome Stronghold":
-                return config.gnomeStrongholdTree();
-            case "Lumbridge":
-                return config.lumbridgeTree();
-            case "Taverley":
-                return config.taverleyTree();
-            case "Varrock":
-                return config.varrockTree();
-            // Add cases for other locations as needed
-            default:
-                return false;
-        }
-    }
+        Map<Location, Boolean> locationCheckboxStates = this.panel.runLocationsPanelCheckboxStates.get(run);
 
-    public boolean getFruitTreeLocationEnabled(String locationName)
-    {
-        switch (locationName) {
-            case "Brimhaven":
-                return config.brimhavenFruitTree();
-            case "Catherby":
-                return config.catherbyFruitTree();
-            case "Farming Guild":
-                return config.farmingGuildFruitTree();
-            case "Gnome Stronghold":
-                return config.gnomeStrongholdFruitTree();
-            case "Lletya":
-                return config.lletyaFruitTree();
-            case "Tree Gnome Village":
-                return config.treeGnomeVillageFruitTree();
-            // Add cases for other locations as needed
-            default:
-                return false;
+        if (!locationCheckboxStates.containsKey(location)) {
+            return this.panel.runLocationsPanelCheckboxDefaultState;
         }
+
+        return locationCheckboxStates.get(location);
     }
 
     @Override

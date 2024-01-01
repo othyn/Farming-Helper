@@ -1,17 +1,22 @@
 package com.farminghelper.speaax;
 
-import com.farminghelper.speaax.Patch.PatchType;
-import com.farminghelper.speaax.UI.StartStopJButton;
+import com.farminghelper.speaax.Patch.Location;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.overlay.OverlayManager;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Map;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+
+import com.farminghelper.speaax.Patch.PatchType;
+import com.farminghelper.speaax.UI.StartStopJButton;
 import com.farminghelper.speaax.ItemsAndLocations.HerbRunItemAndLocation;
 import com.farminghelper.speaax.ItemsAndLocations.TreeRunItemAndLocation;
 import com.farminghelper.speaax.ItemsAndLocations.FruitTreeRunItemAndLocation;
@@ -25,35 +30,191 @@ public class FarmingHelperPanel extends PluginPanel
     private final OverlayManager overlayManager;
     private final FarmingTeleportOverlay farmingTeleportOverlay;
 
-    public StartStopJButton herbButton;
-    public StartStopJButton treeButton;
-    public StartStopJButton fruitTreeButton;
+    private static final PatchType[] RUN_SELECTOR_OPTIONS = PatchType.values();
+
+    public boolean runLocationsPanelCheckboxDefaultState = true;
+
+    public Map<PatchType, Map<Location, Boolean>> runLocationsPanelCheckboxStates = new HashMap<>();
+
+    private JComboBox<PatchType> runSelector;
+    private JPanel runLocationsPanel;
+    public StartStopJButton runStartStopButton;
 
     public FarmingHelperPanel(FarmingHelperPlugin plugin, OverlayManager overlayManager, FarmingTeleportOverlay farmingTeleportOverlay, HerbRunItemAndLocation herbRunItemAndLocation, TreeRunItemAndLocation treeRunItemAndLocation, FruitTreeRunItemAndLocation fruitTreeRunItemAndLocation)
     {
         this.herbRunItemAndLocation = herbRunItemAndLocation;
         this.treeRunItemAndLocation = treeRunItemAndLocation;
-        this.farmingTeleportOverlay = farmingTeleportOverlay;
         this.fruitTreeRunItemAndLocation = fruitTreeRunItemAndLocation;
+
+        this.farmingTeleportOverlay = farmingTeleportOverlay;
 
         this.plugin = plugin;
         this.overlayManager = overlayManager;
 
-        setLayout(new BorderLayout());
-        setBorder(new EmptyBorder(10, 10, 10, 10));
-
-        JPanel layoutPanel = new JPanel();
-        layoutPanel.setLayout(new BoxLayout(layoutPanel, BoxLayout.Y_AXIS));
+		setBorder(new EmptyBorder(10, 10, 10, 10));
+		setLayout(new GridBagLayout());
 
         JPanel titlePanel = createTitlePanel();
-        JPanel farmRunButtons = createFarmRunButtons();
-        JPanel infoPanel = createInfoPanel();
 
-        layoutPanel.add(titlePanel);
-        layoutPanel.add(farmRunButtons);
-        layoutPanel.add(infoPanel);
+        runSelector = new JComboBox<>(RUN_SELECTOR_OPTIONS);
+        runSelector.setFocusable(false);
 
-        add(layoutPanel, BorderLayout.NORTH);
+        runLocationsPanel = new JPanel();
+
+        runStartStopButton = new StartStopJButton("N/A");
+        runStartStopButton.setFocusable(false);
+
+        runSelector.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateComponents();
+            }
+        });
+
+		final GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1;
+		c.gridx = 0;
+		c.gridy = 0;
+
+        add(titlePanel, c);
+        c.gridy++;
+		add(runSelector, c);
+		c.gridy++;
+		add(runLocationsPanel, c);
+		c.gridy++;
+		add(runStartStopButton, c);
+
+        updateComponents();
+    }
+
+    private void updateComponents()
+    {
+        runLocationsPanel.removeAll();
+        runStartStopButton.removeAllActionListeners();
+
+        PatchType selectedOption = (PatchType) runSelector.getSelectedItem();
+        JPanel selectedOptionCheckboxes;
+
+        switch (selectedOption) {
+            case HERB:
+                this.herbRunItemAndLocation.setupLocations();
+                selectedOptionCheckboxes = getCheckboxesForLocations(selectedOption, this.herbRunItemAndLocation.locations);
+
+                runStartStopButton.changeText("Herb Run");
+                runStartStopButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        plugin.runOnClientThread(() -> {
+                            Map<Integer, Integer> herbItems = herbRunItemAndLocation.getHerbItems();
+                            plugin.updateHerbOverlay(herbItems);
+                            plugin.setOverlayActive(!plugin.isOverlayActive());
+
+                            runStartStopButton.setStartStopState(plugin.isOverlayActive());
+
+                            onHerbButtonClicked();
+                        });
+                    }
+                });
+
+                break;
+
+            case TREE:
+                this.treeRunItemAndLocation.setupLocations();
+                selectedOptionCheckboxes = getCheckboxesForLocations(selectedOption, this.treeRunItemAndLocation.locations);
+
+                runStartStopButton.changeText("Tree Run");
+                runStartStopButton.addActionListener(new ActionListener()
+                {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        plugin.runOnClientThread(() -> {
+                            Map<Integer, Integer> treeItems = treeRunItemAndLocation.getTreeItems();
+                            plugin.updateTreeOverlay(treeItems);
+                            plugin.setOverlayActive(!plugin.isOverlayActive());
+
+                            runStartStopButton.setStartStopState(plugin.isOverlayActive());
+
+                            onTreeButtonClicked();
+                        });
+                    }
+                });
+
+                break;
+
+            case FRUIT_TREE:
+                this.fruitTreeRunItemAndLocation.setupLocations();
+                selectedOptionCheckboxes = getCheckboxesForLocations(selectedOption, this.fruitTreeRunItemAndLocation.locations);
+
+                runStartStopButton.changeText("Fruit Tree Run");
+                runStartStopButton.addActionListener(new ActionListener()
+                {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        plugin.runOnClientThread(() -> {
+                            Map<Integer, Integer> fruitTreeItems = fruitTreeRunItemAndLocation.getFruitTreeItems();
+                            plugin.updateFruitTreeOverlay(fruitTreeItems);
+                            plugin.setOverlayActive(!plugin.isOverlayActive());
+
+                            runStartStopButton.setStartStopState(plugin.isOverlayActive());
+
+                            onFruitTreeButtonClicked();
+                        });
+                    }
+                });
+
+                break;
+
+            default:
+                selectedOptionCheckboxes = new JPanel();
+        }
+
+        runLocationsPanel.add(selectedOptionCheckboxes);
+
+        runLocationsPanel.setLayout(new BoxLayout(runLocationsPanel, BoxLayout.X_AXIS));
+        runLocationsPanel.revalidate();
+        runLocationsPanel.repaint();
+    }
+
+    private JPanel getCheckboxesForLocations(PatchType selectedOption, List<Location> locations)
+    {
+        JPanel checkboxes = new JPanel();
+
+        checkboxes.setLayout(new BoxLayout(checkboxes, BoxLayout.Y_AXIS));
+        checkboxes.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Ensure it's populated on the first run, otherwise the UI is not sync'd with the enabled locations check!
+        if (!this.runLocationsPanelCheckboxStates.containsKey(selectedOption)) {
+            this.runLocationsPanelCheckboxStates.put(selectedOption, new HashMap<>());
+        }
+
+        // This has to be after the key check, otherwise the object loaded into memory is stale, duh!
+        Map<Location, Boolean> locationCheckboxStates = this.runLocationsPanelCheckboxStates.getOrDefault(selectedOption, new HashMap<>());
+
+        for (Location location : locations) {
+            JCheckBox locationCheckbox = new JCheckBox(location.getName());
+            locationCheckbox.setFocusable(false);
+
+            boolean isChecked = locationCheckboxStates.getOrDefault(location, this.runLocationsPanelCheckboxDefaultState);
+
+            // Ensure it's populated on the first run, otherwise the UI is not sync'd with the enabled locations check!
+            if (!locationCheckboxStates.containsKey(location)) {
+                locationCheckboxStates.put(location, isChecked);
+            }
+
+            locationCheckbox.setSelected(isChecked);
+
+            locationCheckbox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    locationCheckboxStates.put(location, locationCheckbox.isSelected());
+                }
+            });
+
+            checkboxes.add(locationCheckbox);
+        }
+
+        return checkboxes;
     }
 
     private JPanel createTitlePanel()
@@ -68,121 +229,18 @@ public class FarmingHelperPanel extends PluginPanel
         return titlePanel;
     }
 
-    private JPanel createFarmRunButtons()
+    private void onHerbButtonClicked()
     {
-        JPanel farmRunButtonsContainingPanel = new JPanel();
-        farmRunButtonsContainingPanel.setLayout(new BoxLayout(farmRunButtonsContainingPanel, BoxLayout.Y_AXIS));
-
-        // With GridLayout, you can't set the button height.
-        // With GridBagLayout, you can't make the buttons the full width of the container.
-        // The height seemed like the better thing to let go of.
-//        JPanel farmRunButtonsPanel = new JPanel(new GridBagLayout());
-        JPanel farmRunButtonsPanel = new JPanel(new GridLayout(0, 1, 0, 15));
-        farmRunButtonsPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
-
-//        GridBagConstraints constraints = new GridBagConstraints();
-//        constraints.insets = new Insets(5, 0, 5, 0);
-//        constraints.fill = GridBagConstraints.HORIZONTAL;
-//        constraints.gridwidth = 1;
-//        constraints.ipady = 10;
-
-        herbButton = new StartStopJButton("Herb Run");
-		herbButton.setFocusable(false);
-        herbButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                plugin.runOnClientThread(() -> {
-                    Map<Integer, Integer> herbItems = herbRunItemAndLocation.getHerbItems();
-                    plugin.updateHerbOverlay(herbItems);
-                    plugin.setOverlayActive(!plugin.isOverlayActive());
-
-                    herbButton.setStartStopState(plugin.isOverlayActive());
-
-                    onHerbButtonClicked();
-                });
-            }
-        });
-//        constraints.gridy = 0;
-//        farmRunButtonsPanel.add(herbButton, constraints);
-        farmRunButtonsPanel.add(herbButton);
-
-        treeButton = new StartStopJButton("Tree Run");
-        treeButton.setFocusable(false);
-        treeButton.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                plugin.runOnClientThread(() -> {
-                    Map<Integer, Integer> treeItems = treeRunItemAndLocation.getTreeItems();
-                    plugin.updateTreeOverlay(treeItems);
-                    plugin.setOverlayActive(!plugin.isOverlayActive());
-
-                    treeButton.setStartStopState(plugin.isOverlayActive());
-
-                    onTreeButtonClicked();
-                });
-            }
-        });
-//        constraints.gridy = 1;
-//        farmRunButtonsPanel.add(treeButton, constraints);
-        farmRunButtonsPanel.add(treeButton);
-
-        fruitTreeButton = new StartStopJButton("Fruit Tree Run");
-        fruitTreeButton.setFocusable(false);
-        fruitTreeButton.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                plugin.runOnClientThread(() -> {
-                    Map<Integer, Integer> fruitTreeItems = fruitTreeRunItemAndLocation.getFruitTreeItems();
-                    plugin.updateFruitTreeOverlay(fruitTreeItems);
-                    plugin.setOverlayActive(!plugin.isOverlayActive());
-
-                    fruitTreeButton.setStartStopState(plugin.isOverlayActive());
-
-                    onFruitTreeButtonClicked();
-                });
-            }
-        });
-//        constraints.gridy = 2;
-//        farmRunButtonsPanel.add(fruitTreeButton, constraints);
-        farmRunButtonsPanel.add(fruitTreeButton);
-
-        farmRunButtonsContainingPanel.add(farmRunButtonsPanel);
-
-        return farmRunButtonsContainingPanel;
-    }
-
-    private JPanel createInfoPanel()
-    {
-        JPanel infoContainingPanel = new JPanel();
-        infoContainingPanel.setLayout(new BoxLayout(infoContainingPanel, BoxLayout.Y_AXIS));
-        
-        JPanel infoPanel = new JPanel(new GridLayout(0, 1, 0, 0));
-        infoPanel.setBorder(new EmptyBorder(25, 0, 0, 0));
-
-        JTextArea textAreaTip = new JTextArea("Tips: \n - Rune pouch and combination runes work. \n - If you don't have Bottomless compost bucket you should store compost @ Tool Leprechaun, the plugin checks if you have compost stored there.");
-        textAreaTip.setWrapStyleWord(true);
-        textAreaTip.setLineWrap(true);
-        textAreaTip.setEditable(false);
-        infoPanel.add(textAreaTip);
-
-        infoContainingPanel.add(infoPanel);
-
-        return infoContainingPanel;
-    }
-
-    private void onHerbButtonClicked() {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 FarmingHelperOverlay overlay = plugin.getFarmingHelperOverlay();
 
+                runSelector.setEnabled(!plugin.isOverlayActive());
+
                 if (!plugin.isOverlayActive()) {
                     farmingTeleportOverlay.RemoveOverlay();
-                    System.out.println("Remove overlay from button");
                 } else {
-                    System.out.println("Add overlay from button");
                     plugin.getFarmingTeleportOverlay().runPatchType = PatchType.HERB;
                     overlayManager.add(overlay);
                     overlayManager.add(farmingTeleportOverlay);
@@ -200,11 +258,11 @@ public class FarmingHelperPanel extends PluginPanel
             public void run() {
                 FarmingHelperOverlay overlay = plugin.getFarmingHelperOverlay();
 
+                runSelector.setEnabled(!plugin.isOverlayActive());
+
                 if (!plugin.isOverlayActive()) {
                     farmingTeleportOverlay.RemoveOverlay();
-                    System.out.println("Remove overlay from button");
                 } else {
-                    System.out.println("Add overlay from button");
                     plugin.getFarmingTeleportOverlay().runPatchType = PatchType.TREE;
                     overlayManager.add(overlay);
                     overlayManager.add(farmingTeleportOverlay);
@@ -221,11 +279,11 @@ public class FarmingHelperPanel extends PluginPanel
             public void run() {
                 FarmingHelperOverlay overlay = plugin.getFarmingHelperOverlay();
 
+                runSelector.setEnabled(!plugin.isOverlayActive());
+
                 if (!plugin.isOverlayActive()) {
                     farmingTeleportOverlay.RemoveOverlay();
-                    System.out.println("Remove overlay from button");
                 } else {
-                    System.out.println("Add overlay from button");
                     plugin.getFarmingTeleportOverlay().runPatchType = PatchType.FRUIT_TREE;
                     overlayManager.add(overlay);
                     overlayManager.add(farmingTeleportOverlay);

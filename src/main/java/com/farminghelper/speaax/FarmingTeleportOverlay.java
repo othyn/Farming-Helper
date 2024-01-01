@@ -977,21 +977,7 @@ public class FarmingTeleportOverlay extends Overlay
 
         Teleport teleport = location.desiredTeleport(runPatchType, config);
 
-        boolean locationEnabled = false;
-
-        switch (runPatchType) {
-            case HERB:
-                locationEnabled = plugin.getHerbLocationEnabled(location.getName());
-                break;
-
-            case TREE:
-                locationEnabled = plugin.getTreeLocationEnabled(location.getName());
-                break;
-
-            case FRUIT_TREE:
-                locationEnabled = plugin.getFruitTreeLocationEnabled(location.getName());
-                break;
-        }
+        boolean locationEnabled = plugin.getLocationEnabled(runPatchType, location);
 
         if (locationEnabled) {
             if (! isAtDestination) {
@@ -1325,9 +1311,7 @@ public class FarmingTeleportOverlay extends Overlay
 
         runPatchType = null;
 
-        plugin.panel.herbButton.setStartStopState(false);
-        plugin.panel.treeButton.setStartStopState(false);
-        plugin.panel.fruitTreeButton.setStartStopState(false);
+        plugin.panel.runStartStopButton.setStartStopState(false);
     }
 
     @Override

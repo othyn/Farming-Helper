@@ -33,7 +33,7 @@ public class HerbRunItemAndLocation extends ItemAndLocation
 
         // Add other items and merge them with allRequirements
         for (Location location : locations) {
-            if (plugin.getHerbLocationEnabled(location.getName())) {
+            if (plugin.getLocationEnabled(PatchType.HERB, location)) {
                 //ItemID.GUAM_SEED is default for herb seeds, code later will allow for any seed to be used, just needed a placeholder ID
                 allRequirements.merge(
                     ItemID.GUAM_SEED,
